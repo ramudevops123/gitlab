@@ -1,0 +1,205 @@
+	{% extends "admin.html" %}
+{% block content %}
+<html lang="en">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+<script src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script type="text/javascript">
+		$( document ).ready(function() {
+		$("#myrole").val("{{ role }}");
+		$("#mystatus").val("{{ status }}");
+         function removeWhitespaces() {
+			var txtboxVal = $('#firstname').val().trim();
+			$('#firstname').val(txtboxVal);
+			var txtboxVal1 = $('#lastname').val().trim();
+			$('#lastname').val(txtboxVal1);
+			var txtboxVal1 = $('#emailid').val().trim();
+			$('#emailid').val(txtboxVal1);
+			}
+			 var fulltime = '<option selected="selected" value=""> Select </option><option value="Admin">Admin</option><option value="Manager">Manager</option><option value="Team Lead">Team Lead</option><option value="User">User</option>';
+			var probationary = '<option selected="selected" value=""> Select </option><option value="Manager">Manager</option><option value="Team Lead">Team Lead</option><option value="User">User</option>';
+			var thirdparty = '<option selected="selected" value=""> Select </option><option value="User">User</option>';
+			$(document).ready(function(){
+			$("select#employee_type").on('change',function(){
+			if($(this).val()=="Full Time"){
+            $("select#myrole").html(fulltime);
+			}else if($(this).val()=="PROBTIONARY"){
+            $("select#myrole").html(probationary);
+			}else if($(this).val()=="VENDOR/THIRD PARTY/TEMPRORY"){
+            $("select#myrole").html(thirdparty);
+			}
+			});
+		});
+			$(function() {
+			var button = $("#check"),
+			radioButt = $("#myuserprivileges");
+			button.on("click",function(e) {
+			$("input.chkgroup").prop("disabled", false);
+			});
+			});
+		});
+		$(document).ready(function () {
+			$('#firstname').keyup(function(){
+			var yourInput = $(this).val();
+			re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+		});
+		$('#lastname').keyup(function(){
+			var yourInput = $(this).val();
+			re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+		});
+	});
+    </script>
+	<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+ </head>
+ <body>
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Edit User<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   <form class="form-horizontal" name="adduser" method="POST" action="/accounts/EditUser/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+ 
+ <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">First Name:</label>
+	<!-- <button type="button" class="submit" id="check" name="check" class="btn btn-primary" value="Check">Set Privileges</button> -->
+    <div class="col-sm-3">
+      <input type="text" class="form-control" disabled id="firstname" placeholder="FirstName"   name="firstname" value="{{ firstname }}" maxlength="30" required>
+<input type="hidden"  value={{ uid }} name="uid" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Last Name:</label>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" value="{{ lastname }}" disabled id="inputcompany" placeholder="Last Name"   name="lastname" maxlength="30" required>
+    </div>
+ <!--  <label for="inputEmail3" class="col-sm-2 control-label">Logistic staff/user</label>
+  <div class="col-sm-3">
+	{% for entry in userPrivileges %}
+<label><input id="myuserprivileges" type="checkbox" disabled class="chkgroup" name="userlist" value="{{ entry.PrivilegeValue }}">{{entry.PrivilegeType }}</label>
+	{% endfor %}
+	</div> -->
+  </div>
+  
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" disabled value="{{ email }}" disabled id="emailid" placeholder="Email"   name="email" maxlength="75" required>
+    </div>
+	<!-- <label for="inputEmail3" class="col-sm-2 control-label">Production</label>
+	{% for entry in ProPrivileges %}
+<label><input id="myuserprivileges" disabled type="checkbox" class="chkgroup" name="user" value="{{ entry.PrivilegeValue }}">{{entry.PrivilegeType }}</label>
+	{% endfor %} -->
+  </div>
+  
+  
+				<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Role:</label>
+    <div class="col-sm-3">
+      <select class="form-control" id="myrole" name="role" required>
+							
+						    <option value="Admin">Admin</option>
+							<option value="Logistic staff/user">Logistic staff/user</option>
+							<option value="Local Manufacture">Local Manufacture</option>
+							<option value="Production">Production</option>	
+						</select>
+    </div>
+  </div>	  
+                  
+				  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Status:</label>
+  <div class="col-sm-3">
+   <select class="form-control" id="mystatus" name="status">
+<!-- <option>{{status}}</option>	 -->
+    <option value="Active">Active</option>
+    <option value="InActive">InActive</option>
+    </select>
+</div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()">Update</button>
+	  <!--<button type="reset" class="btn btn-default">Reset</button>-->
+<a href="/accounts/ViewUser/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a>
+    </div>
+  </div>
+</form>
+</div> 
+</div>
+  </div>
+  </div>
+  </div>
+  <footer class="footer">
+      <div class="container">
+        <p >&#0169;2008-2015 Biomorf Lone All rights reserved.</p>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}

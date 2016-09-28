@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>qw</CustomerID>
+	 <CustomerName>T-LLER123</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>DR.NO-123,H.NO-1</CustomerAddress>
+	 <CustomerCountry>INDIA</CustomerCountry>
+	 <CustomerCity>HYDERABAD</CustomerCity>
+	 <CustomerWebsite>www.twizzler.com</CustomerWebsite>
+	 <CustomerEmail>nagasrinivas5885@gmail.com</CustomerEmail>
+	 <CustomerPhNo>9966662627</CustomerPhNo>
+	 <CustomerComments>Testing</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

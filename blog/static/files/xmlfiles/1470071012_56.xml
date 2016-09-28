@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>CRD-ID1</CustomerID>
+	 <CustomerName>CredenceID </CustomerName>
+	 <CustomerType>Principal </CustomerType>
+	 <CustomerAddress>5801 Christie Avenue, Suite 500, Emeryville, CA 94608 </CustomerAddress>
+	 <CustomerCountry>United States of America </CustomerCountry>
+	 <CustomerCity>San Fransisco, California </CustomerCity>
+	 <CustomerWebsite>www.credenceid.com </CustomerWebsite>
+	 <CustomerEmail>info@credenceid.com </CustomerEmail>
+	 <CustomerPhNo>18882435452 </CustomerPhNo>
+	 <CustomerComments>Main Principal </CustomerComments>
+	 <CustomerStatus>Active </CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

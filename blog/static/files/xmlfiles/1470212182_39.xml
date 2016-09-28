@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>TW16051013</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER</DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf</VENDOR_NAME>
+	 <CUSTOMER_ID>DPNAKER</CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>QUADRAS</DISTRIBUTOR_ID>
+	 <SAM_SNO>535449000000000A</SAM_SNO>
+	 <SAM_PERSO_NO>2015BB12BM002139</SAM_PERSO_NO>
+	 <SAM_PIN></SAM_PIN>
+</DeviceDetails>
+ 
+</ArrayOfDeviceDetails>

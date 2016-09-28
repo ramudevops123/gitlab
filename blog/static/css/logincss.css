@@ -1,0 +1,164 @@
+.container {
+  margin: 50px auto;
+  width: 440px;
+  padding:10px;
+  height:56px;
+
+}
+.error {
+   color: red;
+   font-size:11px;
+   padding-left:80px;
+   padding-top:10px;
+ }
+ 
+#div2logo{
+	padding-right:318px;
+ }
+.form-bg {
+  position: relative;
+  margin: 0 auto;
+  padding: 20px 20px 1px;
+  width: 500px;
+}
+.form-bg p.submit {
+ padding-left: 350px;
+ padding-top: 10px;
+}
+
+.container {
+  margin: 30px auto;
+  width: 640px;
+}
+.form-bg:before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  bottom: -10px;
+  left: -8px;
+  z-index: -4;
+  background: #E0F7C4;
+  border-radius: 10px;
+  border: 8px solid rgba(218, 231, 219, 0.43);
+}
+/*label {
+  float:left;
+  width:19%;
+  text-align:left;
+  font-weight:normal;
+  font-size:20px;
+  color:blue;
+  padding: 17px;
+  padding-left:180
+  }*/
+  #input label{
+ 
+  float:left;
+  width:15%;
+  text-align:left;
+  font-weight:normal;
+  font-size:14px;
+  color:blue; 
+  font-family: arial,tahoma,verdana,sans-serif; 
+  }
+input[type='text'],input[type='password']
+{
+ 
+  width: 240px;
+  height: 25px;
+  color: #404040;
+  background: white;
+  border: 1px solid;
+  border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+  border-radius: 2px;
+    -moz-outline-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+input[type=submit] {
+    padding: 0 14px;
+    height: 24px;
+    color: #fff;
+	border: 1px solid #73A52C;
+	border-radius: 16px;
+	background: -webkit-gradient(linear, top, #99CC4B, #73A52C); /* chrome 1-9*/
+	background:  -webkit-linear-gradient(top, #99CC4B, #73A52C);  /* chrome 10+*/
+	background: -ms-linear-gradient(top, #99CC4B, #73A52C); /* IE 10+ */
+	background: -moz-linear-gradient(top, #99CC4B, #73A52C); /* FireFox 3.6+ */
+	font-size: 13px;
+    font-weight: bold;
+	margin-left:178px;
+  /*float:right;
+  padding: 0 16px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #527881;
+  text-shadow: 0 1px #e3f1f1;
+  background: #cde5ef;
+  border: 1px solid;
+  border-color: #b4ccce #b3c0c8 #9eb9c2;
+  border-radius: 16px;
+  outline: 0;*/
+  /*margin-left:-28px;*/
+  /*-webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;*/
+}
+input[type=submit]:active {
+  background: #cde5ef;
+  border-color: #9eb9c2 #b3c0c8 #b4ccce;
+  /*-webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);*/
+}
+.form-bg h1 {
+  padding-bottom:8px;
+  margin: -20px -20px 21px;
+  line-height: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  /*color: blue;*/
+  color:#07C;
+ text-align:center; 
+  text-shadow: 0 1px white;
+  background: white;
+  border-bottom: 1px solid #cfcfcf;
+  border-radius: 5px;
+  }
+  .form-bg p.remember_me {
+  float: left;
+  line-height: 31px;
+  color: white;
+}
+#colour{
+  background-color:white;
+}
+.password-reset-link a {
+     font-size:12px;
+	 margin-top:30px;
+	
+}
+
+input {
+ font-family: 'Lucida Grande', Verdana, sans-serif;
+  font-size: 7px/20px;
+
+}
+
+h1{
+ text-align: center;  
+}
+body{
+    font:7px/20px Verdana, Arial, Helvetica, sans-serif;
+     padding-top:90px;
+}
+  To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 22 , 2014, 1:56:00 PM
+    Author     : alI
+*/
+

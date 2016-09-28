@@ -1,0 +1,213 @@
+<script>
+$( "Mname" ).submit(function( event ) {
+  event.preventDefault();
+});
+$(function() {
+			$( "#DeliveryDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+			$("#DeliveryDate").keypress(function(event) {event.preventDefault();});
+			});
+function myFunction()
+      {
+      
+	  if( document.Mname.prdctcode.value == "" )
+         {
+            alert( "Please provide your Product Code!" );
+            document.Mname.prdctcode.focus() ;
+            return false;
+         }
+		 if( document.Mname.Prdctname.value == "" )
+         {
+            alert( "Please provide your Product Name!" );
+            document.Mname.Prdctname.focus() ;
+            return false;
+         }
+		  if( document.Mname.Qnty.value == "" )
+         {
+            alert( "Please provide Quantity!" );
+            document.Mname.Qnty.focus() ;
+            return false;
+         }
+		 if( document.Mname.DlvryDate.value == "" )
+         {
+            alert( "Please provide Estimated DeliveryDate!" );
+            document.Mname.DlvryDate.focus() ;
+            return false;
+         }
+		 if( document.Mname.PrncStatus.value == "" )
+         {
+            alert( "Please Select Status!" );
+            document.Mname.PrncStatus.focus() ;
+            return false;
+         }
+		 
+		 return( true );
+		 }
+$(document).ready(function(){
+	$('#myProductTable').dataTable();
+	$('#Productcode').on('change', function() {
+		$('#lblpid').text("");
+		var Productcode = $(this).val();
+		var Productid = document.getElementById('Pid').value;
+		//alert(Productid);
+		if (Productcode == ''){
+		document.getElementById('ProductName').value = "";
+		}else{
+		$.get('/PNameTest/'+'?Productcode='+Productcode ,'Productid='+Productid, function(Data){
+		var splitArray = Data.split(",");
+		console.log(splitArray)
+		$('#ProductName').val(splitArray[0]) ;
+		if(splitArray[1]=="ProductID for this PONumber already exists"){
+			$('#lblpid').text(splitArray[1]);
+			$('#Productcode').val('') ;
+			$('#ProductName').val('') ;
+			}
+		});
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#Quantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#qtyerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+ });
+</script>
+<script>
+$(document).ready(function(){
+$('#Quantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#Quantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+        <div class="modal-content">
+            <div class="modal-header" id="heading-color">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Add Product/Material</h4>
+            </div>
+            <div class="modal-body" id="form-color">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal" name="Mname" method="POST" action="/accounts/ADDMaterial/" role="form">{% csrf_token %} 
+			  <div class="form-group"> 
+			<label for="inputPassword3" class="col-sm-2 control-label">Product Code</label>
+			<input type="hidden"  value={{ uid }} id="Pid" name="uid" />
+			<div class="col-sm-6">
+				<select class="form-control" id="Productcode" name="prdctcode" >
+				<option value="">Select Product Id </option>
+				{% for obj in PrdctID %}
+				<option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
+				{% endfor %}
+				</select>
+				</div>
+				<label id="lblpid" name="labelid"></label>
+			</div>
+      <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Product Name</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="ProductName" readonly placeholder="Product Name"   name="Prdctname" maxlength="30" >
+</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="Quantity"  placeholder="Material Quantity"   name="Qnty" maxlength="30" >&nbsp;<span id="qtyerrmsg"></span>
+</div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date"   name="DlvryDate" maxlength="75" >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="POStatus" name="POStatus" >
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" onclick="return myFunction()" class="btn btn-primary">Submit</button>	 
+	  	 
+
+	 <a href="/accounts/ViewPurchaseOrder/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a> 
+    </div>
+  </div>
+  <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">List of Products/materials<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myProductTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+     <thead>
+                                    <tr>
+										<th class="center">Product ID</th>
+                                        <th class="center">Product Name</th>
+                                        <th class="center">Quantity</th>
+										<th class="center">Estimated Delivery</th>
+										<th class="center">Status</th>										
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                         
+					
+                                    <tr>
+                                       <td class="center">{{ u.ProductId }}</td>
+									   <td class="center">{{ u.ProductName }}</td>
+									   <td class="center">{{ u.Quantity }}</td>
+									   <td class="center">{{ u.EstimatedDeliveryDate|date:"Y-m-d" }}</td>
+									   <td class="center">{{ u.POStatus }}</td>
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+  </form>
+    </div>
+  </div>

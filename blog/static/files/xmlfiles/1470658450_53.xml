@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>DPNAKER</CustomerID>
+	 <CustomerName>Kementerian Ketenagakerja</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>Jl. Jendral Gatot Subroto Kav. 51, Daerah Khusus Ibukota Jakarta 12750</CustomerAddress>
+	 <CustomerCountry>Indonesia</CustomerCountry>
+	 <CustomerCity>Jakarta</CustomerCity>
+	 <CustomerWebsite>http//kemnaker.go.id</CustomerWebsite>
+	 <CustomerEmail>info@kemnaker.go.id</CustomerEmail>
+	 <CustomerPhNo>0</CustomerPhNo>
+	 <CustomerComments>quadra customer</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

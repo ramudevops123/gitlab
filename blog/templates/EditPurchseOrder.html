@@ -1,0 +1,366 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+	{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+	{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+	{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}	
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('#myProductTable').dataTable();
+	$('#principalid').on('change', function() {
+		var principalid = $(this).val();
+		if (principalid == ''){
+		document.getElementById('PrncplName').value = "";
+		}else{
+		$.get('/prdctNametest/'+'?principalid='+principalid, function(ProductName){
+		$('#PrncplName').val(ProductName) ;
+		});
+		}
+	});
+	$(function() {
+	$( "#podate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	$("#podate").keypress(function(event) {event.preventDefault();});
+	$( "#DeliveryDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+	$("#DeliveryDate").keypress(function(event) {event.preventDefault();});
+	});
+	$("#principalid").val("{{ PrincipalID }}");
+	$("#Principatatus").val("{{ PrincipalStatus }}");
+	$("#Productcode").val("{{ ProductId }}");
+	$("#POStatus").val("{{ POStatus }}");
+	
+	$('#Quantity').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$("#Principatatus").val("{{ POStatus }}");
+});
+</script>
+<script>
+function removeWhitespaces() {
+			var txtboxVal = $('#Quantity').val().trim();
+			$('#Quantity').val(txtboxVal);
+			}
+</script>
+<!--<script type="text/javascript">
+$(document).ready(function(){
+$('#DeleteButton').click(function () {
+alert("Hi Delete Button");
+    if (!$('input.PurchaseCheck').is(':checked')) {
+        alert('Checkbox not checked!');
+        return false;
+    }
+});
+});
+</script>-->
+<!--<script>
+function validate() {
+    var valid = true;
+    var checkbox = document.getElementsByName('PurchaseCheck').checked;
+    //var text = document.getElementById('dateshipped').value;
+    console.log(checkbox);
+    //console.log(text);
+    if (!checkbox) valid = confirm("Checkbox are empty. \n Continue?");
+    return valid;
+}
+document.getElementById("DeleteButton").addEventListener("click", validate, false);
+</script>-->
+<!--<script type="text/javascript">
+    function Check() {
+        var chkPassport = document.getElementById("PurchaseCheck");
+		console.log(chkPassport);
+        if (PurchaseCheck.checked) {
+            alert("CheckBox checked.");
+        } else {
+            alert("CheckBox not checked.");
+        }
+    }
+</script>-->
+<script>
+$(document).ready(function(){
+$("#DeleteButton").click(function(){
+var a=$('input:checkbox:checked').length
+if (a==0){
+alert("Check Box is not checked");
+}
+});
+});
+</script>
+<script>
+$(document).ready(function(){
+$('#Quantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#Quantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+</head>
+<body>
+	<form class="form-horizontal" name="adduser" method="POST" action="/accounts/EditPurchaseOrder/" role="form" data-toggle="validator">{% csrf_token %}
+   <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Edit Purchase Order<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PONumber" placeholder="PO Number" value="{{ PONumber }}" readonly name="PONO" maxlength="30" required>
+	  <input type="hidden"  value={{ uid }} name="uid" />
+	  
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" value="{{ PODate|date:"Y-m-d" }}"   name="PODate" maxlength="75" required>
+    </div>
+  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
+    <div class="col-sm-5">
+	<input type="text" class="form-control" readonly id="principalid" placeholder="PO Date" value="{{ PrincipalID }}"   name="PrncID" maxlength="75" required>
+      <!--  <select class="form-control" id="principalid" name="PrncID" required>
+		  <option value="">Select Type</option>
+		  {% for entry in PrncID %}
+		<option value="{{ entry.ThirdPartyID }}">{{entry.ThirdPartyID }}</label>
+		{% endfor %}
+						</select> -->
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PrncplName" placeholder="PO Number" readonly value="{{ principalName }}" name="PrncplName" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="Principatatus" name="PrncStatus" required>
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+	<button type="submit" class="submit" class="btn btn-primary" class="submit" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>
+	<a href="/accounts/EditPurchaseOrder/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a> 
+	 
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">List of Products/materials<h4>
+   </div>
+   <div class="panel-body">
+   <input align="right-side" type="submit" class="submit" id="DeleteButton" name="_delete" value="Delete" class="" class="btn btn-primary"></input>
+   <table id="myProductTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+     <thead>
+                                    <tr>
+										<th class="center">Product ID</th>
+                                        <th class="center">Product Name</th>
+                                        <th class="center">Quantity</th>
+										<th class="center">Estimated Delivery</th>
+										<th class="center">Status</th>
+										<th class="center">Edit</th>
+										<th class="center">Check</th>
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                         
+					
+                                    <tr>
+                                       <td class="center">{{ u.ProductId }}</td>
+									   <td class="center">{{ u.ProductName }}</td>
+									   <td class="center">{{ u.Quantity }}</td>
+									   <td class="center">{{ u.EstimatedDeliveryDate|date:"Y-m-d" }}</td>
+									   <td class="center">{{ u.POStatus }}</td>
+									   <td class="center"><a href="/accounts/EditMaterial/{{u.PONumber}}/{{u.id}}" data-toggle="modal"data-target="#basicModal"><i></i>Edit Product / Material</a></td>
+									   <td class="center"><input type="checkbox" name="PurchaseCheck" id="PurchaseCheck" value="{{ u.id }}" />&nbsp;</td>									   
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+  </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+  </div>
+  <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" id="heading-color">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Edit Product/Material</h4>
+            </div>
+            <div class="modal-body" id="form-color">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditMaterial/" role="form">{% csrf_token %} 
+			  <div class="form-group"> 
+			<label for="inputPassword3" class="col-sm-2 control-label">Product Code</label>
+			<input type="hidden"  value="{{ uid }}" id="Pid" name="uid" />
+			<input type="hidden"  value="{{ mid }}" name="mid" />
+			<div class="col-sm-6">
+			 <input type="text" class="form-control" id="Productcode" value="{{ ProductId }}" readonly placeholder="Product Code"   name="prdctcode" maxlength="30" >
+				<!-- <select class="form-control" id="Productcode" name="prdctcode" >
+				<option value="">Select Product Id </option>
+				{% for obj in PrdctID %}
+				<option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
+				{% endfor %}
+				</select> -->
+				</div>
+				<label id="lblpid" name="labelid"></label>
+			</div>
+      <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Product Name</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="ProductName" value="{{ ProductName }}" readonly placeholder="Product Name"   name="Prdctname" maxlength="30" >
+	
+</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="Quantity" value="{{ Quantity }}" placeholder="Material Quantity"   name="Qnty" maxlength="30" >
+</div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"Y-m-d" }}" placeholder="Estimated Delivery Date"   name="DlvryDate" maxlength="75" >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="POStatus" name="POStatus" >
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" onclick="return myFunction()" class="btn btn-primary">Submit</button>
+<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>	  
+	  	 
+
+	 <!-- <a href="/accounts/ADDPurchaseOrder/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a>  -->
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

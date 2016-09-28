@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <link rel="icon" type="image/png" href="http://192.168.7.120:9000/static/images/favicon.png" />
+        <title>::: ITTS :::</title>
+		{% load staticfiles %}
+        <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+              <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+               <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}"> 
+			   <script src="{% static 'js/jquery.min.js' %}"></script>
+               <script type="text/javscript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	           <script type="text/javscript" src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+			    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="page-header no-margin no-padding ">
+            <div class="container">
+                <p class="navbar-text navbar-right" style="margin-right: -50px;">You are logged in as <a href="#" class="navbar-link">{{ full_name }}</a></p>
+                <img src="{% static "images/Lone Soft.png" %}" style="position: absolute; left: 5px; top:10px;" width="220" height="60"><br/> <small id="title" style="text-align:center;font-family:Bookman Old Style; color:yellowgreen; font-size:35px;">Ticketing System</small>
+        </div> <br>  
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><img src="{% static "images/ticket.png" %}"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                            <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User Management<span class="caret"></span></a>
+							<ul class="dropdown-menu"  role="menu" >
+                                <li><a href='/accounts/createuser/'><span>Create User</span></a></li>
+                                <li><a href='/accounts/ViewUser/'><span>View/Edit User</span></a></li>
+                            </ul>
+                         </ul>
+						 <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                            <a href="/accounts/Product/">Product<span></a></span></li>
+                         </ul>
+						  <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                            <a href="/accounts/Privileges/">Privileges<span></a></span></li>
+                         </ul>
+						 
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Profile<span class="caret"></span></a>
+          <ul class="dropdown-menu"  role="menu" >
+		  <li><a href='/accounts/changepassword/'><span>Change Password</span></a></li>
+            <li><a href='/accounts/logout/'>Logout</a></li>
+            </ul>
+			</li>
+		</ul>                </div>
+            </div>
+        </nav>
+		 
+    </body>
+</html>
+{% block content %}
+{% endblock %}

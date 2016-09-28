@@ -1,0 +1,229 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script src="{% static 'js/bootstrap-multiselect.min.js' %}"></script>
+ <script type="text/javascript">
+ //function myFunction()
+     // {
+		//var fromDate=document.getElementById('frmdate').value
+		//var toDate=document.getElementById('Todate').value
+		//if (fromDate !=0 && toDate !=0){
+		//var alertfrom=document.getElementById("frmdate").value =fromDate+' '+'00:00:00';
+		//var alertTo=document.getElementById("Todate").value =toDate+' '+'00:00:00';
+		//}else{
+		//alert("Please Select from and to dates");
+		//}
+		//$('#lblpid').text("");
+	  //}
+/* Number.prototype.padLeft = function(base,chr){
+   var  len = (String(base || 10).length - String(this).length)+1;
+   return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+		function myFunction()
+      {
+		var fromDate=document.getElementById('frmdate').value
+		var toDate=document.getElementById('Todate').value
+		var date = new Date(fromDate);
+			//var newfromdate=(date.getMonth() + 1).padLeft() + '-' + date.getDate().padLeft() + '-' +  date.getFullYear().padLeft()+' '+date.getHours().padLeft()+':'+date.getMinutes().padLeft()+':'+date.getSeconds().padLeft()
+			var newfromdate=(date.getFullYear()).padLeft() + '-' + (date.getMonth() + 1).padLeft() + '-' +  date.getDate().padLeft()+' '+date.getHours().padLeft()+':'+date.getMinutes().padLeft()+':'+date.getSeconds().padLeft()
+			//alert(newfromdate);
+			var dateb = new Date(fromDate);
+			var newTodate=(dateb.getFullYear()).padLeft() + '-' + (dateb.getMonth() + 1).padLeft() + '-' +  date.getDate().padLeft()+' '+dateb.getHours().padLeft()+':'+dateb.getMinutes().padLeft()+':'+dateb.getSeconds().padLeft()
+			alert(newTodate);
+			document.getElementById("frmdate").value =newfromdate ;
+			document.getElementById("Todate").value =newTodate ;
+			
+			//alert((date.getFullYear() + '-' + date.getMonth() + 1) + '-' +  date.getDate()+'-'+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+			}*/
+		/*$(function() {
+			$( "#frmdate" ).datepicker({maxDate: 0,dateFormat: 'yy-mm-dd' });
+			$("#frmdate").keypress(function(event) {event.preventDefault();});
+			$( "#Todate" ).datepicker({minDate: 0,dateFormat: 'yy-mm-dd' });
+			$("#Todate").keypress(function(event) {event.preventDefault();});
+			});*/
+		 $(document).ready(function(){
+		$('#PrdctId').on('change', function() {
+		var productid = $(this).val();
+		if (productid == ''){
+		document.getElementById('PrncplName').value = "";
+		document.getElementById('prdctName').value = "";
+		document.getElementById('warehouse').value = "";
+		}else{
+		$.get('/ProductIdSort/'+'?productid='+productid, function(Data){
+		var splitArray = Data.split(",");
+		console.log(splitArray)
+			$('#prdctName').val(splitArray[0]) ;
+			$('#PrncplName').val(splitArray[1]);
+			$('#warehouse').val(splitArray[2]);
+		});
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+function DateFunction(val) {
+$('#lblpid').text("");
+var productID=$('#PrdctId').val();
+var WareHouseID=$('#warehouse').val();
+ //var fromDate=$('#frmdate').val();
+// var toDate=$('#Todate').val();
+$.get('/carderrorlabel/'+'?productID='+productID+'&WareHouseID='+WareHouseID, function(ValiationData){
+		if(ValiationData=="No Data Found for the selected dates"){
+			//document.getElementById("frmdate").value= "";
+			//document.getElementById("Todate").value= "";
+			$('#lblpid').text(ValiationData);
+			}
+		});
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#warehouse').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>
+ </head>
+<body>
+	<form class="form-horizontal" name="myForm" method="POST" action="/accounts/CardInquiry/" role="form"  data-toggle="validator">{% csrf_token %}
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Stock Card Enquiry<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="PrdctId" name="prdctID" required>
+		  <option value="">Select Product ID</option>
+		  {% for entry in obj %}
+		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
+		{% endfor %}
+		</select>			
+    </div>
+  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="prdctName" readonly placeholder="Product Name" name="prdctName" maxlength="30" required >
+	  
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PrncplName" readonly placeholder="Principal Name"   name="PrncplName" maxlength="30" required>
+    </div>
+  </div>
+  <!--<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Date From:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="frmdate" placeholder="From Date"  name="frmdate" maxlength="75" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">To From:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="Todate" placeholder="To Date" onchange="DateFunction(this.value)" name="Todate" maxlength="75" required>
+    </div>
+  </div>-->
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="warehouse" name="warehouse" multiple="multiple" required>
+		  {% for entry in Warehouse %}
+		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+		{% endfor %}
+		</select>	
+<label id="lblpid" name="labelid"></label>		
+    </div>
+  </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+	<button type="submit" class="submit" class="btn btn-primary" class="submit" onclick="return myFunction()">Search</button>  
+    </div>
+  </div>   
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+	</form>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

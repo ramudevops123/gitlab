@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+{% for object in query_set %}
+<DistributorDetails>
+	 <DistributorID>{{ object.ThirdPartyID }}</DistributorID>
+	 <DistributorName>{{ object.ThirdPartyName }} </DistributorName>
+	 <DistributorType>{{ object.ThirdPartyType }} </DistributorType>
+	 <DistributorAddress>{{ object.ThirdPartyAddress }} </DistributorAddress>
+	 <DistributorCountry>{{ object.ThirdPartyCountry }} </DistributorCountry>
+	 <DistributorCity>{{ object.ThirdPartyCiy }} </DistributorCity>
+	 <DistributorWebsite>{{ object.ThirdPartyWebsite }} </DistributorWebsite>
+	 <DistributorEmail>{{ object.ThirdPartyEmail }} </DistributorEmail>
+	 <DistributorPhNo>{{ object.ThirdPartyPhNo }} </DistributorPhNo>
+	 <DistributorComments>{{ object.ThirdPartyComments }} </DistributorComments>
+	 <DistributorStatus>{{ object.ThirdPartyStatus }} </DistributorStatus>
+</DistributorDetails>
+ {% endfor %}
+</ArrayOfDeviceDetails>

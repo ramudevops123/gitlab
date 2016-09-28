@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+{% for object in query_set %}
+<DeviceDetails>
+	 <DEVICE_SNO>{{ object.Product_SN }}</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER</DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf</VENDOR_NAME>
+	 <CUSTOMER_ID>{{ object.CustomerID }}</CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>{{ object.DistributorID }}</DISTRIBUTOR_ID>
+	 <SAM_SNO>{{ object.SAM_SN }}</SAM_SNO>
+	 <SAM_PERSO_NO>{{ object.SAM_UID }}</SAM_PERSO_NO>
+	 <SAM_PIN>{{ object.SAMPIN }}</SAM_PIN>
+</DeviceDetails>
+ {% endfor %}
+</ArrayOfDeviceDetails>

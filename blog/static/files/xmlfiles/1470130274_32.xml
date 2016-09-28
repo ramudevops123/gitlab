@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>TW-TP-C</CustomerID>
+	 <CustomerName>TW-TP-CUSTOMER</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>HYDERABAD</CustomerAddress>
+	 <CustomerCountry>India</CustomerCountry>
+	 <CustomerCity>Hyderabad</CustomerCity>
+	 <CustomerWebsite>www.CUSTOMERcom</CustomerWebsite>
+	 <CustomerEmail>Customer@itts.com</CustomerEmail>
+	 <CustomerPhNo>98729034823094</CustomerPhNo>
+	 <CustomerComments>TW-TP-CUSTOMER testing</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

@@ -1,0 +1,264 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+  <script>
+$(document).ready(function(){
+	$("#MWarehouseID").val("{{ InputWarehouseID }}");
+	$("#FGWarehouseID").val("{{ OutputWarehouseID }}");
+});
+</script>
+
+ <script type="text/javascript">
+			$(document).ready(function(){
+			$('#MWarehouseID').on('change', function() {
+			var WarehouseID = $(this).val();
+			//alert(WarehouseID);
+			if (WarehouseID == ''){
+			document.getElementById('MWarehouseName').value = "";
+			}else{
+			$.get('/WarehouseNametest/'+'?WarehouseID='+WarehouseID, function(MWarehouseName){
+			$('#MWarehouseName').val(MWarehouseName) ;
+			});
+			}		
+			});
+			$('#FGWarehouseID').on('change', function() {
+			var WarehouseID = $(this).val();
+			//alert(WarehouseID);
+			if (WarehouseID == ''){
+			document.getElementById('FGWarehouseName').value = "";
+			}else{
+			$.get('/WarehouseNametest/'+'?WarehouseID='+WarehouseID, function(FGWarehouseName){
+			$('#FGWarehouseName').val(FGWarehouseName) ;
+			});
+			}
+			});
+			});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+$('#lblWH').text("");
+$("#SaveClick").click(function(){
+var MWarehouseID=$('#MWarehouseID').val();
+ var MWarehouseName=$('#MWarehouseName').val();
+ var FGWarehouseID=$('#FGWarehouseID').val();
+ //alert(FGWarehouseID);
+ var FGWarehouseName=$('#FGWarehouseName').val();
+ $.get('/SaveWareHouseClick/'+'?MWarehouseID='+MWarehouseID+'&MWarehouseName='+MWarehouseName+'&FGWarehouseID='+FGWarehouseID+'&FGWarehouseName='+FGWarehouseName, function(ValidationData){
+ if (ValidationData == "Please Select InputWareHouseID"){
+ $('#lblWH').text("Please Select InputWareHouseID");
+ }
+ else if(ValidationData == "Please Select OutputWareHouseID"){
+ $('#lblWH').text("Please Select OutputWareHouseID");
+ }
+ else if(ValidationData == "Sucess")
+ {
+ $('#lblWH').text("");
+document.getElementById("MWarehouseID").disabled = true;
+document.getElementById("FGWarehouseID").disabled = true;
+
+$('#ECLick').show();
+$('#SClick').hide();
+$('#UClick').hide();
+}
+});
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+$("#EditClick").click(function(){
+document.getElementById("MWarehouseID").disabled = false;
+document.getElementById("FGWarehouseID").disabled = false;
+$('#UClick').show();
+$('#ECLick').hide();
+$('#SClick').hide();
+
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+$("#UpdateClick").click(function(){
+var MWarehouseID=$('#MWarehouseID').val();
+ var MWarehouseName=$('#MWarehouseName').val();
+ var FGWarehouseID=$('#FGWarehouseID').val();
+ var FGWarehouseName=$('#FGWarehouseName').val();
+ $.get('/UpdateWareHouseClick/'+'?MWarehouseID='+MWarehouseID+'&MWarehouseName='+MWarehouseName+'&FGWarehouseID='+FGWarehouseID+'&FGWarehouseName='+FGWarehouseName, function(ValidationData){
+ //alert(Data);
+ if (ValidationData == "Please Select InputWareHouseID"){
+ $('#lblWH').text("Please Select InputWareHouseID");
+ }
+ else if(ValidationData == "Please Select OutputWareHouseID"){
+ $('#lblWH').text("Please Select OutputWareHouseID");
+ }
+ else if(ValidationData == "Sucess")
+ {
+ $('#lblWH').text("");
+document.getElementById("MWarehouseID").disabled = true;
+document.getElementById("FGWarehouseID").disabled = true;
+
+$('#ECLick').show();
+$('#SClick').hide();
+$('#UClick').hide();
+}
+});
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+var WarehouseValue="{{ WHValue }}";
+//alert(WarehouseValue);
+if( WarehouseValue =='YES')
+{
+document.getElementById("MWarehouseID").disabled = true;
+document.getElementById("FGWarehouseID").disabled = true;
+$('#ECLick').show();
+$('#SClick').hide();
+$('#UClick').hide();
+}
+else if ( WarehouseValue =='NO'){
+document.getElementById("MWarehouseID").disabled = false;
+document.getElementById("FGWarehouseID").disabled = false;
+$('#SClick').show();
+$('#ECLick').hide();
+$('#UClick').hide();
+}
+});
+</script>
+
+ </head>
+<body>
+	 <div class="container">
+	 <div class="row">
+  <div class="col-md-12">
+  <center><B> <h4>Warehouse For Production <h4></B></center>
+  <div class="panel ">
+   <div class="panel-body" id="form-color">
+   <form class="form-horizontal" name="RForm" method="POST" action="/accounts/SetWareHouse/" role="form" data-toggle="validator">{% csrf_token %}
+   <center> <h4>Get Materials From <h4></center>
+	<div class="container"> 
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID:</label>
+    <div class="col-sm-4">
+	 <select class="form-control" id="MWarehouseID" name="MWarehouseID" >
+		  <option value="">Select WarehouseID</option>
+		  {% for entry in obj %}
+		<option value="{{ entry.WarehouseID }}">{{entry.WarehouseID }}</label>
+		{% endfor %}
+						</select>
+     
+    </div>
+	<label id="lblWH" name="lblWH"></label>
+	 </div>
+	
+	  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse Name:</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="MWarehouseName" value="{{ InputWarehouseName }}"  placeholder=" Warehouse Name"  readonly name="MWarehouseName" maxlength="30" required>
+	</div>
+	</div>
+	 <center> <h4>Store Finish Good Into <h4></center>
+	  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID:</label>
+    <div class="col-sm-4">
+	 <select class="form-control" id="FGWarehouseID" name="FgWarehouseID" >
+		  <option value="">Select WarehouseID</option>
+		  {% for entry in obj %}
+		<option value="{{ entry.WarehouseID }}">{{entry.WarehouseID }}</label>
+		{% endfor %}
+						</select>
+     
+    </div>
+	 </div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse Name:</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="FGWarehouseName" value="{{ OutputWarehouseName }}" placeholder=" Warehouse Name"  readonly name="FGWarehouseName" maxlength="30" required>
+	</div>
+	</div>
+	<div id="SClick">
+	<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+    
+	  <a class="btn btn-primary"  class="submit"  id="SaveClick" >
+	                      Save</a>
+	  <!-- <button type="reset" class="btn btn-default">Reset</button> -->
+    </div>
+  </div>
+  </div>
+  <div id="ECLick">
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+	<a class="btn btn-primary"  class="submit"  id="EditClick" >
+	                      Edit</a>
+    </div>
+  </div>
+  </div>
+  <div id="UClick">
+	<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+    
+	  <a class="btn btn-primary"  class="submit"  id="UpdateClick" >
+	                      Update</a>
+	  <!-- <button type="reset" class="btn btn-default">Reset</button> -->
+    </div>
+  </div>
+  </div>
+	   </div>
+	 </div>
+	   </div>
+	 </div>
+	   </div>
+	   </form>
+	   </body>
+	   </html>
+
+	{% endblock %}

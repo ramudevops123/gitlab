@@ -1,0 +1,193 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ 
+
+ <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                            <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User Management<span class="caret"></span></a>
+							<ul class="dropdown-menu"  role="menu" >
+                                <li><a href='/accounts/createuser/'><span>Create User</span></a></li>
+                                <li><a href='/accounts/ViewUser/'><span>View/Edit User</span></a></li>
+                            </ul>
+                         </ul>
+						  <ul class="nav navbar-nav">
+                            <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Product Type<span class="caret"></span></a>
+							<ul class="dropdown-menu"  role="menu" >
+                                <li><a href='/accounts/Product/'><span>Create Product</span></a></li>
+                                <li><a href='/accounts/ViewProduct/'><span>View/Edit Product</span></a></li>
+								<li><a href='/accounts/Producttype/'><span>Add Product Type</span></a></li>
+                            </ul>
+                         </ul>
+						  <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                            <a href="/accounts/Privileges/">Privileges<span></a></span></li>
+                         </ul>
+						 
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Profile<span class="caret"></span></a>
+          <ul class="dropdown-menu"  role="menu" >
+		  <li><a href='/accounts/changepassword/'><span>Change Password</span></a></li>
+            <li><a href='/accounts/logout/'>Logout</a></li>
+            </ul>
+			</li>
+		</ul>
+		</div>
+          </div>
+        </nav>
+
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script type="text/javascript">
+ var userlist={{ UserPrivilegeslist|safe }}
+	$(document).ready(function(){
+	 var arrChecks = document.getElementsByName("user");
+	 
+                for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[0].value == userlist[i]) {
+                     arrChecks[0].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[1].value == userlist[i]) {
+                     arrChecks[1].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[2].value == userlist[i]) {
+                     arrChecks[2].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[3].value == userlist[i]) {
+                     arrChecks[3].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[4].value == userlist[i]) {
+                     arrChecks[4].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[5].value == userlist[i]) {
+                     arrChecks[5].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[6].value == userlist[i]) {
+                     arrChecks[6].checked = true;
+                 }
+				 }
+				 for(var i=0;i<userlist.length;i++){
+                 if (document.getElementsByName("user")[7].value == userlist[i]) {
+                     arrChecks[7].checked = true;
+                 }
+				 }
+	}); 
+</script>
+
+</script>
+</head>
+<body>
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Privileges<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    <form class="form-horizontal" name="adduser" method="POST" action="/accounts/Privileges/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+    <div class="form-group">
+  <label for="inputEmail3" class="col-sm-2 control-label">Admin</label>
+<div class="col-sm-5 radio">
+<label><input type="checkbox" name="All" value="ALL" disabled checked="checked">ALL</label>
+</div>
+</div>
+
+ <div class="form-group">
+  <label for="inputEmail3" class="col-sm-2 control-label">Logistic staff/user</label>
+<div class="col-sm-5 radio">
+
+{% for entry in userPrivileges %}
+<label><input id="myuserprivileges" type="checkbox"  name="user" value="{{ entry.PrivilegeType }}">{{entry.PrivilegeType }}</label>
+	{% endfor %}
+ </div>
+</div>
+
+ <div class="form-group">
+  <label for="inputEmail3" class="col-sm-2 control-label">Production</label>
+<div class="col-sm-5 radio">
+{% for entry in ProPrivileges %}
+<label><input id="myuserprivileges" type="checkbox" name="user" value="{{ entry.PrivilegeType }}">{{entry.PrivilegeType }}</label>
+	{% endfor %}
+</div>
+  </div>
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>
+	  <button type="reset" class="btn btn-default">Reset</button>
+    </div>
+  </div>
+     </form>
+
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

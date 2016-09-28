@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>TW-T-CS</CustomerID>
+	 <CustomerName>TW-TP-CUSTOMER</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>HYDERABAD</CustomerAddress>
+	 <CustomerCountry>India</CustomerCountry>
+	 <CustomerCity>Hyderabad</CustomerCity>
+	 <CustomerWebsite>www.customer.com</CustomerWebsite>
+	 <CustomerEmail>ferozbaigtesting@gmail.com</CustomerEmail>
+	 <CustomerPhNo>629289289298292</CustomerPhNo>
+	 <CustomerComments>TW-TP-CUSTOMER</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<DistributorDetails>
+     
+	 <DistributorID>1</DistributorID>
+	 <DistributorName>Credence Identification </DistributorName>
+	 <DistributorType>Principal </DistributorType>
+	 <DistributorAddress>California </DistributorAddress>
+	 <DistributorCountry>California </DistributorCountry>
+	 <DistributorCity>California </DistributorCity>
+	 <DistributorWebsite>California </DistributorWebsite>
+	 <DistributorEmail>California@credence.co.id </DistributorEmail>
+	 <DistributorPhNo>123 </DistributorPhNo>
+	 <DistributorComments>California </DistributorComments>
+	 <DistributorStatus>Active </DistributorStatus>
+     
+	 <DistributorID>6</DistributorID>
+	 <DistributorName>Biomorf Lone Indonesia </DistributorName>
+	 <DistributorType>Principal </DistributorType>
+	 <DistributorAddress>Thamrin </DistributorAddress>
+	 <DistributorCountry>Thamrin </DistributorCountry>
+	 <DistributorCity>Thamrin </DistributorCity>
+	 <DistributorWebsite>thamrin.com </DistributorWebsite>
+	 <DistributorEmail>a@thamrin.com </DistributorEmail>
+	 <DistributorPhNo>123 </DistributorPhNo>
+	 <DistributorComments>notes </DistributorComments>
+	 <DistributorStatus>Active </DistributorStatus>
+     
+</DistributorDetails>
+</ArrayOfDistributorDetails>

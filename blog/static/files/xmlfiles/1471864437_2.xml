@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>SSS</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER</DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf</VENDOR_NAME>
+	 <CUSTOMER_ID></CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>TELECOM</DISTRIBUTOR_ID>
+	 <SAM_SNO>JAQ123</SAM_SNO>
+	 <SAM_PERSO_NO>JA123</SAM_PERSO_NO>
+	 <SAM_PIN>2015BB121808000000000007894687987</SAM_PIN>
+</DeviceDetails>
+ 
+</ArrayOfDeviceDetails>

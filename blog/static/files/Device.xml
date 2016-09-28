@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>SAMSerialNumber001</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER </DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf </VENDOR_NAME>
+	 <CUSTOMER_ID>Bank BCA</CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>Astra Graphia</DISTRIBUTOR_ID>
+	 <SAM_SNO>SD001</SAM_SNO>
+	 <SAM_PERSO_NO>SD002</SAM_PERSO_NO>
+	 <PCID>SD003</PCID>
+</DeviceDetails>
+</ArrayOfDeviceDetails>

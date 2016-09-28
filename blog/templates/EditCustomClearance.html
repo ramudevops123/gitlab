@@ -1,0 +1,459 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ 
+{% if UserRole == 'Admin'%}
+ 
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	
+	{% endif %}
+					
+		
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type="text/javascript">
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+			function removeWhitespaces() {
+			var txtboxVal = $('#HsCode').val().trim();
+			$('#HsCode').val(txtboxVal);
+			}
+		$(document).ready(function(){
+		$('#PONumber').on('change', function() {
+		var PONumber = $(this).val();
+		if (PONumber == ''){
+		document.getElementById('podate').value = "";
+		document.getElementById('Productid').value = "";
+		document.getElementById('ProductName').value = "";
+		document.getElementById('POQuantity').value = "";
+		//document.getElementById('POStatus').value = "";
+		document.getElementById('PrinicpalID').value = "";
+		document.getElementById('PrinicpalID').value = "";
+		document.getElementById('DeliveryDate').value = "";
+		document.getElementById('PrincipalName').value = "";
+		document.getElementById('ShipNo').value = "";
+		document.getElementById('ShipDate').value = "";
+		document.getElementById('ShipAWB').value = "";
+		document.getElementById('SFreight').value = "";
+		document.getElementById('SQuantity').value = "";
+		}else{
+		$.get('/CCTest/'+'?PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		$('#podate').val(splitArray[0]) ;
+		$('#Productid').val(splitArray[1]) ;
+		$('#ProductName').val(splitArray[2]) ;
+		$('#POQuantity').val(splitArray[3]) ;
+		//$('#POStatus').val(splitArray[4]) ;
+		$('#PrinicpalID').val(splitArray[4]) ;
+		$('#DeliveryDate').val(splitArray[5]) ;
+		$('#PrincipalName').val(splitArray[6]) ;
+		$('#ShipNo').val(splitArray[7]) ;
+		$('#ShipDate').val(splitArray[8]) ;
+		$('#ShipAWB').val(splitArray[9]) ;
+		$('#SFreight').val(splitArray[10]) ;
+		$('#SQuantity').val(splitArray[11]) ;
+		});
+		}
+	});
+	$(function() {
+	$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	$("#StartDate").keypress(function(event) {event.preventDefault();});
+	$( "#FinishDate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#FinishDate").keypress(function(event) {event.preventDefault();});
+	//$( "#ShipDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	//$( "#DeliveryDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	});
+	$("#PONumber").val("{{ PONumber }}");
+	$("#Productid").val("{{ PID }}");
+	$('#HsCode').keyup(function()
+			{
+			var yourInput = $(this).val();
+			re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+			});
+			$('#PONumber').on('change', function() {
+		$("#Productid").empty();
+		var PONumber = $(this).val();
+		if (PONumber == ''){
+		$("#Productid").empty();
+		} else{
+		$.get('/PIDtest/'+'?PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		for(var i=0;i<splitArray.length;i++){		  
+			  $("#Productid").append('<option value='+splitArray[i]+'>'+splitArray[i]+'</option>');
+			}
+		});
+		}
+	});
+});
+</script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	$('#Productid').on('change', function() {
+		var ProductID = $(this).val();
+		if (ProductID == ''){
+		document.getElementById('ProductName').value = "";
+		}else{
+		$.get('/GetPNameTest/'+'?ProductID='+ProductID, function(ProductName){
+		$('#ProductName').val(ProductName) ;
+		});
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#CustomClearance").click(function(){
+var FinishDate=$('#FinishDate').val();
+//alert(FinishDate);
+var currentdate = new Date();
+	function formatDate(currentdate) {
+    var d = new Date(currentdate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}	
+var TodayDate=document.getElementById('res').innerHTML =  formatDate(currentdate);
+var Uid=$('#uid').val();
+$.get('/customclearance/'+'?FinishDate='+FinishDate+'&TodayDate='+TodayDate+'&Uid='+Uid, function(Data){
+//alert(Data);
+	if (Data == ''){
+	//alert('dsfdfg');
+	$('#lblpid').text='';
+	location.href = "http://192.168.1.121:8000/accounts/ViewCustomClearance/"
+	}
+	else{
+	$('#lblpid').text("Custom Clearance Has Not Been Finished Yet, Please Check Again Finish Date");
+	$('#FinishDate').val('');
+	}
+
+});
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$("#submitbtn").click(function(){
+var FinishDate=$('#FinishDate').val();
+//alert(FinishDate);
+var currentdate = new Date();
+	function formatDate(currentdate) {
+    var d = new Date(currentdate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}	
+var TodayDate=document.getElementById('res').innerHTML =  formatDate(currentdate);
+var Uid=$('#uid').val();
+$.get('/customclearancesubmit/'+'?FinishDate='+FinishDate+'&TodayDate='+TodayDate+'&Uid='+Uid, function(Data){
+//alert(Data)
+if (Data==''){
+//alert("EmptyData");
+$('#lableid').text='';
+}else{
+if (Data=='Custom Clearance Process Still On Progress until given Finish Date,so Status Will Not Change'){
+$('#lableid').text(Data);
+
+}
+else if(Data=='Custom Clearance Process Has Been Finished Today, so Status Will Change into Finished'){
+$('#lableid').text(Data);
+}
+else if(Data=='Custom Clearance Process Has Been Finished on given Finish Date, so Status Will Change into Finished'){
+$('#lableid').text(Data);
+}
+}
+});
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+</head>
+<body>
+	<form class="form-horizontal" name="adduser" method="POST" action="/accounts/EditCustomClearance/" role="form" data-toggle="validator">{% csrf_token %}
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Edit Custom Clearance<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+	<div class="col-sm-4">
+     <!-- <select class="form-control" readonly id="PONumber" name="PONumber" required>
+		  <option value="">Select PO Number</option>
+		  {% for entry in PONO %}
+		<option value="{{ entry.PONumber }}">{{entry.PONumber }}</label>
+		{% endfor %}
+						</select> -->
+						<input type="text" class="form-control" id="PONumber" placeholder="PONumber" readonly value="{{ PONumber }}"  name="PONumber" maxlength="30" required>
+						<input type="hidden"  value={{ uid }} id="uid" name="uid" />
+						</div>
+						<label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
+	<div class="col-sm-4">
+	<input type="text" class="form-control" id="PrinicpalID" placeholder="Principal ID" readonly value="{{ PrinicpalID }}"  name="PrinicpalID" maxlength="30" required>
+	</div>
+	<!-- <label for="inputEmail3" class="col-sm-2 control-label">PO Status:</label>
+	    <div class="col-sm-4">
+      <input type="text" class="form-control" id="POStatus" placeholder="PO Status" value="{{ POStatus }}" readonly name="POStatus" maxlength="30" required>
+    </div> -->
+	<div style="display: none" id="res"></div>
+  </div>
+  
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly value="{{ PODate|date:"Y-m-d" }}" name="PODate" maxlength="75" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal Name" readonly value="{{ PrincipalName }}" name="PrincipalName" maxlength="30" required>
+    </div>
+	<input type="hidden"  value={{ nowdate }} id="nowdate" name="nowdate" />
+  </div>
+  
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-4">
+       <select class="form-control" readonly id="Productid" name="ProductID" required>
+		  <option value="">Select ProductID</option>
+		  {% for entry in ProductID %}
+		<option value="{{ entry.ProductId }}">{{entry.ProductId }}</label>
+		{% endfor %}
+						</select>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date" readonly value="{{ DeliveryDate|date:"Y-m-d" }}" name="DeliveryDate" maxlength="75" required>
+    </div>
+	
+  </div>
+  
+  
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="ProductName" placeholder="Product Name" readonly value="{{ ProductName }}" name="ProductName" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">PO Quantity:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="POQuantity" placeholder="PO Quantity" readonly value="{{ POQuantity }}" name="POQuantity" maxlength="30" required>
+    </div>
+	
+  </div>
+	
+  
+    
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+
+ <div class="container"> <div class="row">
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Shipment From Principal<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="ShipNo"  placeholder="Ship No" readonly value="{{ ShipNo }}" name="ShipNo" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"  readonly value="{{ ShipDate|date:"Y-m-d" }}" name="ShipDate" maxlength="75" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" readonly value="{{ ShipAWB }}" name="ShipAWB" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"  readonly value="{{ SFreight }}" name="SFreight" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" readonly value="{{ SQuantity }}" name="SQuantity" maxlength="30" required>
+    </div>
+  </div>
+   </div>
+  </div>
+ </div>
+ 
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Custom Clearance<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">HS Code:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="HsCode"  placeholder="Hs Code" value="{{ HsCode }}"  name="HsCode" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Start Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="StartDate" placeholder="Start Date" value="{{ StartDate|date:"Y-m-d" }}"  name="StartDate" maxlength="75" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Finish Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="FinishDate" placeholder="Finish Date" value="{{ FinishDate|date:"Y-m-d" }}"  name="FinishDate" maxlength="75" required>
+    </div>
+  </div>
+  <label id="lblpid" name="labelid"></label>
+  <label id="lableid" name="labelid"></label>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+      <a class="btn btn-primary" class="btn btn-primary" class="submit" id="CustomClearance" >
+	                      CustomClearance Is Finished</a>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+   </div>
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+      <button type="submit" class="submit" value="Remove Whitespaces" onclick="removeWhitespaces()" id="submitbtn" class="btn btn-primary">Submit</button>
+	  <a href="/accounts/ViewCustomClearance/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a>
+    </div>
+  </div>
+	<div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Confirm Submit
+            </div>
+            <div class="modal-body">
+                <!--<div class="error" >{{ Error }}
+				<label><input class="form-control" id="error"value=""></label>
+                  </div>-->
+				  <div class="success" >{{ Success }}
+				  <!--<input class="form-control" id="success" value="">-->
+				  <textarea class="form-control" readonly id="success" value=""></textarea>
+                  </div>
+            </div>
+            <div class="modal-footer">
+			<a href="/accounts/EditCustomClearance/">
+                <button type="button" class="btn btn-default">Cancel</button>
+				</a>
+				<button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+	  
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

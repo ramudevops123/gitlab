@@ -1,0 +1,506 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type="text/javascript">
+$(document).ready(function () {
+	$("#WareHouseName").val("{{ WHName }}");
+});
+</script>
+<script>
+$(document).ready(function(){
+    $('#mySerialTable').dataTable();
+});
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#myList").click(function(){
+ var ProductID=$('#ProductID').val();
+ var ProductName=$('#ProductName').val();
+ var SerialNumber=$('#SerialNumber').val();
+ var RefNumber=$('#RefNumber').val();
+ $.get('/SNInputStockInsert/'+'?ProductID='+ProductID+'&ProductName='+ProductName+'&SerialNumber='+SerialNumber+'&RefNumber='+RefNumber, function(Data){
+ var splitArray = Data.split(".");
+ var GetData=splitArray[1];
+ if (splitArray[0] == ''){
+	$('#lblSAM').text("");
+ }
+ else{
+	$('#lblSAM').text(splitArray[0]);
+ }
+ if (GetData == ''){
+	var trHTML ='';
+	$('#mySerialTable').append(trHTML);
+ }
+ else{
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(GetData), function(key, value) {
+$('#mySerialTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ alert(i);
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SerialNumber').val('');
+alert("fggfh");
+$('#SerialValue').load();
+//location.reload(true);
+
+}
+ });
+ });
+ });
+ </script>
+ <!--<script type="text/javascript">
+$(document).ready(function(){
+$("#InputSerialCheck").click(function(){
+alert("gfgtfghgh");
+var StockQty=$('#StockQty').val();
+var rowCount = $('#mySerialTable tr').length;
+alert(rowCount);
+if (StockQty == ''){
+}
+else{
+$('#StockQty').val('');
+}
+if (rowCount > 1){
+var checkvalue=document.getElementById('InputSerialCheck').checked
+alert(checkvalue);
+var SerialNumbervalue=document.getElementById('SerialNumber').disabled
+alert(SerialNumbervalue);
+if (checkvalue == false && SerialNumbervalue == false){
+alert("rowcountmorethanzero");
+$("#basicDeleteCheckSNModal").modal();
+var ProductID=$('#ProductID').val();
+var RefNumber=$('#RefNumber').val();
+alert(RefNumber);
+
+$("#SNDeleteCheck").click(function(){
+$.get('/GetALLInputSNTest/'+'?RefNumber='+RefNumber+'&ProductID='+ProductID, function(Data){
+if (Data == '[]'){
+	//alert("textenterednull2");
+	$('#mySerialTable').empty();
+	$('#lblNumber').text("Total Number of Serial Number has been added:"+ 0);
+	document.getElementById("SerialNumber").setAttribute("disabled", false);
+	document.getElementById("StockQty").setAttribute("enable", true);
+	document.getElementById('InputSerialCheck').checked=false;
+	var trHTML ='';
+	$('#mySerialTable').append(trHTML);
+ }
+window.setTimeout(function () {
+                  $('#basicDeleteCheckSNModal').modal('hide');
+                }, 1000);
+		
+});	
+});
+}
+else{
+alert("fgfdgno data1");
+}
+}
+else if (rowCount ==1){
+document.getElementById('InputSerialCheck').checked=false;
+document.getElementById("StockQty").setAttribute("disabled", false);
+document.getElementById("SerialNumber").setAttribute("enable", true);
+}
+
+});
+});
+</script>-->
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ {{ count}});
+ });
+ </script>
+ <!--<script type="text/javascript">
+$(document).ready(function(){
+var rowCount = $('#mySerialTable tr').length;
+alert(rowCount);
+if (rowCount == 1){
+alert("fdgdfg");
+document.getElementById('InputSerialCheck').checked=false;
+document.getElementById("StockQty").setAttribute("enable", true);
+document.getElementById("SerialNumber").setAttribute("disabled", false);
+}
+else{
+alert("dfgrt");
+document.getElementById('InputSerialCheck').checked=true;
+document.getElementById("StockQty").setAttribute("disabled", false);
+document.getElementById("SerialNumber").setAttribute("enable", true);
+var StockQty=$('#StockQty').val();
+if (StockQty == ''){
+alert("fdgfg");
+}
+else{
+$('#StockQty').val('');
+alert("dfgfg");
+}
+}
+});
+</script>-->
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNSubmit").click(function(){
+ var SNumber=$('#SNumber').val();
+ alert(SNumber);
+ var lblSN=$('#lblSN').val();
+ alert(lblSN);
+ var ProductID=$('#ProductID').val();
+ alert(ProductID);
+ var RefNumber=$('#RefNumber').val();
+ alert(RefNumber);
+ $.get('/InputSNUpdate/'+'?SNumber='+SNumber+'&lblSN='+lblSN+'&ProductID='+ProductID+'&RefNumber='+RefNumber, function(Data){
+ alert(Data);
+ var splitArray = Data.split(".");
+ var GetData=splitArray[1];
+ if (splitArray[0] == ''){
+ $('#lblSAM').text("");
+ }
+ else{
+	$('#lblSAM').text(splitArray[0]);
+ }
+ if (GetData == ''){
+	var trHTML ='';
+	$('#mySerialTable').append(trHTML);
+	window.setTimeout(function () {
+                  $('#basicSNModal').modal('hide');
+                }, 1000);
+				location.reload(true);
+ }
+ else{
+// alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(GetData), function(key, value) {
+$('#mySerialTable').empty();
+//alert(value[0]);
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ i=i+1;
+});
+
+$('#mySerialTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicSNModal').modal('hide');
+                }, 1000);
+location.reload(true);
+
+}
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNDelete").click(function(){
+ var SN=$('#SN').val();
+ alert(SN);
+ var SNid=$('#SNid').val();
+ alert(SNid);
+ var ProductID=$('#ProductID').val();
+ alert(ProductID);
+ var RefNumber=$('#RefNumber').val();
+ alert(RefNumber);
+ $.get('/InputSNDelete/'+'?SN='+SN+'&SNid='+SNid+'&ProductID='+ProductID+'&RefNumber='+RefNumber, function(Data){
+ alert(Data);
+ if (Data == '[]'){
+ 
+ alert("dgfrgrtnodata");
+	var trHTML ='';
+	$('#mySerialTable').empty();
+	window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+				location.reload(true);
+ }
+ else{
+alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(Data), function(key, value) {
+$('#mySerialTable').empty();
+//alert(value[0]);
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteInputSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SNumber').val('');
+alert("nmcbghjgfdfgt");
+window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+				location.reload(true);
+}
+ });
+ });
+ });
+ </script>
+ 
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+ </head>
+<body>
+	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/EditInputStock/" role="form" data-toggle="validator">{% csrf_token %}
+	 <h4>Edit Input Stock<h4>
+	 <div class="container"> 
+	 <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Input Stock<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+   
+ <div class="error"><span style="color: red;">{{ Error }}</span>
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  
+		<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductID" readonly placeholder="Product ID" value="{{ ProductID }}"  name="ProductID" maxlength="30" required>
+     <input type="hidden"  value="{{ lblIS }}" name="lblIS" />
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">RefNumber:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="RefNumber" readonly  placeholder="Ref Number" value="{{ RefNumber }}"   name="RefNumber" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductName" readonly placeholder="Product Name" value="{{ ProductName }}"  name="ProductName" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Ref Transaction:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" readonly  id="RefTransaction"  placeholder="Ref Transaction" value="{{ RefTransaction }}"   name="RefTransaction" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">WareHouse Name:</label>
+    <div class="col-sm-4">
+	 <select class="form-control" id="WareHouseName" name="WareHouseName" required>
+		  <option value="">Select WareHouseName</option>
+		  {% for entry in WareHouseName %}
+		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+		{% endfor %}
+						</select>
+     
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-4">
+     <!--  <select class="form-control" readonly id="Status" name="Status" >
+	  <option value="Progess">Progess</option>
+	  </select> -->
+	  <input type="text" class="form-control" readonly  id="Status"  placeholder="Status" value="{{ Status }}"   name="Status" maxlength="30" required>
+    </div>
+  </div>
+  {{  ProductSN }}
+  {% if ProductSN == 'No'%}
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Stock Quantity IN</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="StockQty" placeholder="Stock Quantity IN" value="{{ StockQty  }}"   name="StockQty" maxlength="75" >
+    </div>
+  </div>
+  {% endif %}
+  {% if ProductSN == 'Yes'%}
+  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-3 control-label">Serial Number</label>
+	  <div class="col-sm-4">
+      <input type="text" class="form-control" id="SerialNumber"  placeholder="Enter SerialNumber"   name="SerialNumber" maxlength="75">
+   
+		<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<div class="col-sm-4">
+	<a class="btn btn-primary"  class="submit" id="myList" >
+	                      Add to List</a>
+	</div>
+    </div>	  
+ </div>
+  </div>
+ </div>
+  </div>
+   </div>
+    <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-8">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   </div>
+   <div id="SerialValue" class="panel-body">
+   <table id="mySerialTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Sno</th>
+										<th class="center">Serial Number</th>
+										<th class="center">Edit</th>
+										<th class="center">Delete</th>
+                                        </tr>
+                                </thead>
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+									   <td>{{ forloop.counter }} </td>
+                                       <td class="center">{{ u.SerialNumber }}</td>
+									 <td class="center"> <a href="/accounts/EditInputSN/{{ u.SerialNumber }}" data-toggle="modal" data-target="#basicSNModal">
+									 Edit</td>
+									 <td class="center"> <a href="/accounts/DeleteInputSN/{{ u.SerialNumber }}" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td>
+									  
+                                    </tr>
+									{% endfor %}
+									</tbody>
+									</table>
+									<label id="lblNumber"></label>
+									
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+  {% endif %}
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces">Submit</button>
+	  <a href="/accounts/ViewInputStock/"><button class="btn btn-default" type="button">Cancel</button></a> 
+	  <button type="submit" class="submit" class="btn btn-primary" value="Save&Send" name="_Save&Send">Save & Send</button>
+    </div>
+  </div>
+   </form>
+       <div class="modal fade" id="basicSNModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Edit SerialNumber</h4>
+            </div>
+            <div class="modal-body" >              
+			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSerialNumber/" role="form">{% csrf_token %} 
+			  
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-4 control-label">Serial Number</label>
+	  <div class="col-sm-8">
+      <input type="text" class="form-control" id="SerialNumber"  placeholder="Enter SerialNumber" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
+		<input type="hidden"  value="{{ lblSN }}" name="lblSN" />
+	</div>
+	
+	
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+	  <a class="btn btn-primary"  class="submit" id="SNSubmit" >
+	                      Submit</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+	 
+     
+  
+
+  
+ 
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="modal fade" id="basicDeleteSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  
+			  
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
+	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDelete" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>
+ </div>
+	</div> 
+  <div class="modal fade" id="basicDeleteCheckSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  
+			  
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">“You Have Selected Bulk Quantity, You Have to Remove All Serial Numbers”</label>
+	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
+	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDeleteCheck" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>
+ </div>
+	</div>  
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,374 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+<script type="text/javascript">
+function removeWhitespaces() {
+			var txtboxVal = $('#Qty').val().trim();
+			$('#Qty').val(txtboxVal);
+			}
+$(document).ready(function(){
+	$('#ProductID').on('change', function() {
+		var ProductID = $(this).val();
+		if (ProductID == ''){
+		document.getElementById('PName').value = "";
+		document.getElementById('PModel').value = "";
+		} else{
+		$.get('/test/'+'?ProductID='+ProductID, function(Data){
+		var splitArray = Data.split(",");
+		$('#PName').val(splitArray[0]) ;
+		$('#PModel').val(splitArray[1]) ;
+		});
+		}
+	});
+		$('#Mcode').on('change', function() {
+		var Mcode = $(this).val();
+		if (Mcode == ''){
+		document.getElementById('Mname').value = "";
+		} else{
+		$.get('/materialtest/'+'?Mcode='+Mcode, function(ProductName){
+		$('#Mname').val(ProductName) ;
+		});
+		}
+	});
+		$("#ProductID").val("{{ ProductID }}");
+		$("#PStatus").val("{{ PStatus }}");
+		$("#Mcode").val("{{ Materialcode }}");
+		$("#modalMcode").val("{{ Materialcode }}");
+		$('#Qty').keyup(function(){
+		var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar){
+		var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+		$(this).val(no_spl_char);
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+ $('#lblSAM').text("");
+ $("#myList").click(function(){
+ var ProductID=$('#ProductID').val();
+ var Mcode=$('#Mcode').val();
+ var Mname=$('#Mname').val();
+ var Qty=$('#Qty').val();
+ $.get('/MaterialInsert/'+'?Mcode='+Mcode+'&Mname='+Mname+'&Qty='+Qty+'&ProductID='+ProductID, function(Data){
+ var splitArray = Data.split(".");
+ console.log(splitArray);
+ //alert(splitArray[1]);
+ var GetData=splitArray[1];
+ if (splitArray[0] == ''){
+	$('#lblSAM').text("");
+ }
+ else{
+	$('#lblSAM').text(splitArray[0]);
+ }
+ if (GetData == ''){
+	var trHTML ='';
+	$('#myTable').append(trHTML);
+ }
+ else{
+ var trHTML = '<tr><th class="center">Material Code</th><th class="center">Material Name</th><th class="center">Quantity</th><th class="center">Edit</th></tr>';
+$.each(JSON.parse(GetData), function(key, value) {
+$('#myTable').empty();
+ trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td><td class="center"><a href="/accounts/EditBOMaterial/' + value[3] + '" data-toggle="modal" data-target="#basicModal"><i></i>Edit Material</a></td></tr>';
+});
+$('#myTable').append(trHTML);
+$('#Mcode').val('');
+ $('#Mname').val('');
+ $('#Qty').val('');
+}
+ });
+ });
+ });
+ </script>
+ <script>
+ $(document).ready(function(){
+ $("#Qty").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+   });
+ </script>
+ <script>
+ $(document).ready(function(){
+ $("#ModalQty").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#Modalerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+   });
+ </script>
+ 
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script>
+$(document).ready(function(){
+$('#Qty').keyup(function(){
+   if($(this).val() == "0"){
+   $('#Qty').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+</head>
+<body>
+<form class="form-horizontal" name="adduser" method="POST" action="/accounts/EditBOM/" role="form" onsubmit="document.getElementById('ProductID').disabled = false;" data-toggle="validator">{% csrf_token %}
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Bill Of Material<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="ProductID" disabled="disabled" name="PID" required>
+		  <option value="">Select Type</option>
+		  {% for entry in PType %}
+		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
+		{% endfor %}
+						</select>
+						<input type="hidden"  value={{ uid }} name="uid" />
+    </div>
+  </div>
+  
+			<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PName" disabled placeholder="Product Name" value="{{ ProductName }}"  name="PName" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PModel" disabled placeholder="Product Model" value="{{ ProductModel }}"  name="PModel" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="PStatus" name="PStatus" required>
+							<option value="">Select Status</option>
+							<option value="Active">Active</option>
+							<option value="InActive">InActive</option>							
+						</select>
+    </div>
+  </div>
+  </br>
+  </br>
+   <div class="form-group">  
+  <label for="inputPassword3" class="col-sm-2 control-label">Material Code</label>
+  <div class="col-sm-5">
+   <select class="form-control" id="Mcode" name="Materialcode" >
+    <option value="">Select Material </option>
+    {% for obj in Mtype %}
+   <option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
+	  {% endfor %}
+    </select>
+	
+</div>
+<div class="col-sm-4">
+	<a class="btn btn-primary"  class="submit" id="myList" >
+	                      Add Material</a>
+	</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Material Name</label>
+  <div class="col-sm-5">
+    <input type="text" class="form-control" id="Mname" readonly placeholder="Material Name"   name="Materialname" maxlength="30" >
+</div>
+<label id="lblSAM" name="lblSAM"></label>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-5">
+    <input type="text" class="form-control" id="Qty"  placeholder="Material Quantity"   name="Qty" maxlength="30" >&nbsp;<span id="errmsg"
+</div>
+  </div>
+  </br>
+  
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+    <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">View Bill Of Material<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Material Code</th>
+                                        <th class="center">Material Name</th>
+                                        <th class="center">Quantity</th>										
+										<th class="center">Edit</th>
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+                                       <td class="center">{{ u.MaterialCode }}</td>
+									   <td class="center">{{ u.MaterialName }}</td>
+									   <td class="center">{{ u.MaterialQty }}</td>
+										 <td class="center"><a href="/accounts/EditBOMaterial/{{u.id}}" data-title="Edit Material" data-toggle="modal"data-target="#basicModal"><i></i>Edit Material</a></td>
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>
+<a href="/accounts/ViewBOM/">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a> 	  
+    </div>
+  </form>
+  	   <!-------- Modal Start ------->
+	
+
+  <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+	 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog">
+	 <div class="modal-content">
+            <div class="modal-header">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+		  
+            <h4 class="modal-title" id="myModalLabel">Bill Of Material</h4>
+            </div>
+            <div class="modal-body">
+			<form class="form-horizontal" name="Mformname"  method="POST"  action="/accounts/EditBOMaterial/" role="form">{% csrf_token %} 
+              <!--  <h3>Modal Body</h3> -->
+			  <div class="form-group"> 
+  <label for="inputPassword3" class="col-sm-2 control-label">Material Code</label>
+  <input type="hidden"  value={{ uid }} name="uid" />
+  <input type="hidden"  value={{ Pid }} name="Pid" />
+  <div class="col-sm-6">
+   <input type="text" class="form-control" id="modalMcode" readonly placeholder="Material code"  value="{{ Materialcode }}" name="Materialcode" maxlength="30" required>
+</div>
+  </div>
+      <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Material Name</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="Matname" readonly placeholder="Material Name"  value="{{ Materialname }}" name="Materialname" maxlength="30" required>
+</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="ModalQty"  placeholder="Material Quantity" value="{{ MQty }}"  name="Qty" maxlength="30" required>&nbsp;<span id="Modalerrmsg">
+</div>
+<label id="lblSAM" name="lblSAM"></label>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <!-- <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>  -->
+	  <a class="btn btn-primary"  class="submit" id="UpdateMaterial" >
+	                      Update</a>
+		
+ <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>		
+ 
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </form>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

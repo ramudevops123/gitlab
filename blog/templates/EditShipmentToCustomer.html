@@ -1,0 +1,398 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>
+<script>
+$(document).ready(function(){
+$( "#ShipDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+$("#ShipmentStatus").val("{{ ShipmentStatus }}");
+});
+</script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SaveAndSend").click(function(){
+ var SQuantity=$('#SQuantity').val();
+ var RefNumber="{{ RefNumber }}";
+ //alert(SQuantity);
+  $.get('/DetailCount/'+'?RefNumber='+RefNumber, function(Data){
+  var splitArray = Data.split(":");
+ // alert(splitArray[0]);
+ if(SQuantity==splitArray[0]){
+ var ProductID=$('#ProductID').val();
+ var ProductName=$('#PName').val();
+ var DistributorID=$('#DistributorID').val();
+ var DistributorName=$('#DistributorName').val();
+ var CustomerID=$('#CustomerID').val();
+ var CustomerName=$('#CustomerName').val();
+ var ShipDate=$('#ShipDate').val();
+ var CustomerID=$('#CustomerID').val();
+ var ListData=splitArray[1];
+// var favorite = [];
+ //$.each($("input[name='PurchaseCheck']:checked"), function(){            
+              // favorite.push($(this).val());
+			//	alert(favorite);
+           // });
+            //alert(favorite.join(", "));
+			//ListData=favorite.join(", ");
+		//alert(ListData);
+ $.get('/SaveStockInsert/'+'?RefNumber='+RefNumber+'&ProductID='+ProductID+'&ProductName='+ProductName+'&SQuantity='+SQuantity+'&DistributorID='+DistributorID+'&DistributorName='+DistributorName+'&CustomerID='+CustomerID+'&CustomerName='+CustomerName+'&ShipDate='+ShipDate+'&ListData='+ListData, function(Data){
+ //alert(Data);
+ window.location = "http://192.168.1.121:8000/accounts/ViewShipmentToCustomer/";
+ 
+ 
+ });
+ }
+ 
+ else if(splitArray[0]<SQuantity){
+ alert("Total Number of Product SN is less than value of Ship Quantity, please check again");
+ }
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#myList").click(function(){
+ var RefNumber="{{ RefNumber }}";
+ var ProductID=$('#ProductID').val();
+ var ProductName=$('#PName').val();
+ //var ListData="{{ DeviceList }}";
+ var favorite = [];
+ $.each($("input[name='PurchaseCheck']:checked"), function(){            
+                favorite.push($(this).val());
+            });
+            //alert(favorite.join(", "));
+			ListData=favorite.join(",");
+			//alert("ListData here is"+ListData);
+var SQuantity=$('#SQuantity').val();
+//alert(SQuantity);
+$.get('/DetailCount/'+'?RefNumber='+RefNumber, function(count){
+ // alert(count);
+if(count>SQuantity){
+alert("Total Number of Product SN being selected is more than value of Ship Quantity, please check again!");
+}
+else{
+			$.get('/DeviceSNListView/'+'?ListData='+ListData+'&ProductID='+ProductID+'&ProductName='+ProductName+'&RefNumber='+RefNumber, function(Data){
+			//alert(Data);
+			$('#lblSTC').text("");
+			var splitArray = Data.split(".");
+ if (splitArray[0] == ''){
+	var trHTML ='';
+	$('#myDeviceListTable').append(trHTML);
+ }
+ else{
+ //alert(splitArray[0]);
+ var trHTML = '<tr><th class="center">Product ID</th><th class="center">Product Name</th><th class="center">Device SN</th></tr>';
+$.each(JSON.parse(splitArray[0]), function(key, value) {
+$('#myDeviceListTable').empty();
+ trHTML += '<tr><td>' + ProductID + '</td><td>' + ProductName + '</td><td>' + value[0] + '</td></tr>';
+});
+$('#myDeviceListTable').append(trHTML);
+}
+if(splitArray[1] == 'Product_SN is not yet ready to ship to customer, please check again'){
+alert("Product_SN is not yet ready to ship to customer, please check again");
+}
+ });
+ }
+ });
+ 	window.setTimeout(function () {
+                  $('#basicDeviceSNModal').modal('hide');
+                }, 1000);
+			
+ });
+ });
+ </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#myDeviceSN").click(function(){
+  var test=("{{ DeviceList }}");
+  var splitArray = test.split(",");
+  //alert(splitArray);
+  splitArray.forEach(function(i){
+  document.getElementById(i).checked = true;
+});
+  });
+});
+</script>
+<script>		
+$(document).ready(function(){		
+var CustomerID=("{{ CustomerID }}");		
+var Remarks=("{{ Remarks }}");		
+if (CustomerID=='None'){		
+$('#CustomerID').val('');		
+}		
+if (Remarks=='None'){		
+$('textarea#Remarks').val('');		
+}		
+});		
+</script>
+ </head>
+<body>
+	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/EditShipmentToCustomer/" role="form" data-toggle="validator">{% csrf_token %}
+	<div class="container"> 
+	 <div class="row">
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Distributor<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Distributor ID:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="DistributorID" readonly placeholder="DistributorID" value="{{ DistributorID }}"  name="DistributorID" maxlength="30" required>
+	<input type="hidden"  value="{{ lblSTDID }}" name="lblSTDID" />
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Name:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="DistributorName" readonly placeholder="DistributorName" value="{{ DistributorName }}"  name="DistributorName" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Address:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="DistributorAddress" readonly placeholder="DistributorAddress" value="{{ DistributorAddress }}" name="DistributorAddress" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor City:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="DistributorCity" readonly placeholder="DistributorCity" value="{{ DistributorCity }}" name="DistributorCity" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Country:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="DistributorCountry" readonly placeholder="DistributorCountry" value="{{ DistributorCountry }}" name="DistributorCountry" maxlength="30" required>
+    </div>
+	</div>
+  </div>
+  </div>
+  </div>
+
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Customer<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Customer ID:</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="CustomerID" readonly placeholder="CustomerID"  name="CustomerID" value="{{ CustomerID }}" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer Name:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CustomerName" readonly placeholder="CustomerName"  name="CustomerName" value="{{ CustomerName }}"  maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer Address:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CustomerAddress" readonly placeholder="CustomerAddress" value="{{ CustomerAddress }}" name="CustomerAddress" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer City:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CustomerCity" readonly placeholder="CustomerCity" value="{{ CustomerCity }}" name="CustomerCity" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer Country:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CustomerCountry" readonly placeholder="CustomerCountry" value="{{ CustomerCountry }}" name="CustomerCountry" maxlength="30" required>
+    </div>
+	</div>
+	<div class="form-group" id="comments">		
+    <label for="Comments" class="col-sm-4 control-label">Remarks:</label>		
+	<div class="col-sm-5">		
+    <textarea class="form-control" wrap=physical id="Remarks" rows="3" value="{{ Remarks }}" disabled name="Remarks" maxlength="2000" required>{{ Remarks }}</textarea> 		
+  </div>		
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="container"> 
+	 <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Product/Device Shipment<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductID" readonly placeholder="ProductID" value="{{ ProductID }}"  name="ProductID" maxlength="75" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Shipment Date</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date" value="{{ ShipDate|date:'Y-m-d' }}"  name="ShipDate" maxlength="75" required>
+    </div>
+  </div>
+  
+			<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name" value="{{ PName }}"  name="PName" maxlength="30" >
+    </div>
+	 <label for="inputEmail3" class="col-sm-2 control-label">ShipmentQuantity:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" value="{{ SQuantity }}"  name="SQuantity" maxlength="30" required >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model" value="{{ PModel }}"  name="PModel" maxlength="30" >
+    </div>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-4">
+       <select class="form-control" id="ShipmentStatus" name="ShipmentStatus" >
+							<option value="">Select Status</option>
+							<option value="Open">Open</option>
+							<option value="Shipped">Shipped</option>							
+						</select>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  
+ <div class="col-sm-4">
+	<a class="btn btn-primary"  class="submit" id="myDeviceSN" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicDeviceSNModal">
+	                      Select Product/Device SN</a>
+	</div>
+	<table id="myDeviceListTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+			  <thead>
+                                    <tr>
+									<th class="center">ProductID</th>
+										<th class="center">ProductName</th>
+										<th class="center">DeviceSN</th>
+										
+                                    </tr>
+                                </thead>
+								<tbody>     
+					{% for u in DeviceData %} 
+					<tr>
+					 <td class="center">{{ u.ProductID }}</td>
+					  <td class="center">{{ u.ProductName }}</td>
+					   <td class="center">{{ u.Product_SN }}</td>
+					    
+					</tr>
+					{% endfor %}
+									</tbody>
+
+									</table>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" onclick="return myFunction()">Save</button> 
+	  <a href="/accounts/ViewShipmentToCustomer/">
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+</a>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <a class="btn btn-primary"  class="submit" id="SaveAndSend" >
+	                      Save & Send</a>
+    </div>
+	</div>
+	<div class="modal fade" id="basicDeviceSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Product/Device SN</h4>
+            </div>
+            <div class="modal-body" >
+			  
+			  
+			  <table id="myDeviceTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+			  <thead>
+                                    <tr>
+									<th class="center">Device SN</th>
+										<th class="center">Choose</th>
+                                    </tr>
+                                </thead>
+								<tbody>     
+					{% for u in DeviceSNData %} 
+					<tr>
+					 <td class="center">{{ u.SerialNumber }}</td>
+					 <td><input type="checkbox" class="classcbchecktest" name="PurchaseCheck" id="{{  u.SerialNumber }}" value="{{  u.SerialNumber }}" /></td>
+					</tr>
+					{% endfor %}
+									</tbody>
+
+									</table>
+								<div class="col-sm-offset-2 col-sm-10">
+      <a class="btn btn-primary"  class="submit" id="myList" >
+	                      Add to List</a>
+<button class="btn btn-default" type="button">Close</button>	
+</a>  
+    </div>	
+  </div>
+  </div>
+ </div>
+	</div>  
+  </form>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>4</CustomerID>
+	 <CustomerName>Test4</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>Test4 Address</CustomerAddress>
+	 <CustomerCountry>India</CustomerCountry>
+	 <CustomerCity>Hyderabad</CustomerCity>
+	 <CustomerWebsite>www.lone-soft.com</CustomerWebsite>
+	 <CustomerEmail>www.test4@lst.com</CustomerEmail>
+	 <CustomerPhNo>9848022338</CustomerPhNo>
+	 <CustomerComments>Test4 Notes</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

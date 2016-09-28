@@ -1,0 +1,71 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Third Party User</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ </head>
+ <body>
+ <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Distributor report<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    <form class="form-horizontal" name="adduser" method="POST" action="/accounts/CDReport/" role="form" enctype="multipart/form-data">{% csrf_token %}
+	<a href="../../../static/files/Distributor.xml?dummy=dummy"  download>
+	<button type="button" name="_Distributor" class="btn btn-primary">Export Distributor Data</button>
+	</a>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Customer report<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+	<a href="../../../static/files/Customer.xml?dummy=dummy"  download>
+	<button type="button" name="_Customer" class="btn btn-primary">Export Customer Data</button>
+	</a>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Device report<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+	<a href="../../../static/files/Device.xml?dummy=dummy"  download>
+	<button type="button" name="_Device" class="btn btn-primary">Export Device Data</button>
+	</a>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+ </form>
+ </body>
+ </html>
+ {% endblock %}

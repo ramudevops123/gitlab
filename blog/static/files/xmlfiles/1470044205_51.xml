@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DistributorDetails>
+	 <DistributorID>8286</DistributorID>
+	 <DistributorName>Distributor </DistributorName>
+	 <DistributorType>Distributor </DistributorType>
+	 <DistributorAddress>Test Distributor Address </DistributorAddress>
+	 <DistributorCountry>India </DistributorCountry>
+	 <DistributorCity>Hyderabad </DistributorCity>
+	 <DistributorWebsite>www.lone-soft.com </DistributorWebsite>
+	 <DistributorEmail>www.distributor@lst.com </DistributorEmail>
+	 <DistributorPhNo>9848022338 </DistributorPhNo>
+	 <DistributorComments>Test Notes </DistributorComments>
+	 <DistributorStatus>Active </DistributorStatus>
+</DistributorDetails>
+ 
+</ArrayOfDistributorDetails>

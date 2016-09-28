@@ -1,0 +1,26 @@
+   <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Edit SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			 <!--<form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSerialNumber/" role="form">{% csrf_token %} -->
+			  
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-4 control-label">Serial Number</label>
+	  <div class="col-sm-8">
+      <input type="text" class="form-control" id="SerialNumber"  placeholder="Enter SerialNumber" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
+		<input type="hidden"  value="{{ lblSN }}" name="lblSN" />
+		<label id="lblSerialNO" name="lblSerialNO"></label>
+		<input type="hidden"  value="{{ AdjustmentID }}" name="AdjustmentID" id="AdjustmentID" />
+	</div>
+	
+	
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces">Submit</button>
+	  <button type="reset" class="btn btn-default">Cancel</button>
+    </div>
+  </div>
+  </div>
+  </div>

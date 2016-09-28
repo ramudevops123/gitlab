@@ -1,0 +1,334 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Transfer Stock Location</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	var randomval='TRF' + Math.floor(Math.random() * 9999)
+	$('#RefNumber').val(randomval) ;
+ });
+ </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+	$('#mySerialTable').dataTable();
+});
+</script>
+ <script>
+ $(document).ready(function(){
+ $("#TransferQuantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+   });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	$('#ProductID').on('change', function() {
+		$('#ProductValidation').text('');
+		$('#serialTable').hide();
+		var ProductID = $(this).val();
+		var WarehouseFrom=$('#WarehouseFrom').val();
+		if(ProductID == '')
+		{
+		document.getElementById('ProductName').value = "";
+		document.getElementById('ProductModel').value = "";
+		document.getElementById('ProductType').value = "";
+		document.getElementById('ExistingQuantity').value = "";
+		document.getElementById('ProductValidation').value = "";
+		}
+		else{
+		$.get('/TransferlocationProductidsorting/'+'?ProductID='+ProductID+'&WarehouseFrom='+WarehouseFrom, function(Data){
+		//alert(Data);
+		var splitArray = Data.split(".");
+		$('#ProductName').val(splitArray[0]);
+		$('#ProductModel').val(splitArray[1]);
+		$('#ProductType').val(splitArray[2]);
+		$('#ExistingQuantity').val(splitArray[3]);
+		var Validation=(splitArray[4]);
+		var SerialStatus=(splitArray[6]);
+		//alert(splitArray[6]);
+		if(Validation=='Selected ProductID and WarehouseID is Not Available'){
+		$('#ProductValidation').text(Validation);
+		$('#ProductID').val('');
+		$('#ProductName').val('');
+		$('#ProductModel').val('');
+		$('#ProductType').val('');
+		$('#WarehouseFrom').val('');
+		}
+		if (SerialStatus=='Yes'){
+		$('#serialTable').show();
+		 document.getElementById('TransferQuantity').readOnly = true;
+		}
+		});
+		}
+		});
+		});
+		</script>
+		<script>
+function myFunction(val) {
+	$('#lblQuantity').text("");
+	var ExistingQty = document.getElementById('ExistingQuantity').value;
+	$.get('/ExistingQtyValidation/'+'?val='+val+'&ExistingQty='+ExistingQty, function(Data){
+			if(Data=="Transfer Quantity is More Than Existing Quantity"){
+			
+			document.getElementById("TransferQuantity").value= "";
+			$('#lblQuantity').text(Data);
+			}
+		});
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#ProductID').on('change', function() {
+document.getElementById('TransferQuantity').readOnly = false;
+$('#lblQuantity').text('');
+var ProductID = $(this).val();
+var WarehouseFrom=$('#WarehouseFrom').val();
+$.get('/TransferlocationSerialNumbers/'+'?ProductID='+ProductID+'&WarehouseFrom='+WarehouseFrom, function(Data){
+//alert(Data);
+var splitArray = Data.split(".");
+SerialNos=(splitArray[0]);
+StockBalance=(splitArray[1]);
+stockQty=parseInt(StockBalance);
+if (SerialNos == ''){
+	$('#serialTable').hide();
+	var trHTML ='';
+	$('#mySerialTable').append(trHTML);
+ }
+ if (stockQty<=0){
+ //alert("Please Check Existing Quantity");
+ $('#ProductID').val('');
+$('#ProductName').val('');
+$('#ProductModel').val('');
+$('#ProductType').val('');
+$('#WarehouseFrom').val('');
+$('#lblQuantity').text("Please Check Existing Quantity");
+ }
+ else{
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Select</th></tr>';
+ i=1;
+$.each(JSON.parse(SerialNos), function(key, value) {
+$('#mySerialTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"><input type="checkbox" class="classcbchecktest" id=' + value[0] +' name="PurchaseCheck" value=' + value[0] +' /></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ 
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SerialNumber').val('');
+}
+});
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#WarehouseTo').on('change', function() {
+$('#WarehouseValidation').text('');
+var WarehouseTo = $(this).val();
+var WarehouseFrom=$('#WarehouseFrom').val();
+$.get('/TransferlocationWarehouseValidation/'+'?WarehouseFrom='+WarehouseFrom+'&WarehouseTo='+WarehouseTo, function(Data){
+//alert(Data);
+if (Data=='warehouse from and warehouse to cannot be the same'){
+$('#WarehouseTo').val('');
+$('#WarehouseValidation').text(Data);
+}
+});
+});
+});
+</script>
+<script>
+$(document).ready(function(){
+$("#ExportButton").click(function(){
+var len = $("[name='PurchaseCheck']:checked").length;
+$('#TransferQuantity').val(len);
+//alert(len);
+var ReferenceNo=$('#RefNumber').val();
+//alert(ReferenceNo);
+//TransferQuantity=$('#TransferQuantity').val();
+var favorite = [];
+$.each($("input[name='PurchaseCheck']:checked"), function(){            
+      favorite.push($(this).val());
+     });
+	 CheckedSerialNo=favorite.join(",");
+	 //alert(CheckedSerialNo);
+	 $.get('/CheckedSerialNumbers/'+'?CheckedSerialNo='+CheckedSerialNo+'&ReferenceNo='+ReferenceNo+'&len='+len, function(Data){
+	 //alert(Data);
+	 if (Data=='Please Serial Numbers'){
+	 //alert(Data);
+	 $('#WarehouseValidation').text(Data);
+	 }
+	 });
+});
+});
+</script>
+<script>
+$(document).ready(function(){
+$('#TransferQuantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#TransferQuantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+</head>
+<body>
+   <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Transfer Stock Location<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    <form class="form-horizontal" name="trnasferStock" method="POST" action="/accounts/TransferStockLocation/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">RefNumber</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="RefNumber"  placeholder="Ref Number"  readonly name="RefNumber" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse From</label>
+    <div class="col-sm-5">
+      <select class="form-control" id="WarehouseFrom" name="WarehouseFrom" required>
+						<option value="">Select WarehouseName</option>
+						{% for entry in WarehouseFrom %}
+						<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+						{% endfor %}
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">ProductID</label>
+    <div class="col-sm-5">
+      <select class="form-control" id="ProductID" name="ProductID" required>
+						<option value="">Select ProductID</option>
+						{% for entry in ProductID %}
+						<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
+						{% endfor %}
+						</select>
+    </div>
+	<label id="ProductValidation" name="ProductValidation"></label>
+  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ProductName" placeholder="Product Name"   name="ProductName" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Model</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ProductModel" placeholder="Product Model" readonly  name="ProductModel" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Type</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ProductType" placeholder="Product Type" readonly  name="ProductType" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Existing Quantity</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ExistingQuantity" placeholder="Existing Quantity" readonly name="ExistingQuantity" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse To</label>
+    <div class="col-sm-5">
+      <select class="form-control" id="WarehouseTo" name="WarehouseTo" required>
+						<option value="">Select WarehouseName</option>
+						{% for entry in WarehouseFrom %}
+						<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+						{% endfor %}
+						</select>
+    </div>
+	<label id="WarehouseValidation" name="WarehouseValidation"></label>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Transfer Quantity</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="TransferQuantity" placeholder="Transfer Quantity" maxlength="30" onchange="myFunction(this.value)" name="TransferQuantity" required>&nbsp;<span id="errmsg"></span>
+    </div>
+	<label id="lblQuantity" name="lblQuantity"></label>
+  </div>
+  <div class="col-md-6" id="serialTable" style="display:none">
+   <table id="mySerialTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">SNo</th>
+										<th class="center">Serial Number</th>
+										<th class="center">Select</th>
+                                        </tr>
+                                </thead>
+									</table>
+									<label id="lblNumber"></label>
+									<button  type="button"  id="ExportButton" name="_ExportData"  class="btn btn-primary">Add To List</button>
+									</div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary">Submit</button> 
+    </div>
+	</div>
+     </form>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

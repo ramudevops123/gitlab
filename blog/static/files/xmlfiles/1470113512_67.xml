@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>SAM128411</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER </DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf </VENDOR_NAME>
+	 <CUSTOMER_ID>Test4 </CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>Test3 </DISTRIBUTOR_ID>
+	 <SAM_SNO>SAM123</SAM_SNO>
+	 <SAM_PERSO_NO>UID123 </SAM_PERSO_NO>
+	 <SAM_PINFile> </SAM_PINFile>
+</DeviceDetails>
+ 
+</ArrayOfDeviceDetails>

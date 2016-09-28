@@ -1,0 +1,119 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Third Party User</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery.dataTables.yadcf.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jquery.dataTables.yadcf.js' %}"></script> 
+ <script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+	$('#myTable').dataTable().yadcf([
+{column_number : 3,filter_default_label: "Select"}, 
+]);
+});
+</script>
+
+	<script type="text/javascript">
+ $(document).ready(function(){
+ $("#ExportButton").click(function(){
+ var favorite = [];
+ $.each($("input[name='PurchaseCheck']:checked"), function(){            
+      favorite.push($(this).val());
+     });
+	 DistributorID=favorite.join(",");
+	//alert(DistributorID);
+ $.get('/DistributorExportID/'+'?DistributorID='+DistributorID, function(Data){
+ //alert("EnteredCLick");
+ //alert(Data);
+ if (Data=='Please select the checkbox'){
+ //alert(Data);
+ $('#lblNumber').text(Data);
+ }
+ else{
+ var a = document.getElementById('alink'); //or grab it by tagname etc
+a.href = "../../../static/files/xmlfiles/"+Data+".xml?dummy=dummy"
+alert("Data Exported Please click Download Button to download The XML");
+$('#lblNumber').text("Data Exported Please click Download Button to download The XML");
+$('#xmlbtn').show();
+ }
+$("#xml").click(function(){
+location.reload();
+});
+$('input.classcbchecktest').click(function (){
+$('#lblNumber').text("");
+});
+ });
+ });
+ });
+ </script>
+ <base target="_self">
+ </head>
+ <body>
+ <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Distributor report<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   <form class="form-horizontal" name="adduser" method="POST" action="/accounts/DistributorDataReport/" role="form" enctype="multipart/form-data">{% csrf_token %}
+	<div class="form-group">
+	
+	<button  type="button" style="float: right;"   id="ExportButton" name="_ExportData" value="ExportData"  class="btn btn-primary">ExportData</button>
+	<div id="xmlbtn" style="display:none"><a id="alink" download><button  type="button" style="float: right;"  id="xml"  class="btn btn-primary">Download XML</button></a></div>			</a>
+	<label id="lblNumber" style="float: right;"></label>
+  </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Distributor ID</th>
+                                        <th class="center">Distributor Name</th>
+                                        <th class="center">Status</th>
+										<th class="center">Data Export Status</th>
+										<th class="center">Data Export Qty</th>
+										<th class="center">Select</th>
+										<!-- <th class="center">Edit</th> -->										
+                                        </tr>
+                                </thead>
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+									   <td class="center">{{ u.ThirdPartyID }}</td>
+									   <td class="center">{{ u.ThirdPartyName }}</td>
+									   <td class="center">{{u.ThirdPartyStatus}}</td>
+									   <td class="center">{{ u.DataExportStatus }}</td>
+									   <td class="center">{{ u.DataExportQty }}</td>
+									   <td class="center"><input type="checkbox" class="classcbchecktest" value="{{ u.id }}" name="PurchaseCheck" id="{{ u.id }}"  /></td>
+									  <!--  <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicEditModal"><i></i>Edit</a></td> -->
+									   </tr>
+									{% endfor %}
+									</tbody>
+									</table>
+									
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+	</div>
+	</form>
+ </body>
+ </html>
+ {% endblock %}

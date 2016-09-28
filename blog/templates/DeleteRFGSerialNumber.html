@@ -1,0 +1,137 @@
+  <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNSubmit").click(function(){
+ var SNumber=$('#SNumber').val();
+ alert(SNumber);
+ var lblSN=$('#lblSN').val();
+ alert(lblSN);
+ var Productid=$('#Productid').val();
+ alert(Productid);
+ var ShipNo=$('#ShipNo').val();
+ alert(ShipNo);
+ $.get('/SNUpdate/'+'?SNumber='+SNumber+'&lblSN='+lblSN+'&Productid='+Productid+'&ShipNo='+ShipNo, function(Data){
+ alert(Data);
+ var splitArray = Data.split(".");
+ var GetData=splitArray[1];
+ if (splitArray[0] == ''){
+ $('#lblSAM').text("");
+ }
+ else{
+	$('#lblSAM').text(splitArray[0]);
+ }
+ if (GetData == ''){
+	var trHTML ='';
+	$('#mySerialTable').append(trHTML);
+	window.setTimeout(function () {
+                  $('#basicSNModal').modal('hide');
+                }, 1000);
+ }
+ else{
+// alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(GetData), function(key, value) {
+$('#mySerialTable').empty();
+//alert(value[0]);
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicSNModal').modal('hide');
+                }, 1000);
+}
+ 
+ });
+ });
+ });
+ </script>
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNDelete").click(function(){
+ var SN=$('#SN').val();
+ alert(SN);
+ var SNid=$('#SNid').val();
+ alert(SNid);
+ var Productid=$('#Productid').val();
+ alert(Productid);
+ var ShipNo=$('#ShipNo').val();
+ alert(ShipNo);
+ $.get('/SNDelete/'+'?SN='+SN+'&SNid='+SNid+'&Productid='+Productid+'&ShipNo='+ShipNo, function(Data){
+ alert(Data);
+ if (Data == '[]'){
+ alert("dgfrgrtnodata");
+	var trHTML ='';
+	$('#mySerialTable').empty();
+	$('#lblNumber').text("Total Number of Serial Number has been added:"+ 0);
+	window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+ }
+ else{
+ alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(Data), function(key, value) {
+$('#mySerialTable').empty();
+//alert(value[0]);
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+}
+ });
+ });
+ });
+ </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+   <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  
+			  
+			<div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
+	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDelete" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CustomerDetails>
+     
+	 <CustomerID>1</CustomerID>
+	 <CustomerName>Credence Identification </CustomerName>
+	 <CustomerType>Principal </CustomerType>
+	 <CustomerAddress>California </CustomerAddress>
+	 <CustomerCountry>California </CustomerCountry>
+	 <CustomerCity>California </CustomerCity>
+	 <CustomerWebsite>California </CustomerWebsite>
+	 <CustomerEmail>California@credence.co.id </CustomerEmail>
+	 <CustomerPhNo>123 </CustomerPhNo>
+	 <CustomerComments>California </CustomerComments>
+	 <CustomerStatus>Active </CustomerStatus>
+     
+	 <CustomerID>6</CustomerID>
+	 <CustomerName>Biomorf Lone Indonesia </CustomerName>
+	 <CustomerType>Principal </CustomerType>
+	 <CustomerAddress>Thamrin </CustomerAddress>
+	 <CustomerCountry>Thamrin </CustomerCountry>
+	 <CustomerCity>Thamrin </CustomerCity>
+	 <CustomerWebsite>thamrin.com </CustomerWebsite>
+	 <CustomerEmail>a@thamrin.com </CustomerEmail>
+	 <CustomerPhNo>123 </CustomerPhNo>
+	 <CustomerComments>notes </CustomerComments>
+	 <CustomerStatus>Active </CustomerStatus>
+     
+</CustomerDetails>
+</ArrayOfCustomerDetails>

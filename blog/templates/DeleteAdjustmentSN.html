@@ -1,0 +1,97 @@
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNDelete").click(function(){
+ var SNid=$('#DeleteSNid').val();
+ //alert(SNid);
+ var Productid=$('#srldbProductID').val();
+ //alert(Productid);
+ var AdjustmentID=$('#AdjstmntID').val();
+ //alert(AdjustmentID);
+ var SerialNumber=$('#DeletesrlNO').val();
+ //alert(SerialNumber);
+ $.get('/AdjustmentSNDelete/'+'?SNid='+SNid+'&Productid='+Productid+'&AdjustmentID='+AdjustmentID+'&SerialNumber='+SerialNumber, function(Data){
+ //alert(Data);
+ var splitArray = Data.split(".");
+ console.log(splitArray)
+ var GetData=splitArray[1];
+  console.log(GetData);
+ if (GetData == '[]' || GetData.length == 0){
+ 
+ //alert("dgfrgrtnodata");
+	var trHTML ='';
+	$('#mySerialTable').empty();
+	console.log("Hi Empty Table");
+	window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+ }
+ else{
+//alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(GetData), function(key, value) {
+$('#mySerialTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteAdjustmentSerialNumber/' + value[0] + '"  data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNo').text(i);
+ i=i+1;
+});
+$('#mySerialTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+				$(document).on('hidden.bs.modal', function (e) {
+				var target = $(e.target);
+				target.removeData('bs.modal')
+				.find(".modal-content").empty();
+				});	 
+}
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
+	 <input type="hidden"  value="{{ Productid }}" name="dbProductID" id="srldbProductID"/>
+	 <input type="hidden"  value="{{ AdjstmntID }}" name="AdjstmntID" id="AdjstmntID"/>
+	 <input type="hidden"  value="{{ SerialNO }}" name="DeletesrlNO" id="DeletesrlNO"/>
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDelete" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>
+	
+	

@@ -1,0 +1,324 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+
+{% if UserRole == 'Admin'%}
+ 
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	
+	{% endif %}
+		
+<title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type="text/javascript">
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+			$(function() {
+			$("#ShipDate").keypress(function(event) {event.preventDefault();});			
+			});
+	$(document).ready(function(){
+	$('#PONumber').on('change', function() {
+		$("#ProductID").empty();
+		var PONumber = $(this).val();
+		if (PONumber == ''){
+		$("#ProductID").empty();
+		} else{
+		$.get('/PIDtest/'+'?PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		$("#ProductID").append('<option value="">Select ProductID</option>');
+		for(var i=0;i<splitArray.length;i++){		  
+			  $("#ProductID").append('<option value='+splitArray[i]+'>'+splitArray[i]+'</option>');
+			}
+		});
+		}
+	});
+	$('#PONumber').on('change', function() {
+		$('#lblpid').text("");
+		$('#ShipDate').empty();
+		document.getElementById("Test").disabled = false;
+		var PONumber = $(this).val();
+		if (PONumber == ''){
+		document.getElementById('PODate').value = "";
+		} else{
+		$.get('/sfmtest/'+'?PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		console.log(splitArray)
+		$('#PODate').val(splitArray[0]) ;
+		if(splitArray[1]=="Please add Products for this PO Number"){
+			document.getElementById("ProductID").value= 0;
+			$('#lblpid').text("Please add Products for this PO Number");
+			document.getElementById("Test").disabled = true;
+			}
+		$("#ShipDate").datepicker('setDate', null);
+			$("#ShipDate").datepicker({
+    beforeShow: function() {
+	var PODate = document.getElementById("PODate").value;
+	//alert(PODate);
+	var EDate = document.getElementById("DeliveryDate").value;
+	//alert(EDate);
+        return {
+            dateFormat: 'yy-mm-dd',
+            minDate: PODate,
+            maxDate: EDate,
+        }
+    }
+});
+		
+		});
+		}
+	});
+			
+});
+</script>
+<script>
+function myFunction(val) {
+	$('#lblQuantity').text("");
+	var PONumber = document.getElementById('PONumber').value;
+	var ProductID = document.getElementById('ProductID').value;
+	var formval="Insert";
+	$.get('/SQuantity/'+'?val='+val+'&PONumber='+PONumber+'&ProductID='+ProductID+'&formval='+formval, function(Data){
+			if(Data=="Quantity value is more than PO quantity value, please check again"){
+			
+			document.getElementById("SQuantity").value= "";
+			$('#lblQuantity').text("Quantity value is more than PO quantity value, please check again");
+			}
+			else if(Data=="Quantity value is more than the remaining quantity for this PO and Product ID"){
+			
+			document.getElementById("SQuantity").value= "";
+			$('#lblQuantity').text("Quantity value is more than the remaining quantity for this PO and Product ID");
+			}
+		});
+}
+
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#ProductID').on('change', function() {
+var ProductID = $(this).val();
+//alert(ProductID);
+if (ProductID == ''){
+		document.getElementById('ShipNo').value = "";
+		document.getElementById('DeliveryDate').value = "";
+		document.getElementById('ShipDate').value = "";
+		document.getElementById('SQuantity').value = "";
+		} else{
+var PONumber = document.getElementById("PONumber").value;
+$.get('/ProductEDate/'+'?ProductID='+ProductID+'&PONumber='+PONumber, function(Data){
+//alert(Data);
+
+var splitArray = Data.split(",");
+console.log(splitArray)
+$('#DeliveryDate').val(splitArray[0]) ;
+$('#ShipNo').val(splitArray[1]) ;
+$('#RQuantity').text("Remaining Quantity : "+ splitArray[2]) ;
+//alert(EstimatedDeliveryDate);
+//$('#DeliveryDate').val(EstimatedDeliveryDate) ;
+$("#ShipDate").datepicker('setDate', null);
+$("#ShipDate").datepicker('setDate', null);
+			$("#ShipDate").datepicker({
+    beforeShow: function() {
+	var PODate = document.getElementById("PODate").value;
+	//alert(PODate);
+	var EDate = document.getElementById("DeliveryDate").value;
+	//alert(EDate);
+        return {
+            dateFormat: 'yy-mm-dd',
+            minDate: PODate,
+            maxDate: EDate,
+        }
+    }
+});
+});
+}
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#SQuantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#qtyerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+ });
+</script>
+<!--<script>
+$( "adduser" ).submit(function( event ) {
+  event.preventDefault();
+});
+</script>-->
+<!--<script>
+function myFunction()
+      {
+	  if( document.adduser.SQuantity.value == "0" )
+         {
+            alert( "Please provide ValidQuantity!" );
+            document.adduser.SQuantity.focus() ;
+            return false;
+         }
+	}
+</script>-->
+<script>
+$(document).ready(function(){
+$('#SQuantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#SQuantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+</head>
+<body>
+<form class="form-horizontal" name="adduser" method="POST" action="/accounts/ADDSFM/" role="form" data-toggle="validator">{% csrf_token %}
+		<center ><h3>Shipment From Principal</h3></center>
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Purchase Order<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Number</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="PONumber" name="PONumber" required>
+		  <option value="">Select PO Number</option>
+		  {% for entry in PONO %}
+		<option value="{{ entry.PONumber }}">{{entry.PONumber }}</label>
+		{% endfor %}
+						</select>
+    </div>
+	<label id="lblpid" name="labelid"></label>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PODate" readonly placeholder="PO Date"   name="PODate" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="ProductID" name="PID"  required>
+		  <option value="">Select ProductID</option>
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="DeliveryDate" readonly placeholder="Estimated Delivery Date"   name="DeliveryDate" maxlength="75" required>
+    </div>
+  </div>
+  <h4>----------------------------------------------------------------------------------------------------------------------------------------</h4>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ShipNo"  placeholder="Ship No" readonly   name="ShipNo" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"   name="ShipDate" maxlength="75" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB"   name="ShipAWB" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <div class="col-sm-5">
+       <!-- <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"   name="SFreight" maxlength="30" required> -->
+	  <select class="form-control" id="SFreight" name="SFreight" required>
+		  <option value="">Select Freight Name</option>
+		  {% for entry in FName %}
+		<option value="{{ entry.ThirdPartyName }}">{{entry.ThirdPartyName }}</label>
+		{% endfor %}
+						</select>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" onchange="myFunction(this.value)"  name="SQuantity" maxlength="30" required>&nbsp;<span id="qtyerrmsg"></span>
+    </div>
+	<div>
+	<label id="RQuantity"></label>
+	</div>
+	<label id="lblQuantity" name="lblQuantity"></label>
+  </div>
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" id="Test" class="btn btn-primary">Submit</button> 
+	 <a href="/accounts/ViewSFM/"><button class="btn btn-default" type="button">Cancel</button></a> 
+    </div>
+	</div>
+  
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

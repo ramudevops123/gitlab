@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>SAM192321</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER </DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf </VENDOR_NAME>
+	 <CUSTOMER_ID>PT Bank DBS Indonesia </CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>Quadra Solution </DISTRIBUTOR_ID>
+	 <SAM_SNO>TWSN001</SAM_SNO>
+	 <SAM_PERSO_NO>UIDSN001 </SAM_PERSO_NO>
+	 <PCID> </PCID>
+</DeviceDetails>
+ 
+</ArrayOfDeviceDetails>

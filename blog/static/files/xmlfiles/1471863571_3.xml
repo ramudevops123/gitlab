@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DistributorDetails>
+	 <DistributorID>L1234</DistributorID>
+	 <DistributorName>L1-IDENTITY</DistributorName>
+	 <DistributorType>Distributor</DistributorType>
+	 <DistributorAddress>DR.NO-1234567</DistributorAddress>
+	 <DistributorCountry>INDONESIA</DistributorCountry>
+	 <DistributorCity>JAKARTHA</DistributorCity>
+	 <DistributorWebsite>www.jeffa.com</DistributorWebsite>
+	 <DistributorEmail>jaanu.chinni@gmail.com</DistributorEmail>
+	 <DistributorPhNo>9966662627</DistributorPhNo>
+	 <DistributorComments>asdfasdfasdfasdfsaf</DistributorComments>
+	 <DistributorStatus>Active</DistributorStatus>
+</DistributorDetails>
+ 
+</ArrayOfDistributorDetails>

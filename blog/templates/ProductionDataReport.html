@@ -1,0 +1,148 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Third Party User</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery.dataTables.yadcf.css' %}">
+ <script src="{% static 'js/jquery.dataTables.yadcf.js' %}"></script> 
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+<script type "text/javascript"  src="{% static 'js/jquery.table2excel.js' %}"></script>
+ <script>
+$(document).ready(function(){
+   $('#myTable').dataTable();
+});
+</script>
+ <script type="text/javascript">
+ function myFunction()
+      {
+		var Fromdate=document.getElementById('Fromdate').value
+		var Todate=document.getElementById('Todate').value
+		if (Fromdate !=0 && Todate !=0){
+		}else{
+		alert("Please Select from and to dates");
+		}
+		$('#lblpid').text("");
+	  }
+		$(function() {
+			$( "#Fromdate" ).datepicker({maxDate: 0,dateFormat: 'yy-mm-dd' });
+			$("#Fromdate").keypress(function(event) {event.preventDefault();});
+			$("#Todate").datepicker('setDate', null);
+			$("#Todate").datepicker({
+    beforeShow: function() {
+	var Fromdate = document.getElementById("Fromdate").value;
+	//alert(Fromdate);
+	var d = new Date();
+	var datestring = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2)
+	//alert(datestring);
+        return {
+            dateFormat: 'yy-mm-dd',
+            minDate: Fromdate,
+            maxDate: datestring,
+        }
+    }
+});
+			//$( "#Todate" ).datepicker({minDate: 0,dateFormat: 'yy-mm-dd' });
+			//$("#Todate").keypress(function(event) {event.preventDefault();});
+			});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  var table = $('#myTable').DataTable();
+  
+  $('#btnExport').on('click', function(){
+       $('<table>')
+      .append($(table.table().header()).clone())
+      .append(table.$('tr').clone())
+      .table2excel({
+	      name: "ProductionData",
+          filename: "ProductionData Report" //do not include extension
+      });
+	  document.location.reload();
+  });      
+})
+</script>
+ </head>
+ <body>
+ <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Production report<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   <form class="form-horizontal" name="adduser" method="POST" action="/accounts/ProductionDataReport/" role="form" enctype="multipart/form-data">{% csrf_token %}
+	<div class="form-group">
+	<button  type="button" style="float: right;"  id="btnExport" name="_ExportData" value="ExportData"  class="btn btn-primary">ExportData</button>
+  </div>
+   <div class="panel-body">
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Date From:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="Fromdate" placeholder="From Date"  name="Fromdate" maxlength="75" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Date To:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="Todate" placeholder="To Date"  name="Todate" maxlength="75"  required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+	<button type="submit" class="submit" class="btn btn-primary" class="submit" onclick="return myFunction()">Search</button>  
+    </div>
+  </div> 
+<div id="dvData">  
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Production ID</th>
+                                        <th class="center">Product ID</th>
+                                        <th class="center">Product Model</th>
+										<th class="center">Product SN</th>
+										<th class="center">SAM SN</th>
+										<th class="center">Andriod ID</th>
+										<th class="center">Production Date</th>										
+                                        </tr>
+                                </thead>
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+									   <td class="center">{{ u.RefNumber }}</td>
+									   <td class="center">{{ u.ProductID }}</td>
+									   <td class="center">{{u.ProductModel}}</td>
+									   <td class="center">{{ u.Product_SN }}</td>
+									   <td class="center">{{ u.SAM_SN|add:"'" }}</td>
+									   <td class="center">{{ u.AndriodID }}</td>
+									   <td class="center">{{ u.EndProductionDate }}</td>
+									   </tr>
+									{% endfor %}
+									</tbody>
+									</table>
+									</div>
+									
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+	</div>
+	</form>
+ </body>
+ </html>
+ {% endblock %}

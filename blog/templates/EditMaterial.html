@@ -1,0 +1,145 @@
+<script type="text/javascript">
+$('#Productcode').on('change', function() {
+		$('#lblpid').text("");
+		var Productcode = $(this).val();
+		var Productid = $('#Pid').val(uid);
+		alert(Productid);
+		if (Productcode == ''){
+		document.getElementById('ProductName').value = "";
+		}else{
+		$.get('/PNameTest/'+'?Productcode='+Productcode ,'Productid='+Productid, function(Data){
+		var splitArray = Data.split(",");
+		console.log(splitArray)
+		$('#ProductName').val(splitArray[0]) ;
+		if(splitArray[1]=="ProductID for this PONumber already exists"){
+			$('#lblpid').text(splitArray[1]);
+			$('#Productcode').val('') ;
+			$('#ProductName').val('') ;
+			}
+		});
+		}
+	});
+</script>
+<script>
+$(document).ready(function(){
+			$("#Productcode").val("{{ ProductId }}");
+			});
+</script>
+<script>
+$(function() {
+$( "#DeliveryDate" ).datepicker({ minDate: 0,dateFormat: 'yy-mm-dd' });
+$("#DeliveryDate").keypress(function(event) {event.preventDefault();});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#Quantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#qtyerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+ });
+</script>
+<script>
+$(document).ready(function(){
+$('#Quantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#Quantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+        <div class="modal-content">
+            <div class="modal-header">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Edit Product/Material</h4>
+            </div>
+            <div class="modal-body">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditMaterial/" role="form">{% csrf_token %} 
+			  <div class="form-group"> 
+			<label for="inputPassword3" class="col-sm-2 control-label">Product Code</label>
+			<!--PONUmber-->
+			<input type="hidden"  value="{{ uid }}" id="Pid" name="uid" />
+			<!--Materialid-->
+			<input type="hidden"  value="{{ mid }}" name="mid" />
+			<!--PurchaseOrderid-->
+			<input type="hidden"  value="{{ POid }}" name="POid" />
+			<div class="col-sm-6">
+			<input type="text" class="form-control" id="Productcode" value="{{ ProductId }}" readonly placeholder="Product Code"   name="prdctcode" maxlength="30" >
+				<!-- <select class="form-control" id="Productcode" name="prdctcode" >
+				<option value="">Select Product Id </option>
+				{% for obj in PrdctID %}
+				<option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
+				{% endfor %}
+				</select> -->
+				</div>
+				<label id="lblpid" name="labelid"></label>
+			</div>
+      <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Product Name</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="ProductName" value="{{ ProductName }}" readonly placeholder="Product Name"   name="Prdctname" maxlength="30" >
+	
+</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="Quantity" value="{{ Quantity }}"  placeholder="Material Quantity"   name="Qnty" maxlength="30" >&nbsp;<span id="qtyerrmsg"></span>
+</div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"Y-m-d" }}" placeholder="Estimated Delivery Date"   name="DlvryDate" maxlength="75" >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="POStatus" name="POStatus" >
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" onclick="return myFunction()" class="btn btn-primary">Submit</button>	
+<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->	  
+	  	 
+
+	 <a href="/accounts/EditPurchaseOrder/{{ POid }}">
+		
+<button class="btn btn-default" type="button">Cancel</button>
+		
+</a>  
+    </div>
+  </div>

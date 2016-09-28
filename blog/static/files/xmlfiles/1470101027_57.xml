@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>DBS-01</CustomerID>
+	 <CustomerName>PT Bank DBS Indonesia </CustomerName>
+	 <CustomerType>Customer </CustomerType>
+	 <CustomerAddress>Ciputra World 1, Jl. Prof. Dr. Satrio Kav. 3 - 5, Jakarta Selatan </CustomerAddress>
+	 <CustomerCountry>Indonesia </CustomerCountry>
+	 <CustomerCity>DKI Jakarta </CustomerCity>
+	 <CustomerWebsite>www.dbs.com </CustomerWebsite>
+	 <CustomerEmail>info@dbs.com </CustomerEmail>
+	 <CustomerPhNo>2129885499 </CustomerPhNo>
+	 <CustomerComments>First Customer </CustomerComments>
+	 <CustomerStatus>Active </CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

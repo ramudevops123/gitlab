@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DistributorDetails>
+	 <DistributorID>QUADRAS</DistributorID>
+	 <DistributorName>Quadra Solution</DistributorName>
+	 <DistributorType>Distributor</DistributorType>
+	 <DistributorAddress>Menara Duta 7th Floor Wing C
+Jl. HR Rasuna Said Kav. B-9 Jakarta 12910</DistributorAddress>
+	 <DistributorCountry>Indonesia</DistributorCountry>
+	 <DistributorCity>Jakarta</DistributorCity>
+	 <DistributorWebsite>http//www.quadras.co.id/</DistributorWebsite>
+	 <DistributorEmail>info@quadras.co.id</DistributorEmail>
+	 <DistributorPhNo>215254050</DistributorPhNo>
+	 <DistributorComments>-</DistributorComments>
+	 <DistributorStatus>Active</DistributorStatus>
+</DistributorDetails>
+ 
+</ArrayOfDistributorDetails>

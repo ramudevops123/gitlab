@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DistributorDetails>
+	 <DistributorID>TELECOM</DistributorID>
+	 <DistributorName>DATATRANSFER</DistributorName>
+	 <DistributorType>Distributor</DistributorType>
+	 <DistributorAddress>sdafasdf</DistributorAddress>
+	 <DistributorCountry>India</DistributorCountry>
+	 <DistributorCity>Hyderabad</DistributorCity>
+	 <DistributorWebsite>www.naga.com</DistributorWebsite>
+	 <DistributorEmail>jaanu.chinni99@gmail.com</DistributorEmail>
+	 <DistributorPhNo>996666262745</DistributorPhNo>
+	 <DistributorComments>sdfasdfasdf</DistributorComments>
+	 <DistributorStatus>Active</DistributorStatus>
+</DistributorDetails>
+ 
+</ArrayOfDistributorDetails>

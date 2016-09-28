@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfCustomerDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<CustomerDetails>
+	 <CustomerID>BOSCH-1</CustomerID>
+	 <CustomerName>INDUSTRY</CustomerName>
+	 <CustomerType>Customer</CustomerType>
+	 <CustomerAddress>safasdf</CustomerAddress>
+	 <CustomerCountry>India</CustomerCountry>
+	 <CustomerCity>Hyderabad</CustomerCity>
+	 <CustomerWebsite>www.lst.com</CustomerWebsite>
+	 <CustomerEmail>nagasrinivas5885@gmail.com</CustomerEmail>
+	 <CustomerPhNo>99666626274</CustomerPhNo>
+	 <CustomerComments>sdfasdfsadf</CustomerComments>
+	 <CustomerStatus>Active</CustomerStatus>
+</CustomerDetails>
+ 
+</ArrayOfCustomerDetails>

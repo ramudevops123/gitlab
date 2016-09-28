@@ -1,0 +1,111 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+
+ {% if UserRole == 'Admin'%}
+ 
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	
+	{% endif %}
+		
+<title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+<script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+</head>
+<body>
+<form action="/accounts/ViewInputStock/" method="POST">{% csrf_token %}
+  <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">Input Stock List<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">RefNumber</th>
+										<th class="center">RefTransaction</th>										
+                                        <th class="center">ProductID</th>
+										<th class="center">ProductName</th>
+										<th class="center">Warehouse</th>										
+										<th class="center">Stock Quantity IN</th>										
+										<th class="center">Stock Serial Number</th>			
+										<th class="center">Input StockStatus</th>	
+										<th class="center">Edit</th>
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+									   <td class="center">{{ u.InputStockID }}</td>
+                                       <td class="center">{{ u.RefTransaction }}</td>
+									   <td class="center">{{ u.ProductID }}</td>
+									   <td class="center">{{ u.ProductName }}</td>
+									   <td class="center">{{ u.WarehouseID }}</td>									   
+									   <td class="center">{{ u.InputStockQty }}</td>
+									   <td class="center">{{ u.StockSN }}</td>
+									   <td class="center">{{ u.InputStockStatus }}</td>		
+										{% if u.InputStockStatus == 'Progress' %}
+										<td class="center"><a href="/accounts/EditInputStock/{{u.id}}">Edit</a></td>
+										{% else %}
+										<td class="center"></td>
+										{% endif %}
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+   </form>
+</body>
+</html>
+{% endblock %}

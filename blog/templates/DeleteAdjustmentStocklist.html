@@ -1,0 +1,91 @@
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#DeleteStockList").click(function(){
+ var uid=$('#uid').val();
+ alert(uid);
+ var StocklistProductID=$('#stocklistProductID').val();
+ alert(StocklistProductID);
+ var AdjustmentStockID=$('#delstckliststckid').val();
+ alert(AdjustmentStockID);
+ $.get('/UpdateStockList/'+'?uid='+uid+'&StocklistProductID='+StocklistProductID+'&AdjustmentStockID='+AdjustmentStockID, function(Data){
+ alert(Data);
+ var splitArray = Data.split(".");
+ var GetData=splitArray[1];
+  console.log(GetData);
+ if (GetData == '[]' || GetData.length == 0){
+ alert("dgfrgrtnodata");
+ var trHTML ='';
+ $('#myStockList').empty();
+	window.setTimeout(function () {
+                  $('#DeleteStocklistModal').modal('hide');
+                }, 1000);
+ }
+ else{
+ alert("Data Present");
+ var trHTML = '<tr><th class="center">Stock Type</th><th class="center">ProductName</th><th class="center">Stock Number</th><th class="center">Warehouse</th><th class="center">Serial Status</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ $.each(JSON.parse(GetData), function(key, value) {
+$('#myStockList').empty();
+ trHTML += '<tr><td class="center">'  +value[0] +'</td><td class="center">' +value[1]+ '</td><td class="center">' +value[2]+ '</td><td class="center">' + value[3]+'</td><td class="center"><a href="/accounts/EditAdjustmentStockList/' + value[4] + '" data-toggle="modal" data-target="#StockList"><i></i>Edit</a></td><td class="center"><a href="/accounts/DeleteAdjustmentStockList/' + value[5] + '" data-toggle="modal" data-target="#DeleteStocklistModal"><i></i>Delete</a></td></tr>';
+ //$('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ //$('#lblNo').text(i);
+ 
+ //i=i+1;
+});
+$('#myStockList').append(trHTML);
+ window.setTimeout(function () {
+                  $('#DeleteStocklistModal').modal('hide');
+                }, 1000);
+				$(document).on('hidden.bs.modal', function (e) {
+				var target = $(e.target);
+				target.removeData('bs.modal')
+				.find(".modal-content").html('');
+				});
+				 //location.reload(true);
+ }
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="DeleteStocklistModal">Delete StockList</h4>
+            </div>
+            <div class="modal-body" >
+			  
+			  
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNID }}" id="uid" name="uid" />
+	 <input type="hidden"  value="{{ delstckProductid }}" name="stocklistProductID" id="stocklistProductID"/>
+	 <input type="hidden"  value="{{ AdjustmentStockID }}" name="delstckliststckid" id="delstckliststckid"/>
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="DeleteStockList" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>

@@ -1,0 +1,269 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#Productcode').on('change', function() {
+		var Productcode = $(this).val();
+		if (Productcode == ''){
+		document.getElementById('ProductName').value = "";
+		}else{
+		$.get('/PNameTest/'+'?Productcode='+Productcode, function(ProductName){
+		$('#ProductName').val(ProductName) ;
+		});
+		}
+	});
+	$('#principalid').on('change', function() {
+		var principalid = $(this).val();
+		if (principalid == ''){
+		document.getElementById('PrncplName').value = "";
+		}else{
+		$.get('/prdctNametest/'+'?principalid='+principalid, function(ProductName){
+		$('#PrncplName').val(ProductName) ;
+		});
+		}
+	});
+	$(function() {
+	$( "#podate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	$( "#DeliveryDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	});
+	$("#principalid").val("{{ PrincipalID }}");
+	$("#Principatatus").val("{{ PrincipalStatus }}");
+	$("#Productcode").val("{{ ProductId }}");
+	$("#POStatus").val("{{ POStatus }}");
+	$('#Quantity').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+});
+</script>
+</head>
+<body>
+	<form class="form-horizontal" name="adduser" method="POST" action="/accounts/EditPurchaseOrder/" role="form" data-toggle="validator">{% csrf_token %}
+   <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Edit Purchase Order<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PONumber" placeholder="PO Number" value="{{ PONumber }}" readonly name="PONO" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" value="{{ PODate|date:"Y-m-d" }}"   name="PODate" maxlength="75" required>
+    </div>
+  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="principalid" name="PrncID" required>
+		  <option value="">Select Type</option>
+		  {% for entry in PrncID %}
+		<option value="{{ entry.ThirdPartyID }}">{{entry.ThirdPartyID }}</label>
+		{% endfor %}
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PrncplName" placeholder="PO Number" readonly value="{{ principalName }}" name="PrncplName" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="Principatatus" name="PrncStatus" required>
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+     
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+	<a class="btn btn-primary"  class="submit" title="Add Material" data-title="Add Material" data-toggle="modal" data-target="#basicModal">
+	                      <i></i>Edit Material</a>
+	 
+    </div>
+  </div>
+    
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+ 
+	
+	   <!-------- Modal Start ------->
+	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Edit Purchase Order</h4>
+            </div>
+            <div class="modal-body">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal"  role="form">{% csrf_token %} 
+			  <div class="form-group">
+			  <form> 
+  <label for="inputPassword3" class="col-sm-2 control-label">Product Code</label>
+  <input type="hidden"  value={{ uid }} name="uid" />
+  <div class="col-sm-6">
+  
+   <select class="form-control" id="Productcode" name="prdctcode" required>
+    <option value="">Select Product Id </option>
+    {% for obj in Mtype %}
+   <option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
+	  {% endfor %}
+    </select>
+</div>
+  </div>
+      <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Product Name</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="ProductName" readonly placeholder="Product Name" value="{{ ProductName }}"  name="Prdctname" maxlength="30" required>
+</div>
+  </div>
+  <div class="form-group">
+  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <div class="col-sm-6">
+    <input type="text" class="form-control" id="Quantity"  placeholder="Material Quantity" value="{{ Quantity }}"  name="Qnty" maxlength="30" required>
+</div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="DeliveryDate" value="{{ EstimatedDeliveryDate|date:"Y-m-d" }}" placeholder="Estimated Delivery Date"   name="DlvryDate" maxlength="75" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="POStatus" name="POStatus" required>
+							<option value="Open">Open</option>							
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary">Submit</button>	 
+	  	 
+
+	
+    </div>
+  </div>
+</form>
+    </div>
+  </div>
+</div>
+</div>
+<!---------------- Modal End ----------------->
+<div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">View Purchase Order<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Product ID</th>
+                                        <th class="center">Product Name</th>
+                                        <th class="center">Quantity</th>
+										<th class="center">Estimated Delivery</th>
+										<th class="center">Status</th>										
+										<th class="center">Edit</th>
+										<th class="center">Check</th>
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+                                       <td class="center">{{ u.ProductId }}</td>
+									   <td class="center">{{ u.ProductName }}</td>
+									   <td class="center">{{ u.Quantity }}</td>
+									   <td class="center">{{ u.EstimatedDeliveryDate|date:"Y-m-d" }}</td>
+									   <td class="center">{{ u.POStatus }}</td>
+										<td class="center"><a href="/accounts/EditPurchaseOrder/{{u.id}}">Edit</a></td>
+										<td class="center"><input type="checkbox" name="PurchaseCheck" value="{{ u.id }}" />&nbsp;</td>
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

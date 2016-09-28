@@ -1,0 +1,418 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+<script type="text/javascript">
+				$(function() {
+				$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+				$("#StartDate").keypress(function(event) {event.preventDefault();});
+				$( "#FinishDate" ).datepicker({ minDate: 0, dateFormat: 'yy-mm-dd' });
+				$("#FinishDate").keypress(function(event) {event.preventDefault();});
+				//$( "#ShipDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+				//$( "#DeliveryDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+				});
+			function removeWhitespaces() {
+			var txtboxVal = $('#HsCode').val().trim();
+			$('#HsCode').val(txtboxVal);
+			}
+			$(document).ready(function(){
+			$('#PONumber').on('change', function() {
+			var PONumber = $(this).val();
+			if (PONumber == ''){
+		document.getElementById('podate').value = "";
+		document.getElementById('Productid').value = "";
+		document.getElementById('ProductName').value = "";
+		document.getElementById('POQuantity').value = "";
+		//document.getElementById('POStatus').value = "";
+		document.getElementById('PrinicpalID').value = "";
+		document.getElementById('PrinicpalID').value = "";
+		document.getElementById('DeliveryDate').value = "";
+		document.getElementById('PrincipalName').value = "";
+		document.getElementById('ShipNo').value = "";
+		document.getElementById('ShipDate').value = "";
+		document.getElementById('ShipAWB').value = "";
+		document.getElementById('SFreight').value = "";
+		document.getElementById('SQuantity').value = "";
+		}else{
+		$.get('/CCTest/'+'?PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		$('#podate').val(splitArray[0]) ;
+		$('#PrinicpalID').val(splitArray[1]) ;
+		$('#PrincipalName').val(splitArray[2]) ;
+		$('#lblSAM').text(splitArray[3]) ;
+		});
+		}
+	});
+	$('#HsCode').keyup(function()
+			{
+			var yourInput = $(this).val();
+			re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+			});
+		//	$('#PONumber').on('change', function() {
+		//$("#Productid").empty();
+		//var PONumber = $(this).val();
+		//if (PONumber == ''){
+		///$("#Productid").empty();
+		//} else{
+		//$.get('/PIDtest/'+'?PONumber='+PONumber, function(Data){
+		//var splitArray = Data.split(",");
+		//for(var i=0;i<splitArray.length;i++){		  
+			//  $("#Productid").append('<option value='+splitArray[i]+'>'+splitArray[i]+'</option>');
+			//}
+		//});
+		//}
+	//});
+});
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+	$('#Productid').on('change', function() {
+		var ProductID = $(this).val();
+		var PONumber=document.getElementById('PONumber').value;
+		if (ProductID == ''){
+		document.getElementById('ProductName').value = "";
+		}else{
+		$.get('/GetProductIDTest/'+'?ProductID='+ProductID+'&PONumber='+PONumber, function(Data){
+		var splitArray = Data.split(",");
+		$('#ProductName').val(splitArray[0]) ;
+		$('#POQuantity').val(splitArray[1]) ;
+		$('#DeliveryDate').val(splitArray[2]) ;
+		});
+		}
+	});
+});
+</script>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+	$('#checkclass').on('click',function () {
+	var PONumber=document.getElementById('PONumber').value;
+	$.get('/FillShipData/'+'?PONumber='+PONumber, function(Data){
+	if (Data == ''){
+	var trHTML ='';
+	$('#myTable').append(trHTML);
+ }
+ else{
+ var trHTML = '<tr><th class="center">PO Number</th><th class="center">Ship No</th><th class="center">ProductID</th><th class="center">Choose</th></tr>';
+$.each(JSON.parse(Data), function(key, value) {
+$('#myTable').empty();
+ trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td><td><input type="checkbox" class="classcbchecktest" name="PurchaseCheck" value=' + value[1] + ',' + value[2] + ' /></td></tr>';
+});
+$('#myTable').append(trHTML);
+}
+$('input.classcbchecktest').click(function (){ 
+    var IDValue=$("input[name='PurchaseCheck']:checked").val();
+	var splitData = IDValue.split(",");
+	var ShipNo=splitData[0];
+	var ProductID=splitData[1];
+	//alert(ShipNo);
+	//alert(ProductID);
+	window.setTimeout(function () {
+                  $('#basicModal').modal('hide');
+                }, 1000);
+				$.get('/FillShipNoDetails/'+'?PONumber='+PONumber+'&ShipNo='+ShipNo+'&ProductID='+ProductID, function(ShipData){
+				//alert(ShipData);
+				var splitArray = ShipData.split(",");
+				$('#ProductName').val(splitArray[0]) ;
+				$('#POQuantity').val(splitArray[1]) ;
+				$('#DeliveryDate').val(splitArray[2]) ;
+				$('#ShipDate').val(splitArray[3]) ;
+				$('#ShipAWB').val(splitArray[4]) ;
+				$('#SFreight').val(splitArray[5]) ;
+				$('#SQuantity').val(splitArray[6]) ;
+				$('#PSid').val(IDValue);
+				//alert(splitArray[7]);
+				if(splitArray[7] == 'Data already present for this PONumber please try again'){
+				$('#lblCC').text(splitArray[7]);
+				$('#PSid').val('');
+				}
+				else{
+				$('#lblCC').text('');
+				}
+				});
+});
+	});
+	
+	});
+	
+ });
+ </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script> 
+</head>
+<body>
+	<form class="form-horizontal" name="adduser" method="POST" action="/accounts/ADDCustomClearance/" role="form" data-toggle="validator">{% csrf_token %}
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Custom Clearance<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+				  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+	<div class="col-sm-4">
+	
+     <select class="form-control" id="PONumber" name="PONumber" required>
+		  <option value="">Select PO Number</option>
+		  {% for entry in PONO %}
+		<option value="{{ entry.PONumber }}">{{entry.PONumber }}</label>
+		{% endfor %}
+						</select>
+						<label id="lblSAM" name="lblSAM"></label>
+						</div>
+  
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly  name="PODate" maxlength="75" required>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
+	<div class="col-sm-4">
+	<input type="text" class="form-control" id="PrinicpalID" placeholder="Principal ID" readonly  name="PrinicpalID" maxlength="30" required>
+	</div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal Name" readonly  name="PrincipalName" maxlength="30" required>
+    </div>
+  </div>
+  </br>
+  </br>
+  
+  <div class="form-group">
+   <label for="inputEmail3" class="col-sm-2 control-label">Ship Number & Product ID</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="PSid" placeholder="Please Select ShipNo & ProductID" readonly  name="PSID" maxlength="75" required>
+       <!-- <select class="form-control" id="PSid" name="ProductID" required>
+		  <option value="">Select Ship No & ProductID</option>
+		  {% for entry in ProductID %}
+		<option value="{{ entry.ProductId }}">{{entry.ProductId }}</label>
+		{% endfor %}
+						</select> -->
+						</div>
+						<div class="col-sm-4">
+						<a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicModal">
+	                      Select Ship & Product ID</a>
+						  </div>
+    </div>
+	
+  </br>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="ProductName" placeholder="Product Name" readonly  name="ProductName" maxlength="30" required>
+    </div>
+  </div>
+	
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date" readonly  name="DeliveryDate" maxlength="75" required>
+    </div>
+  </div>
+    
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+ </br>
+ </br>
+ <div class="container"> <div class="row">
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Shipment From Manufacture<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"  readonly name="ShipDate" maxlength="75" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" readonly  name="ShipAWB" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"  readonly name="SFreight" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" readonly  name="SQuantity" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+   <label for="inputEmail3" class="col-sm-2 control-label">PO Quantity:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="POQuantity" placeholder="PO Quantity" readonly  name="POQuantity" maxlength="30" required>
+    </div>
+   </div>
+  </div>
+  </div>
+ </div>
+ 
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Custom Clearance<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">HS Code:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="HsCode"  placeholder="Hs Code"   name="HsCode" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Start Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="StartDate" placeholder="Start Date"   name="StartDate" maxlength="75" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Finish Date</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="FinishDate" placeholder="Finish Date"   name="FinishDate" maxlength="75" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Custom Clearance Status</label>
+    <div class="col-sm-8">
+      <select class="form-control" id="ClearanceStatus" name="ClearanceStatus">
+		<option value="On Progress">On Progress</option>
+	</select>
+    </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+   </div>
+   <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>
+	 <a href="/accounts/ViewCustomClearance/"><button class="btn btn-default" type="button">Cancel</button></a> 
+    </div>
+  </div>
+	
+	  
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+	 <!-------- Modal Start ------->
+	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel">Shipment & Product details</h4>
+            </div>
+            <div class="modal-body">
+			
+			<table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+								<thead>
+                                    <tr>
+										<th class="center">Ship No</th>                                       									
+										<th class="center">PO Number</th>
+										<th class="center">ProductID</th>
+										<th class="center">Choose</th>
+                                    </tr>
+                                </thead>
+								
+								
+
+									</table>
+	
+	
+	</div>
+	</div>
+ </div>
+ </div>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

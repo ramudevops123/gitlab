@@ -1,0 +1,65 @@
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on('hidden.bs.modal', function (e) {
+				var target = $(e.target);
+				target.removeData('bs.modal')
+				.find(".modal-content").empty();
+				});	
+		$('#myTable').on('hidden', function () {
+			document.location.reload();
+			})					
+				});	
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<div class="modal-content">
+            <div class="modal-header" id="heading-color">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Serial Number Details</h4>
+            </div>
+            <div class="modal-body" id="form-color">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/ViewSerialNO/" role="form">{% csrf_token %} 
+			  <div class="panel-body">
+   <input type="hidden"  value={{ uid }} name="uid" />
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">SNO</th>
+										<th class="center">Product ID</th>
+                                        <th class="center">Serial NO</th>
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+										<td class="center">{{ forloop.counter }}</td>
+                                       <td class="center">{{ u.ProductID }}</td>
+									   <td class="center">{{ u.SerialNumber }}</td>
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+									<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+   </div>

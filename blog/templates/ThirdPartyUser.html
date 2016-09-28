@@ -1,0 +1,290 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>Third Party User</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script type="text/javascript">
+ function myFunction(val) {
+			$('#lblpid').text("");
+			$.get('/ThirdPartyIDtest/'+'?val='+val, function(Data){
+			if(Data=="Third Party ID already exists"){
+			document.getElementById("thrdpartyID").value= "";
+			$('#lblpid').text("Third Party ID already exists");
+			}
+		});
+	}
+       function removeWhitespaces() {
+			var txtboxVal = $('#thrdpartyID').val().trim();
+			$('#thrdpartyID').val(txtboxVal);
+			
+			var txtboxVal2 = $('#thrdPartyName').val().trim();
+			$('#thrdPartyName').val(txtboxVal2);			
+			var txtboxVal11 = $('textarea#thrdPartyAddress').val().trim();						
+			$('textarea#thrdPartyAddress').val(txtboxVal11);
+			var txtboxVal2 = $('#thrdPartyCountry').val().trim();
+			$('#thrdPartyCountry').val(txtboxVal2);
+			var txtboxVal2 = $('#thrdPartyCity').val().trim();
+			$('#thrdPartyCity').val(txtboxVal2);
+			var txtboxVal2 = $('#thrdPartywebsite').val().trim();
+			$('#thrdPartywebsite').val(txtboxVal2);
+			var txtboxVal2 = $('#thrdPartyEmail').val().trim();
+			$('#thrdPartyEmail').val(txtboxVal2);
+			var txtboxVal2 = $('#thrdPartyPhNo').val().trim();
+			$('#thrdPartyPhNo').val(txtboxVal2);
+			var txtboxVal12 = $('textarea#thrdPartyNotes').val().trim();						
+			$('textarea#thrdPartyNotes').val(txtboxVal12);
+			}
+			$(document).ready(function () {
+  //called when key is pressed in textbox
+   $("#thrdPartyPhNo").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#pherrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+   $('#thrdpartyID').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[@.,_`~!#$%^&*()|+\/=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[@.,_`~!#$%^&*()|+\/=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartyName').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartyAddress').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartyCountry').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartyCity').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartyNotes').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+	$('#thrdPartywebsite').keyup(function()
+	{
+	var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+   });
+	</script>
+	<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+</head>
+<body>
+   <div class="container">
+   <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Create Third Party<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    <form class="form-horizontal" name="adduser" method="POST" action="/accounts/ThirdParty/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Third Party ID:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdpartyID" placeholder="ThirdParty ID" onchange="myFunction(this.value)"  name="thrdID" maxlength="7" required>
+	  <label id="lblpid" name="labelid"></label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Name:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdPartyName" placeholder="ThirdParty Name"   name="thrdName" maxlength="25" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Type:</label>
+    <div class="col-sm-5">
+      <select class="form-control" id="thrdPartyType" name="thrdType" required>
+							<option value="">Select Type</option>				
+							<option value="Principal">Principal</option> 
+							<option value="Freight">Freight</option>
+							<option value="Distributor">Distributor</option>
+							<option value="Customer">Customer</option>
+							<option value="Local Manufacture">Local Manufacture</option>
+						</select>
+    </div>
+  </div>
+  <div class="form-group" id="comments">
+    <label for="Comments" class="col-sm-2 control-label">Address:</label>
+	<div class="col-sm-5">
+    <textarea class="form-control" wrap=physical id="thrdPartyAddress" rows="3" name="thrdaddrs" maxlength="280" required id="comments"></textarea> 
+  </div>
+  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Country:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdPartyCountry" placeholder="ThirdParty Country"   name="thrdcntry" maxlength="25" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdPartyCity" placeholder="ThirdParty City"   name="thrdcity" maxlength="25" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Website:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdPartywebsite" placeholder="ThirdParty Website"   name="thrdweb" maxlength="25" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+    <div class="col-sm-5">
+      <input type="email" class="form-control" id="thrdPartyEmail" placeholder="ThirdParty Email"   name="thrdemail" maxlength="75" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">PhNo:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="thrdPartyPhNo" placeholder="ThirdParty PhNo"   name="thrdphone" pattern=".{11,15}" title="11 to 15 characters" required>&nbsp;<span id="pherrmsg"></span>
+    </div>
+  </div>
+  <div class="form-group" id="comments">
+    <label for="Comments" class="col-sm-2 control-label">Notes:</label>
+	<div class="col-sm-5">
+    <textarea class="form-control" wrap=physical id="thrdPartyNotes" rows="3" name="thrdNote" maxlength="280" required id="comments"></textarea> 
+  </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <div class="col-sm-5">
+       <select class="form-control" id="thrdPartyStatus" name="thrdStatus" required>
+							<option value="">Select Status</option>
+							<option value="Active">Active</option>
+							<option value="Non Active">Non Active</option>							
+						</select>
+    </div>
+  </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" class="submit" value="Remove Whitespaces" onclick="removeWhitespaces()">Submit</button>
+	  <button type="reset" class="btn btn-default">Reset</button>
+    </div>
+  </div>
+     </form>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#fileclick").click(function(){
+ //alert("dfjghfg");
+ var uid=$('#uid').val();
+ //alert(uid);
+ var samid=$('#samid').val();
+ //alert(samid);
+ $.get('/SAMFileClick/'+'?samid='+samid+'&uid='+uid, function(Data){
+ //alert("fdgfg");
+//alert(Data);
+});
+ });
+
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+        <div class="modal-content">
+            <div class="modal-header">
+			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Edit SAM Info Details</h4>
+            </div>
+            <div class="modal-body">
+              <!--  <h3>Modal Body</h3> -->
+			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSAMDetails/" enctype="multipart/form-data"  role="form">{% csrf_token %} 
+			  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Receiving SAM ID:</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="RSamID" value="{{ RSamID }}"  placeholder="Receiving SAM ID"  readonly name="RSamID" maxlength="30" required>
+	<input type="hidden"  value={{ uid }} name="uid" /> 
+    </div>
+	</div>
+			 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM SerialNumber:</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM SerialNumber" required value="{{ SAMSN }}"  name="SAMSN" maxlength="30">
+	<input type="hidden" id="uid"  value={{ uid }} name="uid" />
+	<input type="hidden" id="samid" value={{ samid }} name="samid" /> 
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID:</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID" required value="{{ SAMUID }}" name="SAMUID" maxlength="30">
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM PIN File:</label>
+    <div class="col-sm-4">
+	<input type="file" id="id_editdocfile" accept=".properties"  name="docfile" size="20" />
+	<a href="../../../static/files/{{ docfile }}"  id="fileclick" target="_blank">Download SAM PIN File</a><br/>
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Warehouse:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="WarehouseName" value="{{ WarehouseName }}"  placeholder="WarehouseName"  readonly name="WarehouseName" maxlength="30" required>
+    </div>
+  </div>
+	
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit"  class="btn btn-primary">Submit</button>
+<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>	  --> 
+	  	 
+
+	<a href="/accounts/ViewReceivingSamCard/">
+<button class="btn btn-default" type="button">Cancel</button></a> 
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+ 

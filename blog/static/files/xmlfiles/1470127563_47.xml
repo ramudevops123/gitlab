@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDistributorDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DistributorDetails>
+	 <DistributorID>TW-TP-D</DistributorID>
+	 <DistributorName>TW-TP-DISTIBUTOR</DistributorName>
+	 <DistributorType>Distributor</DistributorType>
+	 <DistributorAddress>BALI</DistributorAddress>
+	 <DistributorCountry>INDONASIA</DistributorCountry>
+	 <DistributorCity>BALI</DistributorCity>
+	 <DistributorWebsite>www.distributor.com</DistributorWebsite>
+	 <DistributorEmail>distributor@itts.com</DistributorEmail>
+	 <DistributorPhNo>43534</DistributorPhNo>
+	 <DistributorComments>TW-TP-DISTIBUTOR testing</DistributorComments>
+	 <DistributorStatus>Active</DistributorStatus>
+</DistributorDetails>
+ 
+</ArrayOfDistributorDetails>

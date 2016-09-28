@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html >
+{% block content %}
+
+	{% if forms.errors %}
+		<p class="errors">sorry..not valid up</p>
+	{% endif %}
+	<form action="/accounts/auth/" method="post">{% csrf_token %}
+  <head>
+    <meta charset="UTF-8">
+    <title>BIMS</title>
+	{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fonts.googleapis.css' %}">
+	<link rel='stylesheet' type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+		<script language="javascript">
+	function validatemail(email,password){
+	if (email.value.search( /^[a-zA-Z]+([_\.-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4})+$/ ) == -1){
+	alert("Please enter valid email address");
+	
+	return false;
+}
+if (password.value == ''){
+alert("Please enter Password");
+return false;
+}
+}
+</script>
+  </head>
+  <body>    
+<div class="pen-title">
+  <h1>Biomorf Inventory Management System</h1>
+</div>
+<!-- Form Module-->
+<div class="module form-module">
+  <div class="container">
+    </div>
+  <div class="form">
+    <h2>Login to your account</h2>
+    <form>
+      <input type="email" placeholder="Email" name="email" required/>
+      <input type="password" placeholder="Password" name="password" required/>
+      <button>Login</button>
+    </form>
+  </div>
+   <div class="cta"><a href="/HomePage/ForgotPassword/">Forgot your password?</a></div>
+</div>
+           
+
+    
+    
+    
+  </body>
+</html>
+{% endblock %}

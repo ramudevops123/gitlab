@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDeviceDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<DeviceDetails>
+	 <DEVICE_SNO>AD123</DEVICE_SNO>
+	 <DEVICE_TYPE>TWIZZLER</DEVICE_TYPE>
+	 <VENDOR_NAME>Biomorf</VENDOR_NAME>
+	 <CUSTOMER_ID>TW-TP-C</CUSTOMER_ID>
+	 <DISTRIBUTOR_ID>TW-TP-D</DISTRIBUTOR_ID>
+	 <SAM_SNO>SAM6996</SAM_SNO>
+	 <SAM_PERSO_NO>UID6996</SAM_PERSO_NO>
+	 <SAM_PIN></SAM_PIN>
+</DeviceDetails>
+ 
+</ArrayOfDeviceDetails>
