@@ -4360,9 +4360,10 @@ def GetDeviceSN_Details(request):
     Product_SN=''
     cursor = connection.cursor()
     if TxShipmentToCustomer_Dtl.objects.all().count()>0:
-        cursor.execute("SELECT GROUP_CONCAT(Product_SN) FROM blog_txshipmenttocustomer_dtl")
-        Product_SN=cursor.fetchone()[0]
-        logger.info(Product_SN)
+	cursor.execute("SET SESSION group_concat_max_len = 1000000")
+	cursor.execute("SELECT GROUP_CONCAT(Product_SN) FROM blog_txshipmenttocustomer_dtl")
+	Product_SN=cursor.fetchone()[0]
+	logger.info(Product_SN)
     Product_SNList = [x for x in Product_SN.split(',') if x]
     logger.info(Product_SNList)
     obj=TxStockSN.objects.filter(ProductID=ProductID).filter(SNStatus='IN').exclude(SerialNumber__in=Product_SNList).values_list('SerialNumber')
@@ -4496,7 +4497,8 @@ def View_ShipmentToCustomer(request):
     if request.user.username == '':
 	return HttpResponseRedirect('/accounts/login/')
     else:
-	return render(request,'ViewShipmentToCustomer.html',{'obj':TxShipmentToCustomer_Hdr.objects.all(),'UserRole':userrole,'full_name':request.user.first_name})
+		ProductList = TxShipmentToCustomer_Hdr.objects.raw('SELECT id,ShipDate,ProductID,ProductName,DistributorName,DistributorName,SUM(ShipQty) AS ShipQty FROM blog_txshipmenttocustomer_hdr GROUP BY DistributorName,CustomerName')
+		return render(request,'ViewShipmentToCustomer.html',{'obj':ProductList,'UserRole':userrole,'full_name':request.user.first_name})
 
 def Edit_ShipmentToCustomer(request,u_id):
     userrole=get_role(request.user.email)
@@ -4572,6 +4574,7 @@ def DetailCount_Details(request):
     RefNumber=request.GET.get('RefNumber')
     count=TxShipmentToCustomer_Dtl.objects.filter(ShipToCustomerID=RefNumber).count()
     cursor = connection.cursor()
+    cursor.execute("SET SESSION group_concat_max_len = 1000000")
     cursor.execute("SELECT GROUP_CONCAT(Product_SN)  FROM blog_txshipmenttocustomer_dtl where ShipToCustomerID=('%s')" % (RefNumber))
     DeviceList=cursor.fetchone()[0]
     logger.info(DeviceList)

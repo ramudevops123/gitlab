@@ -85,7 +85,7 @@ $(document).ready(function()
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.DistributorName }}</td>
 									   <td class="center">{{ u.CustomerName }}</td>									   
-									   <td class="center">{{ u.ShipQty }}</td>
+									   <td class="center">{{ u.ShipQty |floatformat:"0" }}</td>
 									   <td class="center">{{ u.Status }}</td>
 										 {%  if u.Status == 'Open' %}		
 										<td class="center"><a href="/accounts/EditShipmentToCustomer/{{u.id}}">Edit</a></td>
