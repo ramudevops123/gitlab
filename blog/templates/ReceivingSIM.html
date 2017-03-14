@@ -1,0 +1,406 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>::: BIMS :::</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type="text/javascript">
+$(document).ready(function() 
+{
+  $(function() {
+    $('#SIMSN').on('keypress', function(e) {
+        if (e.which == 32)
+            return false;
+    });
+});
+});
+</script>
+ <script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+	$("#WarehouseName").val("{{ RSHouse }}");
+});
+</script>
+ <script>
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ var RESID="{{ RSID }}";
+ if (RESID==''){
+	var randomval='SIM' + (Math.floor(Math.random() * 99999) + 100000)
+	$('#RSamID').val(randomval) ;
+}
+else{
+$('#RSamID').val(RESID) ;
+
+}	
+ });
+ </script>
+ <script>
+    // WRITE THE VALIDATION SCRIPT IN THE HEAD TAG.
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+
+        return true;
+    }    
+</script>
+<!--<script type="text/javascript">
+ $(document).ready(function(){
+ $("#fileclick").click(function(){
+ var uid=$('#uid').val();
+ //alert(uid);
+  var samid=$('#samid').val();
+ //alert(samid);
+$.get('/SAMFileClick/'+'?samid='+samid+'&uid='+uid, function(Data){
+//alert("fdgfg");
+//alert(Data);
+});
+});
+});
+</script>-->
+ <!--<script type="text/javascript">
+ $(document).ready(function(){
+ $('#lblSAM').text("");
+ $("#myList").click(function(){
+ $('#lblSAM').text("");
+  var form_data = new FormData($('#upload-file')[0]);
+  console.log(form_data);
+ var RSamID=$('#RSamID').val();
+ var //RPersoQuantity=$('#RPersoQuantity').val();
+ var SAMSN=$('#SAMSN').val();
+ var SAMUID=$('#SAMUID').val();
+ var SAMPCID=$('#SAMPCID').val();
+ $.get('/SAMInsert/'+'?RSamID='+RSamID+'&SAMSN='+SAMSN+'&SAMUID='+SAMUID+'&SAMPCID='+SAMPCID, function(Data){
+ //alert(Data);
+ 
+ var splitArray = Data.split(".");
+ console.log(splitArray);
+ //alert(splitArray[0]);
+ //alert(splitArray[1]);
+ var GetData=splitArray[1];
+ if (splitArray[0] == ''){
+	//alert("textenterednull");
+	$('#lblSAM').text("");
+ }
+ else{
+	//alert("textentereddata");
+	$('#lblSAM').text(splitArray[0]);
+ }
+
+ if (GetData == ''){
+	//alert("textenterednull2");
+	var trHTML ='';
+	$('#myTable').append(trHTML);
+ }
+ else{
+ //alert("textentereddata2");
+ var trHTML = '<tr><th class="center">SAM Serial Number</th><th class="center">SAM UID</th><th class="center">SAM PCID</th>	</tr>';
+$.each(JSON.parse(GetData), function(key, value) {
+$('#myTable').empty();
+ trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td></tr>';
+});
+$('#myTable').append(trHTML);
+$('#SAMSN').val('');
+ $('#SAMUID').val('');
+ $('#SAMPCID').val('');
+}
+});
+ });
+ });
+// });
+ </script>-->
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $('#RSamStatus').on('change', function() {
+ var Status=$('#RSamStatus').val();
+ var SamValue="{{ SAMValue}}";
+ if (Status == 'Receive'){
+	if(SamValue == 'Yes'){
+	alert("Receiving Quantity is not same with the list, please check again and adjust it");
+	}
+ }
+ });
+ });
+ </script>
+ <script type="text/javascript">
+ function SAMValidateFunction() {
+ $('#lblSAM').text("");
+ var SIMSN = document.getElementById('SIMSN').value;
+ //alert(SIMSN);
+ var MobileNo = document.getElementById('MobileNo').value;
+ $.get('/GetSIMDuplicate/'+'?SIMSN='+SIMSN+'&MobileNo='+MobileNo, function(ValidationData){
+ //alert(ValidationData);
+ if(ValidationData=="Data with same Serial Number already exist, please check again"){
+	document.getElementById("SIMSN").value= "";
+	$('#lblSAM').text("Data with same Serial Number already exist, please check again");
+	}
+if(ValidationData=="Data with same Mobile number already exist, please check again"){
+			
+			document.getElementById("MobileNo").value= "";
+			$('#lblSIM').text("Data with same Mobile number already exist, please check again");
+			}
+
+ });
+}
+ </script>
+ <!--<script type="text/javascript">
+			function myFunction()
+      {
+	  var SamValue="{{ SAMValue}}";
+	  var Status=document.getElementById('RSamStatus').value;
+	  if (Status == 'Receive'){
+	if(SamValue == 'Yes'){
+	alert("Receiving Quantity is not same with the list, please check again and adjust it");
+	return false;
+	}
+ }
+ return true;
+	  }
+	  </script>-->
+	  <script type="text/javascript">
+$(document).ready(function(){
+$("#MobileNo").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#qtyerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+ });
+</script>
+ <script type="text/javascript">
+	function WHFunction()
+      {
+	  if( document.RForm.WarehouseName.value == "" ){
+	  alert("Please select WarehouseName");
+	  return false;
+	  }
+	  return true;
+	  }
+	  </script>
+	  <script type="text/javascript">
+	function SAMFunction()
+      {
+	  /*var ext = $('#id_docfile').val().split('.').pop().toLowerCase();
+
+        if ($.inArray(ext, ['properties']) == -1) {
+            alert('Please upload only .properties type files!');
+            return false;
+        }*/
+	  if( document.RForm.WarehouseName.value == "" ){
+	  alert("Please select Warehouse name");
+	  return false;
+	  }
+	  if( document.RForm.SIMSN.value == "" ){
+	  alert("Please enter SIM serial #");
+	  return false;
+	  }
+	  if( document.RForm.MobileNo.value == "" ){
+	  alert("Please enter Mobile number");
+	  return false;
+	  }
+	  return true;
+	  }
+	  
+	  </script>
+<script type="text/javascript">
+$(document).ready(function () {
+			$('#SIMSN').keyup(function(){
+			var yourInput = $(this).val();
+			re = /[@.,/_`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[@.,/_`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+		});
+		$('#MobileNo').keyup(function(){
+			var yourInput = $(this).val();
+			re = /[@.,/_`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+			var isSplChar = re.test(yourInput);
+			if(isSplChar)
+			{
+			var no_spl_char = yourInput.replace(/[@.,/_`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+			$(this).val(no_spl_char);
+			}
+		});
+	});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+ </head>
+<body>
+	<form class="form-horizontal" id="upload-file" name="RForm" method="POST" action="/accounts/ReceivingSimCard/" role="form" data-toggle="validator" enctype="multipart/form-data" novalidate>{% csrf_token %}
+	<div class="container"> 
+	 <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Receiving SIM Card<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+   
+ <div class="error"><span style="color: red;">{{ Error }}</span>
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+<div><b>Product ID: {{ ProductID }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product type: {{ ProductType }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product name: {{ ProductName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product model: {{ ProductModel }}</b></div>
+
+</br>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Receiving SIM ID</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="RSamID"  placeholder="Receiving SIM ID" value="{{ Rid }}"  readonly name="RSamID" maxlength="30" required>
+    </div>
+	</div>
+	<div class="form-group">
+	<label for="inputEmail3" class="col-sm-2 control-label">Warehouse</label>
+    <div class="col-sm-4">
+      <select class="form-control" id="WarehouseName" name="WarehouseName" required>
+		  <option value="">Select Warehouse name</option>
+		  {% for entry in WHName %}
+		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+		{% endfor %}
+						</select>
+    </div>
+  </div>
+  <div class="form-group">
+  <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Add SIM Card Details" data-toggle="modal" data-target="#basicModal">Add SIM Card details</a>
+	</div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">View Serial Info details<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">SIM Serial number</th>
+                                        <th class="center">Mobile number</th>
+                                       <!-- <th class="center">SAM PinFile</th>
+										 <th class="center">Edit</th> -->										
+                                        </tr>
+                                </thead>
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+									   <td class="center">{{ u.SAM_SN }}</td>
+									   <td class="center">{{ u.SAM_UID }}</td>
+									   <!-- <td class="center">Uploaded</td>
+									   <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicEditModal"><i></i>Edit</a></td> -->
+									   </tr>
+									{% endfor %}
+									</tbody>
+									</table>
+									{% if RPersoQty == None %}
+									<label>Number of SIMs received: 0</label>
+									{% elif RPersoQty > 0 %}
+									<label>Number of SIMs received: {{ RPersoQty }}</label> 
+									{% endif %}
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+  {% if Error == 'Please set SIM card details' %}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+    </div>
+	</div>
+	{% else %}
+	<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" onclick="return WHFunction()">Save</button>
+    </div>
+	</div>
+	{% endif %}
+	 <!-------- Modal Start ------->
+	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel"> Add SIM card details</h4>
+            </div>
+            <div class="modal-body">
+	<div class="form-group">
+		<label for="inputEmail3" class="col-sm-2 control-label">SIM serial #</label>
+		<div class="col-sm-4">
+		<input type="text" class="form-control" id="SIMSN" onchange="SAMValidateFunction()" placeholder="SIM serial number" name="SIMSN" maxlength="30">
+		</div>
+	</div>
+	<label id="lblSAM" name="lblSAM"></label>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Mobile number</label>
+    <div class="col-sm-4">
+	<input type="text" class="form-control" id="MobileNo" onchange="SAMValidateFunction()"  placeholder="Mobile number" name="MobileNo" maxlength="30">&nbsp;<span id="qtyerrmsg"></span>
+    </div>
+	<label id="lblSIM" name="lblSIM"></label>
+	</div>
+   <div class="form-group">
+  <input  type="submit" class="submit" id="AddToListButton" name="_AddToSIMList" value="Submit" onclick="return SAMFunction()" onclick="return SAMValidateFunction()" class="btn btn-primary"></input>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+  </form>
+  </body>
+</html>
+{% endblock %}
