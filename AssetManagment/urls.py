@@ -255,5 +255,8 @@ urlpatterns = patterns('',
     url(r'^CheckedSerialNumbers/$', 'AssetManagment.views.Checked_SerialNumber_Details'),
     url(r'^accounts/ViewTransferLocation/$', 'AssetManagment.views.Transfer_StocK_Location_List'),
     url(r'^TransferlocationWarehouseValidation/$', 'AssetManagment.views.Transfer_Location_Warehouse_Validation'),
+
+#--------------------------------------Search------------------------------------------------------
+    url(r'^accounts/SAMDeviceID/$', 'AssetManagment.views.SAMDeviceID'),
     
 )
