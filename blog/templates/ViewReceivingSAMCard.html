@@ -12,7 +12,7 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -60,18 +60,19 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Receiving SamCard Details<h4>
+   <h4 class="panel-title" id="user title">View Receiving SAM/SIM Card details<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Receiving SAM ID</th>
-                                        <th class="center">WarehouseName</th>	
-										<th class="center">SAM SN</th>
-										<th class="center">Product SN</th>
-										<th class="center">DataExportStatus</th>
-										<th class="center">DataExportQty</th>
+										<th class="center">Ref id</th>
+                                        <th class="center">Warehouse name</th>	
+										<th class="center">SAM/SIM SN</th>
+										<th class="center">UID/Mobile #</th>
+										<th class="center">Assigned</th>
+										<th class="center">Exported?</th>
+										<th class="center">Exported #</th>
 										<th class="center">Edit</th>
                                         </tr>
                                 </thead>
@@ -81,8 +82,9 @@ $(document).ready(function()
                                        <td class="center">{{ u.ReceivingSAMID }}</td>
 									   <td class="center">{{ u.WarehouseName }}</td>
 									   <td class="center">{{ u.SAM_SN }}</td>
+									   <td class="center">{{ u.SAM_UID }}</td>
 									   {% if u.Product_SN == '' %}
-									   <td class="center">None</td>
+									   <td class="center">Not Assigned</td>
 									   {% else %}
 									   <td class="center">Assigned</td>
 									   {% endif %}
@@ -107,20 +109,20 @@ $(document).ready(function()
         <div class="modal-content">
             <div class="modal-header">
 			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-            <h4 class="modal-title" id="myModalLabel">Edit SAM Card Details</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit SAM/SIM Card details</h4>
             </div>
             <div class="modal-body" >
               <!--  <h3>Modal Body</h3> -->
 			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSAMDetails/" role="form"  enctype="multipart/form-data" >{% csrf_token %} 
 			  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Receiving SAM ID:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Receiving SAM/SIM ID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="RSamID" value="{{ RSamID }}"  placeholder="Receiving SAM ID"  readonly name="RSamID" maxlength="30" required>
 	<input type="hidden"  value={{ uid }} name="uid" /> 
     </div>
 	</div>
 			 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM Serial number</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM SerialNumber" required value="{{ SAMSN }}" name="SAMSN" maxlength="30">
 	<input type="hidden"  value={{ uid }} name="uid" /> 
@@ -128,22 +130,22 @@ $(document).ready(function()
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID" value="{{ SAMUID }}" required name="SAMUID" maxlength="30">
     </div>
 	<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM PIN File:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM PIN file</label>
     <div class="col-sm-4">
 	<input type="file" id="id_editdocfile" accept=".properties"  name="docfile" size="20" />
-	<a href="../../../static/files/{{ docfile }}"  id="fileclick" target="_blank">Download SAM PIN File</a><br/>
+	<a href="../../../static/files/{{ docfile }}"  id="fileclick" target="_blank">Download SAM PIN file</a><br/>
     </div>
 	<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	<div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Warehouse:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Warehouse</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="WarehouseName" value="{{ WarehouseName }}"  placeholder="WarehouseName"  readonly name="WarehouseName" maxlength="30" required>
     </div>
