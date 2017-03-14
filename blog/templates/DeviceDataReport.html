@@ -19,7 +19,9 @@
  <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
  <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
   <script src="{% static 'js/jquery.dataTables.yadcf.js' %}"></script> 
+  
  <script>
+ 
 $(document).ready(function(){
     $('#myTable').dataTable();
 	$('#myTable').dataTable().yadcf([
@@ -69,7 +71,7 @@ $('#lblNumber').text("");
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Device Data Report<h4>
+  <h4 class="panel-title">Device data Report<h4>
   </div>
   <div class="panel-body" id="form-color">
    <form class="form-horizontal" name="adduser" method="POST" action="/accounts/DeviceDataReport/" role="form" enctype="multipart/form-data">{% csrf_token %}
@@ -82,7 +84,7 @@ $('#lblNumber').text("");
 	</select>
     </div> -->
 	
-	<button  type="button" style="float: right;"  id="ExportButton" name="_ExportData" value="ExportData"  class="btn btn-primary">ExportData</button>
+	<button  type="button" style="float: right;"  id="ExportButton" name="_ExportData" value="ExportData"  class="btn btn-primary">Export data</button>
 	<div id="xmlbtn" style="display:none"><a id="alink" download><button  type="button" style="float: right;"   id="xml"  class="btn btn-primary">Download XML</button></a></div>			</a>
 	<label id="lblNumber" style="float: right;"></label>
 	
@@ -91,12 +93,12 @@ $('#lblNumber').text("");
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Product Name</th>
-                                        <th class="center">Product SN</th>
-                                        <th class="center">SAM SN</th>
+										<th class="center">Product name</th>
+                                        <th class="center">Product #</th>
+                                        <th class="center">SAM/SIM #</th>
 										<th class="center">Customer</th>
-										<th class="center">Data Export Status</th>
-										<th class="center">Data Export Qty</th>
+										<th class="center">Exported?</th>
+										<th class="center">Exported #</th>
 										<th class="center">Select</th>
 										<!-- <th class="center">Edit</th> -->										
                                         </tr>
@@ -110,8 +112,13 @@ $('#lblNumber').text("");
 									   <td class="center">{{ u.EndCustomerName }}</td>
 									   <td class="center">{{ u.DataExportStatus }}</td>
 									   <td class="center">{{ u.DataExportQty }}</td>
-									   <td class="center"><input type="checkbox" class="classcbchecktest" value="{{ u.id }}" name="PurchaseCheck" /></td>
-									  <!--  <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicEditModal"><i></i>Edit</a></td> -->
+									   <!-- <td class="center"><input type="checkbox" class="classcbchecktest" value="{{ u.id }}" name="PurchaseCheck" /></td> -->
+									   {% if u.Product_Name == 'B - Authentication Terminal' %}
+										<td class="center"><input type="checkbox" class="classcbchecktest" value="{{ u.id }}" name="PurchaseCheck" /></td>
+									   <!--  <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicEditModal"><i></i>Edit</a></td> -->
+									   {% else %}
+									  <td class="center">None</td>
+									   {% endif %}
 									   </tr>
 									{% endfor %}
 									</tbody>
