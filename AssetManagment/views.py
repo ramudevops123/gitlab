@@ -4497,8 +4497,8 @@ def View_ShipmentToCustomer(request):
     if request.user.username == '':
 	return HttpResponseRedirect('/accounts/login/')
     else:
-		ProductList = TxShipmentToCustomer_Hdr.objects.raw('SELECT id,ShipDate,ProductID,ProductName,DistributorName,DistributorName,SUM(ShipQty) AS ShipQty FROM blog_txshipmenttocustomer_hdr GROUP BY DistributorName,CustomerName')
-		return render(request,'ViewShipmentToCustomer.html',{'obj':ProductList,'UserRole':userrole,'full_name':request.user.first_name})
+	ProductList = TxShipmentToCustomer_Hdr.objects.raw('SELECT id,ShipDate,ProductID,ProductName,DistributorName,DistributorName,SUM(ShipQty) AS ShipQty FROM blog_txshipmenttocustomer_hdr GROUP BY DistributorName,CustomerName')
+	return render(request,'ViewShipmentToCustomer.html',{'obj':ProductList,'UserRole':userrole,'full_name':request.user.first_name})
 
 def Edit_ShipmentToCustomer(request,u_id):
     userrole=get_role(request.user.email)
@@ -4892,3 +4892,11 @@ def Transfer_Location_Warehouse_Validation(request):
     if WarehouseFrom==WarehouseTo:
         Data='warehouse from and warehouse to cannot be the same'
     return HttpResponse(Data)
+
+#-------------------------------------------Search------------------------------
+def SAMDeviceID(request):
+    userrole=get_role(request.user.email)
+    if request.user.username == '':
+	return HttpResponseRedirect('/accounts/login/')
+    else:
+		return render(request,'SAMDeviceID.html',{'obj':TxSAM.objects.all(),'UserRole':userrole,'full_name':request.user.first_name})
