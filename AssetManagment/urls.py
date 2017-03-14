@@ -258,5 +258,10 @@ urlpatterns = patterns('',
 
 #--------------------------------------Search------------------------------------------------------
     url(r'^accounts/SAMDeviceID/$', 'AssetManagment.views.SAMDeviceID'),
+#---------------------ReceivingSIMCard-----------------------------------------------------------------------
+    url(r'^accounts/ReceivingSimCard/$', 'AssetManagment.views.Add_ReceivingSimCard'),
+    url(r'^accounts/BulkReceivingSimCard/$', 'AssetManagment.views.Add_BulkReceivingSimCard'),
+    url(r'^GetSIMDuplicate/$', 'AssetManagment.views.GetSIMDuplicate_Details'),
+    url(r'^SIMSNTest/$', 'AssetManagment.views.SIMSNTest_Details'),
     
 )
