@@ -4900,3 +4900,121 @@ def SAMDeviceID(request):
 	return HttpResponseRedirect('/accounts/login/')
     else:
 		return render(request,'SAMDeviceID.html',{'obj':TxSAM.objects.all(),'UserRole':userrole,'full_name':request.user.first_name})
+
+#-------------------------------------------ReceivingSIMCard------------------------------
+def Add_ReceivingSimCard(request):
+    userrole=get_role(request.user.email)
+    RSamID=request.POST.get('RSamID')
+    logger.info(RSamID)
+    WarehouseName=request.POST.get('WarehouseName')
+    logger.info(WarehouseName)
+    RSID=''
+    now=datetime.now()
+    CreatedOn=str(now)[:19]
+    CreatedBy=request.user.first_name
+    LastUpdateOn=str(now)[:19]
+    LastUpdateBy=request.user.first_name
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM blog_msproduct where ProductID=('%s')" % ('SIMCARD01'))
+    ProductDetails=cursor.fetchone()
+    if ProductDetails!=None:
+        ProductID=ProductDetails[1]
+        ProductType=ProductDetails[2]
+        ProductName=ProductDetails[3]
+        ProductModel=ProductDetails[4]
+    else:
+        return render(request, 'ReceivingSIM.html',{'SAMValue':'Yes','Error':'Please set SIM Card details','WHName':WareHouse.objects.filter(WarehouseStatus='Active'),'UserRole':userrole,'full_name':request.user.first_name})
+    SAMValue='Yes'
+    if RSamID != None or WarehouseName != None:
+        SAMValue='Yes'
+        SIM_SN=request.POST.get('SIMSN')
+        logger.info(SIM_SN)
+        Mobile_No=request.POST.get('MobileNo')
+        logger.info(Mobile_No)
+        request.session['RID']=RSamID
+        RSID=request.session['RID']
+        request.session['RWHouse']=WarehouseName
+        RSHouse=request.session['RWHouse']
+        if request.POST.get('_AddToSIMList'):
+            logger.info("GetLoist Button")
+            cursor.execute("""INSERT INTO blog_txsam(ReceivingSAMID,Product_SN,SAM_SN,SAM_UID,WarehouseName,DataExportQty,DataExportStatus,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(RSamID,'',SIM_SN,Mobile_No,WarehouseName,'0','No',CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy))
+            RPersoQty=TxSAM.objects.filter(ReceivingSAMID=RSamID).count()
+            if TxSAM.objects.filter(ReceivingSAMID=RSamID).count()>0:
+                RPersoQuantity=TxSAM.objects.filter(ReceivingSAMID=RSamID).count()
+            else:
+                RPersoQuantity='0'
+            cursor.execute("""INSERT INTO blog_txreceivingsam(ReceivingSAMID,ReceivingPersoQty,WarehouseName,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy)
+            VALUES (%s,%s,%s,%s,%s,%s,%s)""",(RSamID,RPersoQuantity,WarehouseName,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy))
+            if SIM_SN != None:
+                cursor.execute("select id from blog_txsam where ReceivingSAMID =('%s') and SAM_SN =('%s')" %(RSamID,SIM_SN))
+                SIMID=cursor.fetchone()[0]
+                logger.info(SIMID)
+                cursor.execute("""INSERT INTO blog_txstocksn(RefNumber,ProductID,ProductName,ProductType,SerialNumber,SNStatus,SAMRefNumber,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(RSamID,ProductID,ProductName,ProductType,SIM_SN,'IN',SIMID,CreatedOn[:10],CreatedBy,LastUpdateOn[:10],LastUpdateBy))
+                return render(request, 'ReceivingSIM.html',{'RPersoQty':RPersoQty,'ProductID':ProductID,'ProductType':ProductType,'ProductName':ProductName,'ProductModel':ProductModel,'obj':TxSAM.objects.filter(ReceivingSAMID=RSID),'RSID':RSID,'RSHouse':RSHouse,'WHName':WareHouse.objects.filter(WarehouseStatus='Active'),'UserRole':userrole,'full_name':request.user.first_name})
+            else:
+                return render(request, 'ReceivingSIM.html',{'RPersoQty':RPersoQty,'ProductID':ProductID,'ProductType':ProductType,'ProductName':ProductName,'ProductModel':ProductModel,'RSID':RSID,'WHName':WareHouse.objects.filter(WarehouseStatus='Active'),'UserRole':userrole,'full_name':request.user.first_name})
+        else:
+            if ProductID != None:
+                if TxSAM.objects.filter(ReceivingSAMID=RSamID).count()>0:
+                    RPersoQuantity=TxSAM.objects.filter(ReceivingSAMID=RSamID).count()
+                else:
+                    RPersoQuantity='0'
+                cursor.execute("""INSERT INTO blog_txstock(RefNumber,RefTransaction,WarehouseID,ProductID,ProductName,StockQtyIN,StockQtyOut,StockQtyBalance,StockSN,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(RSamID,"ReceivingSAM",WarehouseName,ProductID,ProductName,RPersoQuantity,'0',RPersoQuantity,'Yes',CreatedOn[:10],CreatedBy,LastUpdateOn[:10],LastUpdateBy)) 
+            return render(request, 'ViewReceivingSAMCard.html',{'obj':TxSAM.objects.all(),'UserRole':userrole,'full_name':request.user.first_name})
+    else:
+        return render(request, 'ReceivingSIM.html',{'RSID':RSID,'ProductID':ProductID,'ProductType':ProductType,'ProductName':ProductName,'ProductModel':ProductModel,'SAMValue':SAMValue,'WHName':WareHouse.objects.filter(WarehouseStatus='Active'),'UserRole':userrole,'full_name':request.user.first_name})
+
+
+def GetSIMDuplicate_Details(request):
+    SIMSN=request.GET.get('SIMSN')
+    MobileNo=request.GET.get('MobileNo')
+    ValidationData=''
+    if SIMSN != None:
+        if TxSAM.objects.filter(SAM_SN=SIMSN).count()>0:
+            ValidationData='Data with same Serial Number already exist, please check again'
+    if MobileNo != None:
+        if TxSAM.objects.filter(SAM_UID=MobileNo).count()>0:
+            ValidationData='Data with same Mobile number already exist, please check again'
+    return HttpResponse(ValidationData)
+
+
+def SIMSNTest_Details(request):
+    SAMSN=request.GET.get('val')
+    logger.info(SAMSN)
+    ProductID=request.GET.get('ProductID')
+    cursor = connection.cursor()
+    Data=''
+    SAMPINFile=''
+    SAMUID=''
+    if TxSAM.objects.filter(SAM_SN=SAMSN).count()>0:
+        if TxHandOverMaterialHdr.objects.filter(SAM_SN=SAMSN).count() >0:
+            Data='SAM SN is not available or already used by another Device / Product SN, please check once again'
+        else:
+            cursor.execute("SELECT ReceivingSAMID FROM  blog_txsam WHERE SAM_SN=('%s')" % (SAMSN))
+            RecevingSAMID=cursor.fetchone()[0]
+            logger.info(RecevingSAMID)
+            if TxStockSN.objects.filter(RefNumber=RecevingSAMID).filter(SerialNumber=SAMSN).count()>0:
+                cursor.execute("SELECT ProductID FROM  blog_txstocksn WHERE SerialNumber=('%s')" % (SAMSN))
+                ProductID=cursor.fetchone()[0]
+                logger.info(ProductID)
+                if ProductID=='SAMCARD01':
+                    cursor.execute("SELECT SAMpinFile FROM  blog_txsam WHERE SAM_SN=('%s') and ReceivingSAMID=('%s')" % (SAMSN,RecevingSAMID))
+                    SAMPINFile=cursor.fetchone()[0]
+                    logger.info(SAMPINFile)
+                    cursor.execute("SELECT SAM_UID FROM  blog_txsam WHERE SAM_SN=('%s') and ReceivingSAMID=('%s')" % (SAMSN,RecevingSAMID))
+                    SAMUID=cursor.fetchone()[0]
+                    logger.info(SAMUID)
+                else:
+                    cursor.execute("SELECT SAM_UID FROM  blog_txsam WHERE SAM_SN=('%s') and ReceivingSAMID=('%s')" % (SAMSN,RecevingSAMID))
+                    SAMUID=cursor.fetchone()[0]
+                    logger.info(SAMUID)
+                    SAMPINFile=''
+    else:
+        Data='SAM SN is not available or already used by another Device / Product SN, please check once again'
+    getdata=Data + ':' + SAMPINFile + ':' + SAMUID
+    logger.info(getdata)
+    return HttpResponse(getdata)
+
