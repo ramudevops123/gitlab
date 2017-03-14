@@ -15,7 +15,7 @@
 {% elif UserRole == 'Local Manufacture'%}
 	{% include 'LocalManufacture.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -36,13 +36,13 @@
 function myFunction(){
          if( document.BillForm.PID.value == "" )
          {
-            alert( "Please Select Product ID!" );
+            alert( "Please select product ID!" );
             document.BillForm.PID.focus() ;
             return false;
          }
 		 if( document.BillForm.PStatus.value == "" )
          {
-            alert( "Please Select PO Status!" );
+            alert( "Please select PO status!" );
             document.BillForm.PStatus.focus() ;
             return false;
          }
@@ -97,7 +97,7 @@ $('#lblSAM').text("");
 	$('#myTable').append(trHTML);
  }
  else{
- var trHTML = '<tr><th class="center">Material Code</th><th class="center">Material Name</th><th class="center">Quantity</th></tr>';
+ var trHTML = '<tr><th class="center">Material code</th><th class="center">Material name</th><th class="center">Quantity</th></tr>';
 $.each(JSON.parse(GetData), function(key, value) {
 $('#myTable').empty();
  trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td></tr>';
@@ -137,7 +137,7 @@ $('#Mcode').val('');
 	$('#myTable').append(trHTML);
  }
  else{
- var trHTML = '<tr><th class="center">Material Code</th><th class="center">Material Name</th><th class="center">Quantity</th></tr>';
+ var trHTML = '<tr><th class="center">Material code</th><th class="center">Material name</th><th class="center">Quantity</th></tr>';
 $.each(JSON.parse(GetData), function(key, value) {
 $('#myTable').empty();
  trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td></tr>';
@@ -174,14 +174,17 @@ var ProductID=$('#ProductID').val();
 			var result = str.link("../../../static/files/"+splitArray[1]);
 			document.getElementById("lblSAMPIN").innerHTML = result;
 			}
-			if (splitArray[2] != ''){
+			if (splitArray[2] != '' && splitArray[1] != ''){
 			alert(splitArray[2]);
 			$('#SAMUID').val(splitArray[2]);
 			}
+			else{
+			$('#SIMUID').val(splitArray[2]);
 			}
-			if(splitArray[0]=="SAM_SN is not available or already used by another Device / Product_SN, please check again"){
+			}
+			if(splitArray[0]=="SAM SN is not available or already used by another Device / Product SN, please check once again"){
 			document.getElementById("SAMSN").value= "";
-			$('#lblQuantity').text("SAM_SN is not available or already used by another Device / Product_SN, please check again");
+			$('#lblQuantity').text("SAM SN is not available or already used by another Device / Product SN, please check again");
 			}
 			
 		});
@@ -292,6 +295,22 @@ function removeWhitespaces() {
 			$('#ProID').val(input) ;
 			var txtboxVal1 = $('#SAMSN').val().trim();
 			$('#SAMSN').val(txtboxVal1);
+			var ProductID = document.getElementById('ProductID').value;
+			if (ProductID =='mAMBIS'){
+				alert("mAMBIS Selected")
+					if( document.BillForm.SIMSN.value == "" ){
+	  					alert("Please Enter SIM Serial Number");
+	  					return false;
+	  					}
+					}
+				if (ProductID =='B-CAT'){
+	  				alert("B-CAT Selected")
+	  				if( document.BillForm.SAMSN.value == "" ){
+	  					alert("Please Enter SAM Serial Number");
+	  					return false;
+	  					}
+	  				}
+					return true;
 			}
 </script>
 <script type="text/javascript">
@@ -310,6 +329,56 @@ $('#ProductID').on('change', function() {
 		});
 		
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#ProductID').on('change', function() {
+var ProductID = $(this).val();
+if (ProductID=='mAMBIS'){
+//alert("Yahoo.... mAMBIS Selected....")
+$("#DownloadFile").hide();
+$("#SAMuid").hide();
+$("#SAMSerial").hide();
+$("#MobileNo").show();
+$("#SIMSerial").show();
+}
+});
+});
+</script>
+<script>
+function SimFunction(val) {
+var ProductID=$('#ProductID').val();
+//alert(ProductID);
+	$('#lblQuantity').text("");
+	var SIMSN = document.getElementById('SIMSN').value;
+	$.get('/SIMSNTest/'+'?val='+val+'&ProductID='+ProductID, function(Data){
+	//alert("entered get");
+	alert(Data);
+	var splitArray = Data.split(":");
+			if (splitArray[0]==''){
+			//alert("Data is Empty");
+			if (splitArray[1] != ''){
+			//alert(splitArray[1]);
+			var str = "Download SAM PIN File";
+			var result = str.link("../../../static/files/"+splitArray[1]);
+			document.getElementById("lblSAMPIN").innerHTML = result;
+			}
+			if (splitArray[2] != '' && splitArray[1] != ''){
+			alert(splitArray[2]);
+			$('#SAMUID').val(splitArray[2]);
+			}
+			else{
+			$('#SIMUID').val(splitArray[2]);
+			}
+			}
+			if(splitArray[0]=="SAM SN is not available or already used by another Device / Product SN, please check once again"){
+			document.getElementById("SIMSN").value= "";
+			$('#lblQuantity').text("SAM SN is not available or already used by another Device / Product SN, please check once again");
+			}
+			
+		});
+}
+
+</script>
 	<base target="_self">
 </head>
 <body> 
@@ -318,7 +387,7 @@ $('#ProductID').on('change', function() {
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Hand Over Material<h4>
+  <h4 class="panel-title">Handover material<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -327,49 +396,56 @@ $('#ProductID').on('change', function() {
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Hand Over ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Handover ID</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="HOverID" readonly placeholder="Hand Over ID" value="{{ ProductionID }}"  name="HOverID" maxlength="30" >
     </div>
+	<!--
 	<div class="form-group">
-   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductID : {{ ProductID }}</label>
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product ID: {{ ProductID }}</label>
    </div>
-	
+	-->
   </div>
 	<div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
        <select class="form-control" id="ProductID" name="PID" required>
-		  <option value="">Select Type</option>
+		  <option value="">Select type</option>
 		  {% for entry in PType %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
 						</select>
     </div>
+	<!--
 	<div class="col-sm-5">
-   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductType : {{ ProductType }}</label>
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product type: {{ ProductType }}</label>
    </div>
+   -->
 	<label id="lblSAM" name="lblSAM"></label>
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name"   name="PName" maxlength="30" >
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product name"   name="PName" maxlength="30" >
     </div>
+	<!--
 	<div class="col-sm-5">
-   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductName : {{ ProductName }}</label>
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product name: {{ ProductName }}</label>
    </div>
+   -->
   </div>
+  
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model"   name="PModel" maxlength="30" >
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product model"   name="PModel" maxlength="30" >
     </div>
+	<!--
 	<div class="col-sm-5">
-   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductModel : {{ ProductModel }}</label>
-   </div>
-  </div>
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product model: {{ ProductModel }}</label>
+   </div>-->
+  </div> 
  <!--  <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Start Production Date</label>
     <div class="col-sm-5">
@@ -377,10 +453,10 @@ $('#ProductID').on('change', function() {
     </div>
   </div> -->
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Production Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Production status</label>
     <div class="col-sm-5">
        <select class="form-control" id="PStatus" name="PStatus" >
-							<option value="Stagging">Stagging</option>							
+							<option value="Staging">Staging</option>							
 						</select>
     </div>
   </div>
@@ -395,14 +471,14 @@ $('#ProductID').on('change', function() {
    <div class="col-md-6">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View HandOverMaterial<h4>
+   <h4 class="panel-title" id="user title">View Handover material<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Material Code</th>
-                                        <th class="center">Material Name</th>
+										<th class="center">Material code</th>
+                                        <th class="center">Material name</th>
                                         <th class="center">Quantity</th>										
 										<!-- <th class="center">Edit</th>
 										<th class="center">Check</th> -->
@@ -428,38 +504,50 @@ $('#ProductID').on('change', function() {
    <div class="col-md-6">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">Set as SAM for Device<h4>
+   <h4 class="panel-title" id="user title">Set SAM for device<h4>
    </div>
    <div class="panel-body">
    <div class="form-group">
-   <label for="inputEmail3" class="col-sm-2 control-label">Andriod Device ID:</label>
+   <label for="inputEmail3" class="col-sm-2 control-label">Android Device ID</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="AndriodID" required  placeholder="Andriod DeviceID" onchange="AndroididValidation(this.value)" required  name="AndriodID" maxlength="30" >
+      <input type="text" class="form-control" id="AndriodID" required  placeholder="Android Device ID" onchange="AndroididValidation(this.value)" required  name="AndriodID" maxlength="30" >
     </div>
 	<label id="AndroidValidation" name="AndroidValidation"></label>
 	</div>
    <div class="form-group">
-   <label for="inputEmail3" class="col-sm-2 control-label">Product SN:</label>
+   <label for="inputEmail3" class="col-sm-2 control-label">Product SN</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="ProSN" required placeholder="Product SN"  onchange="ProductFunction(this.value)" name="ProSN" maxlength="30" >
     </div>
-	<label id="ProductSN" name="lblQuantity"></label>
+	<label id="ProductSN" name="ProductSN"></label>
 	</div>
-	<div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">SAM SN:</label>
+	<div class="form-group" id="SAMSerial">
+	<label for="inputEmail3" class="col-sm-2 control-label">SAM SN</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="SAMSN" required placeholder="SAM SN" onchange="SamFunction(this.value)"  name="SAMSN" maxlength="30" >
+      <input type="text" class="form-control" id="SAMSN" placeholder="SAM SN" onchange="SamFunction(this.value)"  name="SAMSN" maxlength="30" >
     </div>
-	<label id="lblQuantity" name="lblQuantity"></label>
    </div>
-   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">SAM UID:</label>
+   <label id="lblQuantity" name="lblQuantity"></label>
+   <div class="form-group" id="SIMSerial" style="display:none">
+	<label for="inputEmail3" class="col-sm-2 control-label">SIM SN</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID" required readonly  name="SAMUID" maxlength="30" >
+      <input type="text" class="form-control" id="SIMSN" placeholder="SAM SN" onchange="SimFunction(this.value)"  name="SIMSN" maxlength="30" >
+    </div>
+   </div>
+   <div class="form-group" id="SAMuid">
+	<label for="inputEmail3" class="col-sm-2 control-label">SAM UID</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID" readonly  name="SAMUID" maxlength="30" >
     </div>
 	</div>
-   <div class="form-group" id="DownloadFile" >
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM PIN File:</label>
+	<div class="form-group" id="MobileNo" style="display:none">
+	<label for="inputEmail3" class="col-sm-2 control-label">Mobile #</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="SIMUID"  placeholder="SAM UID" readonly  name="SAMUID" maxlength="30" >
+    </div>
+	</div>
+   <div class="form-group" id="DownloadFile">
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM PIN file</label>
     <div class="col-sm-4">
 	<p id="lblSAMPIN"></p>
     </div>
@@ -471,11 +559,12 @@ $('#ProductID').on('change', function() {
   
   </div>
   </div>
-  <div><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreatedBy : {{ CreatedBy }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreatedOn : {{ CreatedOn }}</b>  </div>
+  <!--<div><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Created by: {{ CreatedBy }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Created on: {{CreatedOn }}</b>  </div>-->
+  <div><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creating by: {{ CreatedBy }}</b>  </div>
   </br>
-   <div><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Updated By : {{ LastUpdateBy }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   Last Updated On : {{ LastUpdateOn }} </b> </div>
+   <!--<div><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last updated by: {{ LastUpdateBy }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   Last updated on: {{ LastUpdateOn }} </b> </div>-->
    
-   {% if Error == 'Please Set SAM Card Details' %}
+   {% if Error == 'Please set SAM Card details' %}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
     </div>
@@ -483,15 +572,16 @@ $('#ProductID').on('change', function() {
 	{% else %}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()" onclick="return myFunction()">Submit</button> 
+    <input type="submit" class="submit"  value="Submit" onclick="return removeWhitespaces()" onclick="return myFunction()" class="btn btn-primary"></input>
+      <!-- <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces" onclick="removeWhitespaces()" onclick="return myFunction()">Submit</button>  -->
 	 <a href="/accounts/ViewHOM/"><button class="btn btn-default" type="button">Cancel</button></a> 
     </div>
 	</div>
 	{% endif %}
-	
+	<!--
 	<footer class="footer">
       <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2017 Biomorf Lone All rights reserved.</div>
 				<ul class="footer-nav">
   <li>
                                     		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
@@ -508,7 +598,7 @@ $('#ProductID').on('change', function() {
   </ul> 
       </div>
     </footer>
-  
+  -->
 </form>
  </body>
 </html>
