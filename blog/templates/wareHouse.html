@@ -6,7 +6,7 @@
  <meta name="viewport" content="width=device-width,initial-scale=1.0">
  <head>
 {% include 'base.html' %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -74,7 +74,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Ware House<h4>
+  <h4 class="panel-title">Warehouse<h4>
   </div>
   <div class="panel-body" id="form-color">
     <form class="form-horizontal" name="adduser" method="POST" action="/accounts/WareHouse/" role="form" data-toggle="validator">{% csrf_token %}
@@ -83,23 +83,23 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">WareHouse ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="myWareHouse" placeholder="WareHouse ID"   name="wareHouseID" maxlength="30" required>
+      <input type="text" class="form-control" id="myWareHouse" placeholder="Warehouse ID"   name="wareHouseID" maxlength="30" required>
     </div>
   </div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">WareHouse Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="myWareHouseName" placeholder="WareHouse Name"   name="wareHouseName" maxlength="30" required>
+      <input type="text" class="form-control" id="myWareHouseName" placeholder="Warehouse name"   name="wareHouseName" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ThirdParty Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Third party name</label>
     <div class="col-sm-5">
       		  <select class="form-control" id="ThirdPartyName" name="ThirdPartyName" required>
-		  <option value="">Select ThirdParty Name</option>
+		  <option value="">Select Third party name</option>
 		  {% for entry in TPName %}
 		<option value="{{ entry.ThirdPartyName }}">{{entry.ThirdPartyName }}</label>
 		{% endfor %}
@@ -107,7 +107,7 @@ $(document).ready(function()
     </div>
   </div>
   <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">WareHouse Status:</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Warehouse status</label>
   <div class="col-sm-5">
    <select class="form-control" id="myWareHouseStatus" name="wareHouseStatus" required>
     <option value="Active">Active</option>
@@ -127,25 +127,7 @@ $(document).ready(function()
   </div>
   </div>
   </div>
-  <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+
  </body>
 </html>
 {% endblock %}
