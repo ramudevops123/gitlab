@@ -61,26 +61,43 @@ $(document).ready(function()
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Product ID</th>
-                                        <th class="center">Product type</th>
-                                        <th class="center">Product name</th>										
-										<th class="center">Product model</th>
-										<th class="center">Product status</th>
-										<th class="center">Product SN</th>
-										<th class="center">Edit</th>
+										<th class="center">ID</th>
+                                        <th class="center">Name</th>										
+										<th class="center">Model</th>
+										<th class="center">Type</th>
+                                        <th class="center">Active?</th>
+										<th class="center">Has SN?</th>
+										<th class="center">Created on</th>
+										<th class="center">Update on</th>
+										<!-- <th class="center">Edit</th> -->
                                         </tr>
                                 </thead>
 								
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-                                       <td class="center">{{ u.ProductID }}</td>
-									   <td class="center">{{ u.ProductType }}</td>
-									   <td class="center">{{ u.ProductName }}</td>
+                                       <td class="center"><a href="/accounts/EditProduct/{{u.id}}" style="color: blue;" title="Edit">{{ u.ProductID }}</td>
+									   <td class="center"><a href="/accounts/EditProduct/{{u.id}}" style="color: blue;" title="Edit">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.ProductModel }}</td>
-									   <td class="center">{{ u.ProductStatus }}</td>
-									   <td class="center">{{ u.ProductSerialNumber }}</td>
-										<td class="center"><a href="/accounts/EditProduct/{{u.id}}">Edit</a></td>
+									   <td class="center">{{ u.ProductType }}</td>
+									     {% if u.ProductStatus == 'Active' %}
+											<td class="center">&#10004;</td>
+										{% elif u.ProductStatus == 'Discontinued' %}
+											<td class="center">&#10008;</td>
+										{% else %}
+											<td class="center">{{ u.ProductStatus }}</td>
+										{% endif %}
+
+									    {% if u.ProductSerialNumber == 'Yes' %}
+											<td class="center">&#10004;</td>
+										{% elif u.ProductSerialNumber == 'No' %}
+											<td class="center">&#10008;</td>
+										{% else %}
+											<td class="center">{{ u.ProductSerialNumber }}</td>
+										{% endif %}
+									   <td class="center">{{ u.CreatedOn |date:"d-m-Y"}}</td>
+									   <td class="center">{{ u.LastUpdateOn |date:"d-m-Y"}}</td>
+										<!-- <td class="center"><a href="/accounts/EditProduct/{{u.id}}">Edit</a></td> -->
                                     </tr>
 									{% endfor %}
 									</tbody>
