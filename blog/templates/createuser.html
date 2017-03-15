@@ -4,7 +4,7 @@
 	<!doctype html>
 <html lang="en">
  <head>
-			<title>Create Ticket</title>
+			<title>::: BIMS :::</title>
 			{% include 'base.html' %}
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -113,25 +113,25 @@ $(document).ready(function()
   </div>
   <div class="panel-body" id="form-color">
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">First Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">First name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="firstname" placeholder="First Name"   name="firstname" maxlength="30" required>
+      <input type="text" class="form-control" id="firstname" placeholder="First name"   name="firstname" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Last Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Last name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="lastname" placeholder="Last Name"   name="lastname" maxlength="30" required>
+      <input type="text" class="form-control" id="lastname" placeholder="Last name"   name="lastname" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">E-Mail</label>
     <div class="col-sm-5">
-      <input type="email" class="form-control" id="emailid" placeholder="Email"   name="email" maxlength="75" required>
+      <input type="email" class="form-control" id="emailid" placeholder="E-Mail"   name="email" maxlength="75" required>
     </div>
   </div>
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Role:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Role</label>
     <div class="col-sm-5">
       <select class="form-control" id="myRole" name="myrole" required>
 							<option value="">Select Department</option>
@@ -143,7 +143,7 @@ $(document).ready(function()
     </div>
   </div>        
 				  <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">Status:</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Status</label>
   <div class="col-sm-5">
    <select class="form-control" id="mystatus" name="status">
     <option value="Active">Active</option>
@@ -193,25 +193,26 @@ $(document).ready(function()
     </div>
   </div>
   </form>
-  <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+  <!--
+<footer class="footer">
+	<div class="container">
+		<div style="text-align:center;" class="text-muted">&#0169;2008-2017 Biomorf Lone All rights reserved.</div>
+		<ul class="footer-nav">
+			<li>
+				<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+			</li>
+			<li>
+				<a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+			</li>
+			<li>
+				<a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+			</li>
+			<li><a href="/accounts/BIMSDashboard/">Home</a></li>
+			<li><a href="">Legal Disclaimer</a></li>
+		</ul>
+	</div>
+</footer>
+-->
  </body>
 </html>
 {% endblock %}
