@@ -16,6 +16,9 @@
  <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
  <script type="text/javascript">
  function myFunction(val) {
+ 			var upper=val.toUpperCase();
+			//alert(upper);
+			$('#thrdpartyID').val(upper);
 			$('#lblpid').text("");
 			$.get('/ThirdPartyIDtest/'+'?val='+val, function(Data){
 			if(Data=="Third Party ID already exists"){
@@ -162,7 +165,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Create Third Party<h4>
+  <h4 class="panel-title">Create third party<h4>
   </div>
   <div class="panel-body" id="form-color">
     <form class="form-horizontal" name="adduser" method="POST" action="/accounts/ThirdParty/" role="form" data-toggle="validator">{% csrf_token %}
@@ -171,23 +174,23 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Third Party ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Third party ID</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdpartyID" placeholder="ThirdParty ID" onchange="myFunction(this.value)"  name="thrdID" maxlength="7" required>
+      <input type="text" class="form-control" id="thrdpartyID" placeholder="Third party ID" onchange="myFunction(this.value)"  name="thrdID" maxlength="7" required>
 	  <label id="lblpid" name="labelid"></label>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdPartyName" placeholder="ThirdParty Name"   name="thrdName" maxlength="25" required>
+      <input type="text" class="form-control" id="thrdPartyName" placeholder="Third party name"   name="thrdName" maxlength="25" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Type:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Type</label>
     <div class="col-sm-5">
       <select class="form-control" id="thrdPartyType" name="thrdType" required>
-							<option value="">Select Type</option>				
+							<option value="">Select type</option>				
 							<option value="Principal">Principal</option> 
 							<option value="Freight">Freight</option>
 							<option value="Distributor">Distributor</option>
@@ -197,52 +200,53 @@ $(document).ready(function()
     </div>
   </div>
   <div class="form-group" id="comments">
-    <label for="Comments" class="col-sm-2 control-label">Address:</label>
+    <label for="Comments" class="col-sm-2 control-label">Address</label>
 	<div class="col-sm-5">
     <textarea class="form-control" wrap=physical id="thrdPartyAddress" rows="3" name="thrdaddrs" maxlength="280" required id="comments"></textarea> 
   </div>
   </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Country:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Country</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdPartyCountry" placeholder="ThirdParty Country"   name="thrdcntry" maxlength="25" required>
+      <input type="text" class="form-control" id="thrdPartyCountry" placeholder="Third party country"   name="thrdcntry" maxlength="25" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">City</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdPartyCity" placeholder="ThirdParty City"   name="thrdcity" maxlength="25" required>
+      <input type="text" class="form-control" id="thrdPartyCity" placeholder="Third party city"   name="thrdcity" maxlength="25" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Website:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Website</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdPartywebsite" placeholder="ThirdParty Website"   name="thrdweb" maxlength="25" required>
+		  <input type="text" class="form-control" id="thrdPartywebsite" placeholder="Third party website" name="thrdweb" maxlength="25" required >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">E-Mail</label>
     <div class="col-sm-5">
-      <input type="email" class="form-control" id="thrdPartyEmail" placeholder="ThirdParty Email"   name="thrdemail" maxlength="75" required>
+      <input type="email" class="form-control" id="thrdPartyEmail" placeholder="Third party E-Mail"   name="thrdemail" maxlength="75" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PhNo:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Phone number</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="thrdPartyPhNo" placeholder="ThirdParty PhNo"   name="thrdphone" pattern=".{11,15}" title="11 to 15 characters" required>&nbsp;<span id="pherrmsg"></span>
+       <input type="tel" class="form-control" id="thrdPartyPhNo" placeholder="Ex: Landline: 0622129932568 / Mobile: 06281277771760"   name="thrdphone" pattern=".{10,15}" title="10 to 15 characters" required>&nbsp;<span id="pherrmsg"></span>
     </div>
+		<label>Ex: Landline: 0622129932568 / Mobile: 06281277771760</label>
   </div>
   <div class="form-group" id="comments">
-    <label for="Comments" class="col-sm-2 control-label">Notes:</label>
+    <label for="Comments" class="col-sm-2 control-label">Notes</label>
 	<div class="col-sm-5">
     <textarea class="form-control" wrap=physical id="thrdPartyNotes" rows="3" name="thrdNote" maxlength="280" required id="comments"></textarea> 
   </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-5">
        <select class="form-control" id="thrdPartyStatus" name="thrdStatus" required>
-							<option value="">Select Status</option>
+							<option value="">Select status</option>
 							<option value="Active">Active</option>
 							<option value="Non Active">Non Active</option>							
 						</select>
@@ -260,9 +264,10 @@ $(document).ready(function()
   </div>
   </div>
   </div>
+  <!--
   <footer class="footer">
       <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2017 Biomorf Lone All rights reserved.</div>
 				<ul class="footer-nav">
   <li>
                                     		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
@@ -279,6 +284,7 @@ $(document).ready(function()
   </ul> 
       </div>
     </footer>
+	-->
  </body>
 </html>
 {% endblock %}
