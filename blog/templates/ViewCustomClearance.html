@@ -15,9 +15,11 @@
 	{% include 'Production.html' %}
 	
 	{% endif %}
-		
-<title>Create Ticket</title>
+
+
+<title>::: BIMS :::</title>
  {% load staticfiles %}
+
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
@@ -71,42 +73,55 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Custom Clearance<h4>
+   <h4 class="panel-title" id="user title"><strong>View Custom Clearance </strong><p align="right">Note: Read <em><strong>Status</em></strong> as <strong>Custom Clearance status</strong></p></h4>
+   
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Hs Code</th>
-										<th class="center">PO Number</th>
-										<th class="center">Ship No</th>
-                                        <th class="center">Start Date</th>
+										<th class="center">HS Code</th>
+										<th class="center">PO #</th>
+										<th class="center"><i class="material-icons">&#xe558;</i> No</th>
+										<th class="center">Start Date</th>
 										<th class="center">End Date</th>
-										<th class="center">Product ID</th>
-										<th class="center">PO Quantity</th>
-										<th class="center">Ship Quantity</th>
-										<th class="center">CustomClearance Status</th>
-										<th class="center">Edit</th>
+										<th class="center">AWB</th>
+										<th class="center">Freight name</th>
+										<th class="center"><i style="font-size:24px" class="fa">&#xf288;</i> ID</th>
+										<th class="center"><i class="material-icons">&#xe558;</i>qty</th>
+										<th class="center">PO qty</th>
+										<th class="center">Status</th>
+										<!-- <th class="center">Edit</th> -->
                                         </tr>
                                 </thead>
 								
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-									   <td class="center">{{ u.HsCode }}</td>
-                                       <td class="center">{{ u.PONumber }}</td>
+									  {% if u.CustomClearanceStatus == 'Finished' %}
+									   <td class="center"><a href="/accounts/ViewCustomClearanceDetails/{{ u.id }} style="color: blue;" title="View">{{ u.HsCode }}</a></td>
+										{% else %}
+										<td class="center"><a href="/accounts/EditCustomClearance/{{ u.id }} style="color: blue;" title="Edit">{{ u.HsCode }}</a></td>
+										
+										{% endif %}
+									<!-- <td class="center"><a href="/accounts/ViewCustomClearanceDetails/{{ u.id }}">{{ u.HsCode }}</td> -->
+                                       
+									   <td class="center">{{ u.PONumber }}</td>
 									   <td class="center">{{ u.ShipNumber }}</td>
-									   <td class="center">{{ u.StartDate|date:"Y-m-d" }}</td>
-									   <td class="center">{{ u.FinishDate|date:"Y-m-d" }}</td>
+									   <td class="center">{{ u.StartDate|date:"d-m-Y" }}</td>
+									   <td class="center">{{ u.FinishDate|date:"d-m-Y" }}</td>
+									   <td class="center">{{ u.ShipAWB }}</td>
+									   <td class="center">{{ u.ShipFreightName }}</td>
 									   <td class="center">{{ u.ProductID }}</td>
-									    <td class="center">{{ u.POQuantity }}</td>
+									   <td class="center">{{ u.POQuantity }}</td>
 									   <td class="center">{{ u.ShipmentQuantity }}</td>
 									   <td class="center">{{ u.CustomClearanceStatus }}</td>
-									    {% if u.CustomClearanceStatus == 'Finished' %}
-									   <td class="center"></td>
+									<!--    {% if u.CustomClearanceStatus == 'Finished' %}
+									   <td class="center"><a href="/accounts/ViewCustomClearanceDetails/{{ u.id }}">View</a></td>
 									   {% else %}
-										<td class="center"><a href="/accounts/EditCustomClearance/{{u.id}}">Edit</a></td>
-										{% endif %}
+										<td class="center"><a href="/accounts/EditCustomClearance/{{ u.id }}">Edit</a></td>
+										
+										{% endif %} -->
 										
                                     </tr>
 									{% endfor %}
