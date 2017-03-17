@@ -16,7 +16,7 @@
 	
 	{% endif %}
 		
-<title>Create Ticket</title>
+<title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -62,30 +62,36 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Receiving Finish Goods/Material<h4>
+   <h4 class="panel-title" id="user title"><strong>View Receiving <i class="material-icons">&#xe0b5;</i> finished Goods/Material </strong><p align="right">Note: Read <em><strong>Status</em></strong> as <strong>Custom Clearance status</strong></p></h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Product Name</th>
-										<th class="center">PO Number</th>
-										<th class="center">Ship No</th>
-                                        <th class="center">HsCode</th>
-										<th class="center">Receiving ID</th>
-										<th class="center">Custom Clearance Status</th>
-										<th class="center">Receiving Status</th>
-										<th class="center">PO Quantity</th>
-										<th class="center">Ship Quantity</th>
-										<th class="center">Receiving Quantity</th>
-										<th class="center">Edit</th>
+										<th class="center">Product name</th>
+										<th class="center">PO #</th>
+										<th class="center"><i class="material-icons">&#xe558;</i> No</th>
+                                        <th class="center">HS Code</th>
+										<th class="center"><i class="material-icons">&#xe0b5;</i> ID</th>
+										<th class="center">Status</th>
+										<!-- <th class="center">Receiving status</th> -->
+										<th class="center"><i class="material-icons">&#xe0b5;</i> status</th>
+										<th class="center">PO qty</th>
+										<th class="center"><i class="material-icons">&#xe558;</i> qty</th>
+										<th class="center"><i class="material-icons">&#xe0b5;</i> qty</th>
+									<!--	<th class="center">Edit</th> -->
                                         </tr>
                                 </thead>
 								
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-									   <td class="center">{{ u.ProductName }}</td>
+									{% if u.ReceivingStatus == 'Open' %}
+										<td class="center"><a href="/accounts/EditReceiving/{{u.id}}">{{ u.ProductName }}</td>
+										{% else %}
+										<td class="center">{{ u.ProductName }}</td>
+										{% endif %}
+									   
                                        <td class="center">{{ u.PONumber }}</td>
 									   <td class="center">{{ u.ShipmentNo }}</td>
 									   <td class="center">{{ u.HsCode }}</td>
@@ -95,11 +101,11 @@ $(document).ready(function()
 									   <td class="center">{{ u.POQuantity }}</td>
 									   <td class="center">{{ u.ShipmentQty }}</td>
 									   <td class="center">{{ u.ReceivingQty }}</td>
-										{% if u.ReceivingStatus == 'Open' %}
+									<!--	{% if u.ReceivingStatus == 'Open' %}
 										<td class="center"><a href="/accounts/EditReceiving/{{u.id}}">Edit</a></td>
 										{% else %}
-										<td class="center"></td>
-										{% endif %}
+										<td class="center"></td> 
+										{% endif %}-->
                                     </tr>
 									{% endfor %}
 									</tbody>
