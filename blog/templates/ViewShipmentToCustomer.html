@@ -15,8 +15,8 @@
 	{% include 'Production.html' %}
 	
 	{% endif %}
-		
-<title>Create Ticket</title>
+
+<title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -61,18 +61,18 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">Shipment To Customer<h4>
+   <h4 class="panel-title" id="user title">Shipment to Customer<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Ship Date</th>										
-                                        <th class="center">ProductID</th>
-										<th class="center">ProductName</th>
+										<th class="center">Shipment Date</th>										
+                                        <th class="center">Product ID</th>
+										<th class="center">Product name</th>
 										<th class="center">Distributor</th>										
 										<th class="center">Customer</th>										
-										<th class="center">Ship Quantity</th>			
+										<th class="center">Shipment qty</th>			
 										<th class="center">Status</th>	
 										<th class="center">Edit</th>
                                         </tr>
@@ -80,7 +80,7 @@ $(document).ready(function()
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-									   <td class="center">{{ u.ShipDate|date:'Y-m-d' }}</td>
+									   <td class="center">{{ u.ShipDate|date:'d-m-Y' }}</td>
                                        <td class="center">{{ u.ProductID }}</td>
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.DistributorName }}</td>
