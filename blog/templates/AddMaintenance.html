@@ -1,0 +1,653 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Create Ticket</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script>
+$(document).ready(function(){
+$( "#OutDate" ).datepicker({  dateFormat: 'dd-mm-yy' });
+$( "#ReturnDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+});
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+ $('#CompanyType').on('change', function() {
+ $("#CompanyID").empty();
+ document.getElementById('CompanyName').value = "";
+ document.getElementById('CompanyAddress').value = "";
+ document.getElementById('CompanyCity').value = "";
+ document.getElementById('CompanyCountry').value = "";
+ var CompanyType = $(this).val();
+ $.get('/FillExternalData/'+'?CompanyType='+CompanyType, function(Data){
+ var splitArray = Data.split(",");
+		$("#CompanyID").append('<option value="">Select Company ID</option>');
+		for(var i=0;i<splitArray.length;i++){		  
+			  $("#CompanyID").append('<option value='+splitArray[i]+'>'+splitArray[i]+'</option>');
+			}
+ });
+ });
+ $('#CompanyID').on('change', function() {
+		var CustomerID = $(this).val();
+		if(CustomerID == '')
+		{
+		document.getElementById('CompanyName').value = "";
+		document.getElementById('CompanyAddress').value = "";
+		document.getElementById('CompanyCity').value = "";
+		document.getElementById('CompanyCountry').value = "";
+		}
+		else{
+		$.get('/GetCustomerDetails/'+'?CustomerID='+CustomerID, function(Data){
+		var splitArray = Data.split(":");
+		$('#CompanyName').val(splitArray[0]);
+		$('textarea#CompanyAddress').val(splitArray[1]);
+		$('#CompanyCity').val(splitArray[2]);
+		$('#CompanyCountry').val(splitArray[3]);
+		});
+		}
+		});
+		$('#ProductID').on('change', function() {
+		var ProductID = $(this).val();
+		if (ProductID == ''){
+		document.getElementById('PName').value = "";
+		document.getElementById('PModel').value = "";
+		} else{
+		$.get('/test/'+'?ProductID='+ProductID, function(Data){
+		var splitArray = Data.split(",");
+		$('#PName').val(splitArray[0]) ;
+		$('#PModel').val(splitArray[1]) ;
+		});
+		}
+	});
+ });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#myDeviceSN").click(function(){
+ var ProductID=$('#ProductID').val();
+ //alert(ProductID);
+ $.get('/DeviceSNtest/'+'?ProductID='+ProductID, function(Data){
+ if (Data == ''){
+	var trHTML ='';
+	$('#myDeviceTable').append(trHTML);
+ }
+ else{
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Device SN</th><th class="center">Choose</th></tr>';
+ i=1;
+$.each(JSON.parse(Data), function(key, value) {
+$('#myDeviceTable').empty();
+ trHTML += '<tr><td>' + i + '</td><td>' + value[0] + '</td><td><input type="checkbox" class="classcbchecktest" id=' + value[0] +' name="PurchaseCheck" value=' + value[0] +' /></td></tr>';
+  i=i+1;
+});
+$('#myDeviceTable').append(trHTML);
+}
+ });
+ });
+ });
+ </script>
+<!-- <script type="text/javascript">
+ function checkDate() {
+var OutDate = new Date($('#OutDate').val());
+var ReturnDate = new Date($('#ReturnDate').val());
+alert(OutDate);
+alert(ReturnDate);
+if (ReturnDate < OutDate){
+alert("less than");
+
+}
+        }
+</script> -->	
+<script type="text/javascript">
+$(document).ready(function(){
+$('#OutDate').on('change', function() {
+document.getElementById('ReturnDate').value = "";
+});
+$('#ReturnDate').on('change', function() {
+var OutDate = new Date($('#OutDate').val());
+var ReturnDate = new Date($('#ReturnDate').val());
+//alert(OutDate);
+//alert(ReturnDate);
+if (ReturnDate < OutDate){
+document.getElementById('ReturnDate').value = "";
+alert("Please enter correct date! Estimated Return Date must be either same or more than Out Date");
+}
+});
+});
+</script>
+<script type="text/javascript">
+ function myFunction() {
+ var x = document.getElementById("myDeviceListTable").rows.length;
+ alert(x);
+   if(x == 1){
+   alert("No record of Product / Device added on the grid table, Please select and add at least 1 device");
+   return false;
+   }
+   return( true );
+ 
+ }
+ </script>
+  <script type="text/javascript">
+ $(document).ready(function(){
+ $("#myList").click(function(){
+ var MaintenanceID=$('#MaintenanceID').val();
+ var ProductID=$('#ProductID').val();
+ var ProductName=$('#PName').val();
+ var favorite = [];
+ $.each($("input[name='PurchaseCheck']:checked"), function(){            
+                favorite.push($(this).val());
+            });
+			ListData=favorite.join(",");
+			var count = $("[type='checkbox']:checked").length;
+			alert(count);
+			alert(ListData);
+			$.get('/ProductSNListView/'+'?ListData='+ListData+'&ProductID='+ProductID+'&ProductName='+ProductName+'&MaintenanceID='+MaintenanceID, function(Data){
+			var splitArray = Data.split(".");
+ if (splitArray[0] == ''){
+	var trHTML ='';
+	$('#myDeviceListTable').append(trHTML);
+ }
+ else{
+// alert(splitArray[0]);
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Product ID</th><th class="center">Product Name</th><th class="center">Device SN</th></tr>';
+ i=1;
+$.each(JSON.parse(splitArray[0]), function(key, value) {
+$('#myDeviceListTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + ProductID + '</td><td class="center">' + ProductName + '</td><td class="center">' + value[0] + '</td</tr>';
+  i=i+1;
+});
+$('#myDeviceListTable').append(trHTML);
+}
+window.setTimeout(function () {
+                  $('#basicDeviceSNModal').modal('hide');
+                }, 1000);
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SaveAndSend").click(function(){
+ var x = document.getElementById("myDeviceListTable").rows.length;
+   if(x == 1){
+   alert("No record of Product / Device added on the grid table, Please select and add at least 1 device");
+   }
+   else{
+   var MaintenanceID=$('#MaintenanceID').val();
+ var RefTransaction=$('#RefTransaction').val();
+ var Purpose=$('#Purpose').val();
+ var FromWH=$('#FromWH').val();
+ var OutDate=$('#OutDate').val();
+ var ReturnDate=$('#ReturnDate').val();
+ var CompanyType=$('#CompanyType').val();
+ var CompanyID=$('#CompanyID').val();
+ var CompanyName=$('#CompanyName').val();
+ var PIC=$('#PIC').val();
+ var Notes=$('#Notes').val();
+ var ProductID=$('#ProductID').val();
+ var ProductName=$('#PName').val();
+ var count=x-1;
+ //var favorite = [];
+ //$.each($("input[name='PurchaseCheck']:checked"), function(){            
+              //  favorite.push($(this).val());
+           // });
+			//ListData=favorite.join(",");
+$.get('/SaveandSendStockInsert/'+'?MaintenanceID='+MaintenanceID+'&RefTransaction='+RefTransaction+'&Purpose='+Purpose+
+'&FromWH='+FromWH+'&OutDate='+OutDate+'&ReturnDate='+ReturnDate+'&CompanyType='+CompanyType+
+'&CompanyID='+CompanyID+'&CompanyName='+CompanyName+'&PIC='+PIC+'&Notes='+Notes+'&ProductID='+ProductID+
+'&ProductName='+ProductName+'&count='+count, function(Data){
+alert(Data);
+if(Data=='Success'){
+ <!-- window.location = "http://192.168.7.69:8080/accounts/ViewMaintenance/"; -->
+ window.location = "/accounts/ViewMaintenance/";
+ }
+});
+   }
+ });
+ });
+ </script>
+ <script>
+ $(document).ready(function(){
+ $("#SNAddbtn").click(function(){
+ MaintenanceID=$('#MaintenanceID').val();
+ ProductID=$('#ProductID').val();
+ ProductName=$('#PName').val();
+ DeviceSN=$('#DeviceSN').val();
+ //alert(MaintenanceID);
+ //alert(ProductID);
+ //alert(ProductName);
+ //alert(DeviceSN);
+ $.get('/GetDeviceSNDetails/'+'?ProductID='+ProductID+'&ProductName='+ProductName+'&MaintenanceID='+MaintenanceID+
+'&DeviceSN='+DeviceSN, function(Data){
+alert(Data);
+var splitArray = Data.split(".");
+ if (splitArray[0] == ''){
+	var trHTML ='';
+	$('#myDeviceListTable').append(trHTML);
+	alert(myDeviceListTable);
+	$('#DeviceSN').val("");
+ }
+ if(splitArray[1] == 'Device Serial Number Which You Entered Is Not Correct'){
+ //$('#ProductID').val("");
+ //$('#PName').val("");
+ $('#DeviceSN').val("");
+ //$('#PModel').val("");
+ }
+ if(splitArray[1] == 'DeviceSN Already Exist'){
+ //$('#ProductID').val("");
+// $('#PName').val("");
+ $('#DeviceSN').val("");
+// $('#PModel').val("");
+ }
+ else{
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Product ID</th><th class="center">Product Name</th><th class="center">Device SN</th><th class="center">Delete SN</th></tr>';
+ i=1;
+$.each(JSON.parse(splitArray[0]), function(key, value) {
+$('#myDeviceListTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + ProductID + '</td><td class="center">' + ProductName + '</td><td class="center">' + value[0] + '</td><td class="center"><a href="/accounts/DeleteMaintenanceSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+  i=i+1;
+});
+$('#myDeviceListTable').append(trHTML);
+$('#DeviceSN').val("");
+}
+window.setTimeout(function () {
+                  $('#basicDeviceSNModal').modal('hide');
+                }, 1000);
+				
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNDelete").click(function(){
+ var SNid=$('#DeleteSNid').val();
+ var Productid=$('#DelProductID').val();
+ var MaintenanceID=$('#DelMaintenanceID').val();
+ var SerialNumber=$('#DevicesrlNO').val();
+ $.get('/MaintenanceSNDelete/'+'?SNid='+SNid+'&Productid='+Productid+'&MaintenanceID='+MaintenanceID+'&SerialNumber='+SerialNumber, function(Data){
+ alert(Data);
+ if (Data == '[]' || Data.length == 0){
+	var trHTML ='';
+	$('#myDeviceListTable').empty();
+	console.log("Hi Empty Table");
+	window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+ }
+ else{
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Product ID</th><th class="center">Product Name</th><th class="center">Device SN</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(Data), function(key, value) {
+$('#myDeviceListTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + ProductID + '</td><td class="center">' + ProductName + '</td><td class="center">' + value[0] + '</td><td class="center"><a href="/accounts/DeleteMaintenanceSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ i=i+1;
+});
+$('#myDeviceListTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+				$(document).on('hidden.bs.modal', function (e) {
+				var target = $(e.target);
+				target.removeData('bs.modal')
+				.find(".modal-content").empty();
+				});	 
+}
+ });
+ });
+ });
+ </script>
+ </head>
+<body>
+	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/Maintenance/" role="form" data-toggle="validator">{% csrf_token %}
+	<div class="container"> 
+	 <div class="row">
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Maintenance (Borrow/Repair)<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Maintenance ID:</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceNO }}" readonly placeholder="MaintenanceID"  name="MaintenanceID" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Ref transaction</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="RefTransaction" readonly placeholder="RefTransaction"  name="RefTransaction" value="MaintenanceBorrowRepair" maxlength="30" required>
+    </div>
+	</div>
+	</div>
+	<div class="panel ">
+	<div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Device taken out temporarily from stock<h4>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Purpose:</label>
+	<h4>
+<input type="radio"  name="Purpose" id="Purpose" value="Borrow" required> Borrow</input></h4>
+<h4>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio"  name="Purpose" id="Purpose" value="Repair" required checked> Repair </h4>
+</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">From WareHouse:</label>
+    <div class="col-sm-6">
+	<select class="form-control" id="FromWH"  name="FromWH" required>
+		  <option value="">Select WareHouse</option>
+		   {% for entry in WHType %}
+		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
+		{% endfor %}
+						</select>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Out Date:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="OutDate" placeholder="Out Date"   name="OutDate" maxlength="75" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Estimated Return Date:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="ReturnDate" placeholder="Return Date"  name="ReturnDate" maxlength="75" required>
+    </div>
+	</div>
+  </div>
+  </div>
+  </div>
+  <!-- <div class="panel ">
+	<div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Internal Party<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Employee Name:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="EmployeeName"  placeholder="EmployeeName"  name="EmployeeName" maxlength="30" required>
+    </div>
+	</div>
+	 	<div class="form-group" id="comments">
+    <label for="Comments" class="col-sm-4 control-label">Remarks:</label>
+	<div class="col-sm-6">
+    <textarea class="form-control" wrap=physical id="Remarks" rows="3"  name="Remarks" maxlength="2000" required></textarea> 
+  </div>
+  </div>
+  </div>
+  </div> -->
+  
+
+  <div class="col-md-6">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Party who took the device<h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+<div class="form-group">
+<div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Company Type:</label>
+    <div class="col-sm-6">
+      <select class="form-control" id="CompanyType"  name="CompanyType" required>
+		  <option value="">Select  Type</option>
+		<option value="Distributor">Distributor</label>
+		<option value="Principal">Principal</label>
+		<option value="Customer">Customer</label>
+						</select>
+    </div>
+	<!-- <div class="col-sm-4">
+						<a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicModal">
+	                      Choose Type</a>
+						  </div> -->
+</div>
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-4 control-label">Company ID:</label>
+    <div class="col-sm-6">
+<!--       <input type="text" class="form-control" id="CompanyID"  placeholder="Company ID"  name="CompanyID" maxlength="30" required>
+ -->	   <select class="form-control" id="CompanyID" name="CompanyID" required>
+		  <option value="">Select Company ID</option>
+						</select>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Company Name:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CompanyName" readonly placeholder="Companyl Name"  name="CompanyName" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Company Address:</label>
+    <div class="col-sm-6">
+	<textarea class="form-control" wrap=physical id="CompanyAddress" rows="3" placeholder="Company Address" readonly name="Company Address" maxlength="280"></textarea> 
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Company City:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CompanyCity" readonly placeholder="Company City"  name="CompanyCity" maxlength="30" required>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">Company Country:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="CompanyCountry" readonly placeholder="Company Country"  name="CompanyCountry" maxlength="30" required>
+    </div>
+	</div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-4 control-label">PIC Who Responsible:</label>
+    <div class="col-sm-6">
+	<input type="text" class="form-control" id="PIC"  placeholder="PIC"  name="PIC" maxlength="30" required>
+    </div>
+	</div>
+	<div class="form-group" id="comments">
+    <label for="Comments" class="col-sm-4 control-label">Notes:</label>
+	<div class="col-sm-6">
+    <textarea class="form-control" wrap=physical id="Notes" rows="3"  name="Notes" maxlength="2000" required></textarea> 
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="container"> 
+	 <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Product/Device <h4>
+  </div>
+   <div class="panel-body" id="form-color">
+</br>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-4">
+       <select class="form-control" id="ProductID" name="ProductID" required>
+		  <option value="">Select Type</option>
+		  {% for entry in PType %}
+		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
+		{% endfor %}
+						</select>
+    </div>
+  </div>
+  
+			<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name"   name="PName" maxlength="30" >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model"   name="PModel" maxlength="30" >
+    </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product/Device SN:</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="DeviceSN" placeholder="Product/Device SN"   name="DeviceSN" maxlength="30" >
+    </div>
+	<a class="btn btn-primary"  class="submit" id="SNAddbtn" >
+	                      Add ID</a>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  
+<!--  <div class="col-sm-4">
+	<a class="btn btn-primary"  class="submit" id="myDeviceSN" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicDeviceSNModal">
+	                      Select Product/Device SN</a>
+	</div> -->
+	<table id="myDeviceListTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+			  <thead>
+                                    <tr>
+									<th class="center">ProductID</th>
+										<th class="center">ProductName</th>
+										<th class="center">DeviceSN</th>
+										<th class="center">Delete</th>
+                                    </tr>
+                                </thead>
+
+									</table>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="submit" class="btn btn-primary" onclick="return myFunction()">Save</button> 
+	  <a href="/accounts/ViewShipmentToCustomer/">
+<button class="btn btn-default" type="button">Close</button>	
+</a>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <a class="btn btn-primary"  class="submit" id="SaveAndSend" >
+	                      Save & Send</a>
+    </div>
+	</div>
+	<div class="modal fade" id="basicDeviceSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Product/Device SN</h4>
+            </div>
+            <div class="modal-body" >
+			  <label id="lblSTC" name="lblSTC"></label>
+			  
+			  <table id="myDeviceTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+			  <thead>
+                                    <tr>
+									<th class="center">Device SN</th>
+										<th class="center">Choose</th>
+                                    </tr>
+                                </thead>
+
+									</table>
+								<div class="col-sm-offset-2 col-sm-10">
+      <a class="btn btn-primary"  class="submit" id="myList" >
+	                      Add to List</a>
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+</a>  
+    </div>	
+  </div>
+  </div>
+ </div>
+	</div>
+	<div class="modal fade" id="basicDeleteSNModal" tabindex="-1" role="dialog"aria-labelledby="basicDeleteSNModal-label"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
+	 <input type="hidden"  value="{{ Productid }}" name="DelProductID" id="DelProductID"/>
+	  <input type="hidden"  value="{{ MaintenanceID }}" name="DelMaintenanceID" id="DelMaintenanceID"/>
+	 <input type="hidden"  value="{{ SerialNO }}" name="DevicesrlNO" id="DevicesrlNO"/>
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDelete">Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>
+ </div>
+	</div>
+  </form>
+  	  
+	   <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+	 <!-------- Modal Start ------->
+	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel">Shipment & Product details</h4>
+            </div>
+            <div class="modal-body">
+			
+			<table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+								<thead>
+                                    <tr>
+										<th class="center">External ID</th>                                       									
+										<th class="center">External Name</th>
+										<th class="center">External City</th>
+										<th class="center">External Country</th>
+                                    </tr>
+                                </thead>
+								
+								
+
+									</table>
+	
+	
+	</div>
+	</div>
+ </div>
+ </div>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,287 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Maintenance</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type="text/javascript">
+$(document).ready(function(){
+	$('#myTable').dataTable();
+});
+</script>
+ <script type="text/javascript">
+			function myFunction(val) {
+			alert(val);
+			if (val==""){
+			$('#ProductID').val('');
+			$('#ProductName').val('');
+			$('#WarehouseID').val('');
+			$('#CustomerID').val('');
+			$('#DistributorID').val('');
+			$('#DistributorName').val('');
+			}
+			$.get('/MaintenanceSearch/'+'?val='+val, function(Data){
+			alert(Data);
+			var splitArray = Data.split(".");
+			alert(splitArray);
+			$('#ProductID').val(splitArray[0]);
+			$('#ProductName').val(splitArray[1]);
+			$('#WarehouseID').val(splitArray[2]);
+			$('#CustomerID').val(splitArray[3]);
+			$('#DistributorID').val(splitArray[4]);
+			$('#DistributorName').val(splitArray[5]);
+			$('#SNStatus').val(splitArray[6]);
+		});
+	}
+	</script>
+	<script type="text/javascript">
+ $(document).ready(function(){
+ $("#Update").click(function(){
+ alert(DSNid);
+ var MaintenanceID=$('#MaintenanceID').val();
+ var Devicesn=$('#Devicesn').val();
+ var Status=$('#Status').val();
+ var Comments=$('#Comments').val();
+ $.get('/MaintenanceUpdate/'+'?MaintenanceID='+MaintenanceID+'&Devicesn='+Devicesn+'&Status='+Status+'&Comments='+Comments, function(Data){
+ $('#Status').val('');
+ $('#Comments').val('');
+ alert(Data);
+ $.each(JSON.parse(Data), function(key, value) {
+ alert(value[0]);
+ $('#Fpara').val(value[0]);
+ 
+ 
+});
+ });
+ 
+ });
+ });
+ </script>
+ </head>
+ <body>
+ <form class="form-horizontal" name="RForm" method="POST" action="/accounts/DeviceMaintenance/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="container">
+ <div class="row">
+ <div class="col-md-12">
+ <div class="panel ">
+ <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Maintenance (Borrow/Repair)<h4>
+  </div>
+ <div class="panel-body" id="form-color">
+  <div class="form-group">
+	<label for="inputEmail3" class="col-sm-2 control-label">Maintenance ID:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceID }}" readonly placeholder="MaintenanceID"  name="MaintenanceID" maxlength="30" required>
+    </div>
+  </div>
+ <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Device SN:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="Devicesn" placeholder="Device SN" value="{{ DeviceSN }}" name="Devicesn"  onchange="myFunction(this.value)" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">SN Status:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="SNStatus" placeholder="SN Status" name="SNStatus"  readonly maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">ProductID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductID" readonly placeholder="ProductID" name="ProductID" maxlength="30" required>
+    </div>
+	 <label for="inputEmail3" class="col-sm-2 control-label">ProductName:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductName" readonly placeholder="ProductName" name="ProductName" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">WarehouseID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="WarehouseID" readonly placeholder="WarehouseID" name="WarehouseID" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">CustomerID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="CustomerID" readonly placeholder="CustomerID" name="CustomerID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">DistributorID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorID" readonly placeholder="DistributorID" name="DistributorID" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">DistributorName:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorName" readonly placeholder="DistributorName" name="DistributorName" maxlength="30" required>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Select Repair/Borrow:</label>
+    <div class="col-sm-4">
+	<select class="form-control" id="Purpose" name="Purpose" required>
+		  <option value="Repair">Repair</option>
+		  <option value="Borrow">Borrow</option>
+	</select>
+    </div>
+	</div>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Notes:</label>
+    <div class="col-sm-4">
+	<textarea class="form-control" wrap=physical id="Notes" rows="3" name="Notes" maxlength="280" required ></textarea> 
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<div class="form-group">
+  <input  type="submit" class="submit" name="AddToList" value="Submit" class="btn btn-primary"></input>
+		</div>
+ <!--  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+  <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Add SAM Card Details" data-toggle="modal" data-target="#basicModal">
+	                      Add Maintenance</a>
+						  </div>
+  </div> -->
+  
+   <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-12">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">View Maintenance<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Device SN</th>
+                                        <th class="center">Product ID</th>
+                                        <th class="center">DistributorName</th>	
+										<th class="center">Purpose</th>
+                                        <th class="center">Comments</th>
+                                        <th class="center">Status</th>	
+										<th class="center">Created On</th>	
+										 <th class="center">Edit</th>
+										<!--<th class="center">Check</th> -->
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+                                       <td class="center">{{ u.DeviceSN }}</td>
+									   <td class="center">{{ u.ProductName }}</td>
+									   <td class="center">{{ u.DistributorName }}</td>
+									   <td class="center">{{ u.Purpose }}</td>
+									   <td class="center">{{ u.Comments }}</td>							
+									   <td class="center">{{ u.Status }}</td>
+									   <td class="center">{{ u.CreatedOn|date:"Y-m-d" }}</td>
+									   {% if u.Status == 'Fixed' %}
+									   <td class="center"></td>
+									   {% else %}
+										 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" class="btn btn-primary" title="Add Material" name="Save" data-title="Edit Maintenance" data-toggle="modal" data-target="#basicModal"><i></i>Edit Maintenance</a></td>
+										 {% endif %}
+										<!--<td class="center"><a href="/accounts/ADDPurchaseOrder/{{u.id}}"><input type="checkbox" name="PurchaseCheck" value="{{ u.id }}" />&nbsp;</a></td> -->
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   </div>
+  </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel"> Device Details</h4>
+            </div>
+            <div class="modal-body">
+			 <div class="form-group">
+			 <input type="hidden"  value="{{ MaintenanceID }}" id="mid" name="mid" />
+			 <input type="hidden"  value="{{ DeviceSN }}" id="DSNid" name="DSNid" />
+    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow:</label>
+    <div class="col-sm-4">
+	<select class="form-control" id="Status" name="Status" required>
+		  <option value="Send To Credence">Send To Credence</option>
+		  <option value="Damage">Damage</option>
+		  <option value="Fixed">Fixed</option>
+	</select>
+    </div>
+	</div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Comments:</label>
+    <div class="col-sm-4">
+	<textarea class="form-control" wrap=physical id="Comments" rows="3" name="Comments" maxlength="280"  ></textarea> 
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	
+	
+	<div class="form-group">
+   <a class="btn btn-primary"  class="submit"  id="Update" >
+	                      Update</a>
+		</div>
+		<div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Maintenance History<h4>
+  </div>
+		{% for u in historyobj %}   
+		
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Current Status:</label>
+	<p id="Fpara"></p>
+	<label for="inputEmail3" class="col-sm-3 control-label">Comments:</label>
+	</div>
+	{% endfor %}
+	</div>
+	</div>
+ </div>
+ </div>
+
+ </form>
+ <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}

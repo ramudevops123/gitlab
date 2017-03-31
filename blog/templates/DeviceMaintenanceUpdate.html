@@ -1,0 +1,114 @@
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#Update").click(function(){
+ var MaintenanceID=$('#mid').val();
+ alert(MaintenanceID);
+ var Devicesn=$('#DSNid').val();
+ var Status=$('#Status').val();
+ var Comments=$('#Comments').val();
+ $.get('/MaintenanceUpdate/'+'?MaintenanceID='+MaintenanceID+'&Devicesn='+Devicesn+'&Status='+Status+'&Comments='+Comments, function(Data){
+ $('#Status').val('');
+ $('#Comments').val('');
+ alert(Data);
+ $.each(JSON.parse(Data), function(key, value) {
+ alert(value[0]);
+ $('#Fpara').val(value[0]);
+ 
+ 
+});
+ });
+ 
+ });
+ });
+ </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#Quantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#qtyerrmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+   }
+   });
+ });
+</script>
+<script>
+$(document).ready(function(){
+$('#Quantity').keyup(function(){
+   if($(this).val() == "0"){
+   $('#Quantity').val('');
+   }else if($(this).val() > 0){
+   console.log($(this).val());
+   $(this).val(Number($(this).val()))
+   }
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+         <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel"> Device Details</h4>
+            </div>
+            <div class="modal-body">
+			<form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditMaintanenceStatus/" role="form">{% csrf_token %} 
+			 <div class="form-group">
+			 <input type="hidden"  value="{{ uid }}" id="uid" name="uid" />
+			 <input type="hidden"  value="{{ MaintenanceID }}" id="mid" name="mid" />
+			 <input type="hidden"  value="{{ DeviceSN }}" id="DSNid" name="DSNid" />
+    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow:</label>
+    <div class="col-sm-4">
+	<select class="form-control" id="Status" name="Status" required>
+		  <option value="Send To Credence">Send To Credence</option>
+		  <option value="Damage">Damage</option>
+		  <option value="Fixed">Fixed</option>
+	</select>
+    </div>
+	</div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Comments:</label>
+    <div class="col-sm-4">
+	<textarea class="form-control" wrap=physical id="Comments" rows="3" name="Comments" maxlength="280"  ></textarea> 
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	
+	
+	<div class="form-group">
+	 <button type="submit" class="submit" onclick="return myFunction()" class="btn btn-primary">Update</button>	
+   <!-- <a class="btn btn-primary"  class="submit"  id="Update" >
+	                      Update</a> -->
+		</div>
+		
+		  {% for u in historyobj %} 
+		<div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Maintenance History<h4>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Current Status:   {{ u.Status}}</label>
+	<label for="inputEmail3" class="col-sm-3 control-label">Comments:      {{ u.Comments }}</label>
+	<label for="inputEmail3" class="col-sm-3 control-label">Updated On:      {{ u.LastUpdateOn }}</label>
+	</div>
+	{% endfor %}
+	</div>
+	</div>

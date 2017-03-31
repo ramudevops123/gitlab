@@ -1,0 +1,175 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+{% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+	{% endif %}
+ <title>Maintenance</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+ <script type="text/javascript">
+			function myFunction(val) {
+			alert(val);
+			if (val==""){
+			$('#ProductID').val('');
+			$('#ProductName').val('');
+			$('#WarehouseID').val('');
+			$('#CustomerID').val('');
+			$('#DistributorID').val('');
+			$('#DistributorName').val('');
+			}
+			$.get('/MaintenanceSearch/'+'?val='+val, function(Data){
+			alert(Data);
+			var splitArray = Data.split(".");
+			alert(splitArray);
+			$('#ProductID').val(splitArray[0]);
+			$('#ProductName').val(splitArray[1]);
+			$('#WarehouseID').val(splitArray[2]);
+			$('#CustomerID').val(splitArray[3]);
+			$('#DistributorID').val(splitArray[4]);
+			$('#DistributorName').val(splitArray[5]);
+		});
+	}
+	</script>
+ </head>
+ <body>
+ <form class="form-horizontal" name="RForm" method="POST" action="/accounts/MaintenanceSearch/" role="form" data-toggle="validator">{% csrf_token %}
+ <div class="container">
+ <div class="row">
+ <div class="col-md-12">
+ <div class="panel ">
+ <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">Maintenance (Borrow/Repair)<h4>
+  </div>
+ <div class="panel-body" id="form-color">
+ <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Device SN:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="Devicesn" placeholder="Device SN" name="Devicesn" onchange="myFunction(this.value)" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">ProductID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductID" placeholder="ProductID" name="ProductID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">ProductName:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="ProductName" placeholder="ProductName" name="ProductName" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">WarehouseID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="WarehouseID" placeholder="WarehouseID" name="WarehouseID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">CustomerID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="CustomerID" placeholder="CustomerID" name="CustomerID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">DistributorID:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorID" placeholder="DistributorID" name="DistributorID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">DistributorName:</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorName" placeholder="DistributorName" name="DistributorName" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-12">
+  <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Add SAM Card Details" data-toggle="modal" data-target="#basicModal">
+	                      Add Maintenance</a>
+						  </div>
+  </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+            <h4 class="modal-title" id="myModalLabel"> Device Details</h4>
+            </div>
+            <div class="modal-body">
+			 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow:</label>
+    <div class="col-sm-4">
+	<select class="form-control" id="maintenance" name="maintenance" required>
+		  <option value="Repair">Repair</option>
+		  <option value="Barrow">Barrow</option>
+	</select>
+    </div>
+	</div>
+	<label id="lblSAM" name="lblSAM"></label>
+	 <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Comments:</label>
+    <div class="col-sm-4">
+	<textarea class="form-control" wrap=physical id="thrdPartyAddress" rows="3" name="thrdaddrs" maxlength="280" required id="comments"></textarea> 
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<!--<div class="form-group">
+    <label for="exampleInputFile" class="col-sm-2 control-label" >SAM PIN File</label>
+	<div class="col-sm-5">
+    
+				    <input type="file" id="id_docfile" accept=".properties" required name="docfile" size="20" />
+	</div>
+  </div>	-->
+   <div class="form-group">
+  <input  type="submit" class="submit" name="AddToList" value="Submit" class="btn btn-primary"></input>
+		</div>	
+	
+	
+	</div>
+	</div>
+ </div>
+ </div>
+ </form>
+ <footer class="footer">
+      <div class="container">
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+				<ul class="footer-nav">
+  <li>
+                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
+                                    </li>
+                                    <li>
+									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
+                                    </li>
+									<li>
+									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
+                                    		  
+                                    </li>
+  <li><a href="">Home</a></li>
+   <li><a href="">Legal Disclaimer</a></li>
+  </ul> 
+      </div>
+    </footer>
+ </body>
+</html>
+{% endblock %}

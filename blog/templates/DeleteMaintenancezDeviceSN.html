@@ -1,0 +1,83 @@
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#SNDelete").click(function(){
+ var SNid=$('#DeleteSNid').val();
+ var Productid=$('#DelProductID').val();
+ var MaintenanceID=$('#DelMaintenanceID').val();
+ var SerialNumber=$('#DevicesrlNO').val();
+ $.get('/MaintenanceSNDelete/'+'?SNid='+SNid+'&Productid='+Productid+'&MaintenanceID='+MaintenanceID+'&SerialNumber='+SerialNumber, function(Data){
+ if (Data == '[]' || Data.length == 0){
+	var trHTML ='';
+	$('#myDeviceListTable').empty();
+	console.log("Hi Empty Table");
+	window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+ }
+ else{
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Product ID</th><th class="center">Product Name</th><th class="center">Device SN</th><th class="center">Delete</th></tr>';
+ i=1;
+$.each(JSON.parse(Data), function(key, value) {
+$('#myDeviceListTable').empty();
+ trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + ProductID + '</td><td class="center">' + ProductName + '</td><td class="center">' + value[0] + '</td><td class="center"><a href="/accounts/DeleteMaintenanceSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
+ i=i+1;
+});
+$('#myDeviceListTable').append(trHTML);
+$('#SNumber').val('');
+window.setTimeout(function () {
+                  $('#basicDeleteSNModal').modal('hide');
+                }, 1000);
+				$(document).on('hidden.bs.modal', function (e) {
+				var target = $(e.target);
+				target.removeData('bs.modal')
+				.find(".modal-content").empty();
+				});	 
+}
+ });
+ });
+ });
+ </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            </div>
+            <div class="modal-body" >
+			  <div class="col-sm-8">
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
+	 <input type="hidden"  value="{{ Productid }}" name="DelProductID" id="DelProductID"/>
+	 <input type="hidden"  value="{{ MaintenanceID }}" name="DelMaintenanceID" id="DelMaintenanceID"/>
+	 <input type="hidden"  value="{{ SerialNO }}" name="DevicesrlNO" id="DevicesrlNO"/>
+    </div>
+	 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-18">
+      <a class="btn btn-primary"  class="submit" id="SNDelete" >
+	                      Delete</a>
+	  <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>
+	
+	
