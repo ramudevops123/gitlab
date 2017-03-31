@@ -2435,13 +2435,19 @@ def GetSAM_Details(request,u_id):
     userrole=get_role(request.user.email)
     SAMInfoList=TxSAM.objects.raw('SELECT * FROM blog_txsam where id =%s',[u_id])
     cursor = connection.cursor()
+    cursor.execute("SELECT ReceivingSAMID FROM blog_txsam where id=('%s')" % (u_id))
+    ReceivingSAMID=cursor.fetchone()[0]
+    logger.info(ReceivingSAMID)
+    cursor.execute("SELECT ProductID FROM blog_txstocksn where RefNumber=('%s')" % (ReceivingSAMID))
+    snProductID=cursor.fetchone()[0]
+    logger.info(snProductID)
     cursor.execute('SELECT r.id FROM blog_txreceivingsam r,blog_txsam s WHERE r.ReceivingSAMID=s.ReceivingSAMID AND s.id=%s',[u_id])
     samid =  cursor.fetchone()[0]
     logger.info(samid)
     for s in SAMInfoList:
         if request.user.username == '':
             return HttpResponseRedirect('/accounts/login/')
-	else:
+        else:
             return render(request, 'EditSAMDetails.html',{'samid':samid,
                                                         'uid':u_id,
                                                         'RSamID':s.ReceivingSAMID,
@@ -2449,6 +2455,7 @@ def GetSAM_Details(request,u_id):
                                                         'SAMSN':s.SAM_SN,
                                                         'SAMUID':s.SAM_UID,
                                                         'docfile':s.SAMpinFile,
+                                                        'SNProductID':snProductID,
                                                         'UserRole':userrole,
                                                         'full_name':request.user.first_name
                                                                         })
@@ -3045,8 +3052,13 @@ def ADDHOM_View(request):
     PModel=request.POST.get('PModel')
     ProSN=request.POST.get('ProSN')
     SAMSN=request.POST.get('SAMSN')
+    logger.info(SAMSN)
+    SIMSN=request.POST.get('SIMSN')
+    logger.info(SIMSN)
     PStatus=request.POST.get('PStatus')
     AndriodID=request.POST.get('AndriodID')
+    if SAMSN=='':
+        SAMSN=SIMSN
     CreatedOn=str(now)[:10]
     CreatedBy=request.user.first_name
     LastUpdateOn=str(now)[:10]
@@ -3059,8 +3071,9 @@ def ADDHOM_View(request):
         ProductName=ProductDetails[3]
         ProductModel=ProductDetails[4]
     else:
-        return render(request, 'AddHandOverMaterial.html',{'Error':'Please Set SAM Card Details','ProductionID':ProductionID,'PType':MsBOMHeader.objects.filter(ProductStatus='Active'),'CreatedOn':CreatedOn[:10],'CreatedBy':CreatedBy,'LastUpdateBy':LastUpdateBy,'LastUpdateOn':LastUpdateOn[:10],'UserRole':userrole,'full_name':request.user.first_name})
+        return render(request, 'AddHandOverMaterial.html',{'Error':'Please set SAM Card details','ProductionID':ProductionID,'PType':MsBOMHeader.objects.filter(ProductStatus='Active'),'CreatedOn':CreatedOn[:10],'CreatedBy':CreatedBy,'LastUpdateBy':LastUpdateBy,'LastUpdateOn':LastUpdateOn[:10],'UserRole':userrole,'full_name':request.user.first_name})
     StartPDate=CreatedOn[:10]
+    logger.info(StartPDate)
     if  ProductionID!= None and PID != None:
         cursor.execute("""INSERT INTO blog_txhandovermaterialhdr(ProductionID,RefNumber,ProductID,ProductName,ProductModel,Product_SN,SAM_SN,AndriodID,StartProductionDate,ProductionStatus,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy)
         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(ProductionID,RefNumber,PID,PName,PModel,ProSN,SAMSN,AndriodID,StartPDate,PStatus,CreatedOn,CreatedBy,LastUpdateOn,LastUpdateBy))
@@ -3147,22 +3160,26 @@ def EditHOM_View(request,u_id):
                                                          'full_name':request.user.first_name
                                                          })
 
-
 def UpdateHOM_View(request):
     userrole=get_role(request.user.email)
     hid=request.POST.get('uid')
     ProSN=request.POST.get('ProSN')
     SAMSN=request.POST.get('SAMSN')
+    SIMSN=request.POST.get('SIMSN')
     AndriodID=request.POST.get('AndriodID')
     now=datetime.now()
     LastUpdateOn=str(now)[:19]
     LastUpdateBy=request.user.first_name
+    if SAMSN=='':
+        SAMSN=SIMSN
+        logger.info(SAMSN)
     cursor = connection.cursor()
     cursor.execute("""UPDATE blog_txhandovermaterialhdr SET Product_SN=%s,SAM_SN=%s,LastUpdateOn=%s,LastUpdateBy=%s WHERE id=%s""",
 	(ProSN,SAMSN,LastUpdateOn,LastUpdateBy,hid))
     cursor.execute("""UPDATE blog_txsam SET AndriodID=%s,LastUpdateOn=%s,LastUpdateBy=%s WHERE  SAM_SN=%s""",
 	(AndriodID,LastUpdateOn,LastUpdateBy,SAMSN))
     return render_to_response('ViewHOM.html',{'UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.all(),'full_name':request.user.first_name})
+
 
 def SAMHOMFileClick_Details(request):
     SAMSN=request.GET.get('SAMSN')
@@ -3352,7 +3369,7 @@ def View_FGReceiving(request):
             SAMPIN=cursor.fetchone()[0]
             logger.info(SAMPIN)
             if SAMPIN == '':
-                return render(request,'ViewFinishGoodReceiving.html',{'Error':'Please Download SAM PIN File in Edit HandOver Material by downloading the SAMPIN file','UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Stagging'),'full_name':request.user.first_name})
+                return render(request,'ViewFinishGoodReceiving.html',{'Error':'Please Download SAM PIN File in Edit HandOver Material by downloading the SAMPIN file','UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Staging'),'full_name':request.user.first_name})
             cursor.execute("SELECT OutputWarehouseName  FROM blog_txwarehouseforproduction")
             OutputWarehouseID=cursor.fetchone()[0]
             cursor.execute("SELECT ProductID  FROM blog_txhandovermaterialhdr where RefNumber=('%s')" % (i))
@@ -3408,9 +3425,9 @@ def View_FGReceiving(request):
                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(MaterialCode,MaterialName,SAM_SN,'OUT',j,CreatedOn[:10],CreatedBy,LastUpdateOn[:10],LastUpdateBy))
             
                     
-        return render(request,'ViewFinishGoodReceiving.html',{'UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Stagging'),'full_name':request.user.first_name})
+        return render(request,'ViewFinishGoodReceiving.html',{'UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Staging'),'full_name':request.user.first_name})
     else:
-	return render(request,'ViewFinishGoodReceiving.html',{'UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Stagging'),'full_name':request.user.first_name})
+	return render(request,'ViewFinishGoodReceiving.html',{'UserRole':userrole,'obj':TxHandOverMaterialHdr.objects.filter(ProductionStatus='Staging'),'full_name':request.user.first_name})
 	
     
 
