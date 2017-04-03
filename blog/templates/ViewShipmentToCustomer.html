@@ -79,7 +79,8 @@ $(document).ready(function()
 										
 									<!--	<th class="center">Customer</th> -->
 										<th class="center"><i style="font-size:24px" class="fa">&#xf2c0;</i></th>									
-									<!--	<th class="center">Shipment qty</th> -->			
+									<!--	<th class="center">Shipment qty</th> -->
+										<th class="center">Customer name</th>									
 										<th class="center"><i class="material-icons">&#xe558;</i><i class="material-icons">&#xe854;</i></th>
 										<th class="center">Status</th>	
 										
@@ -103,6 +104,7 @@ $(document).ready(function()
                                        <td class="center">{{ u.ProductID }}</td>
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.CustomerID }}</td>									   
+									   <td class="center">{{ u.CustomerName }}</td>
 									   <td class="center">{{ u.ShipQty |floatformat:"0" }}</td>
 									   <td class="center">{{ u.Status }}</td>
 									   
