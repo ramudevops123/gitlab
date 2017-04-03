@@ -31,7 +31,7 @@ $(document).ready(function(){
 </script>
  <script type="text/javascript">
 			function myFunction(val) {
-			alert(val);
+			//alert(val);
 			if (val==""){
 			$('#ProductID').val('');
 			$('#ProductName').val('');
@@ -41,9 +41,9 @@ $(document).ready(function(){
 			$('#DistributorName').val('');
 			}
 			$.get('/MaintenanceSearch/'+'?val='+val, function(Data){
-			alert(Data);
+			//alert(Data);
 			var splitArray = Data.split(".");
-			alert(splitArray);
+			//alert(splitArray);
 			$('#ProductID').val(splitArray[0]);
 			$('#ProductName').val(splitArray[1]);
 			$('#WarehouseID').val(splitArray[2]);
@@ -51,13 +51,22 @@ $(document).ready(function(){
 			$('#DistributorID').val(splitArray[4]);
 			$('#DistributorName').val(splitArray[5]);
 			$('#SNStatus').val(splitArray[6]);
+			if(splitArray[7]=="Serial Number Not Exist in stock"){
+			document.getElementById("Devicesn").value= "";
+			$('#deviceSNmsg').text("Device SN does not exist in stock");
+			}
+			else if(splitArray[7]==""){
+			//document.getElementById("Devicesn").value= "";
+			$('#deviceSNmsg').text("");
+			}
+
 		});
 	}
 	</script>
 	<script type="text/javascript">
  $(document).ready(function(){
  $("#Update").click(function(){
- alert(DSNid);
+ //alert(DSNid);
  var MaintenanceID=$('#MaintenanceID').val();
  var Devicesn=$('#Devicesn').val();
  var Status=$('#Status').val();
@@ -65,9 +74,9 @@ $(document).ready(function(){
  $.get('/MaintenanceUpdate/'+'?MaintenanceID='+MaintenanceID+'&Devicesn='+Devicesn+'&Status='+Status+'&Comments='+Comments, function(Data){
  $('#Status').val('');
  $('#Comments').val('');
- alert(Data);
+ //alert(Data);
  $.each(JSON.parse(Data), function(key, value) {
- alert(value[0]);
+ //alert(value[0]);
  $('#Fpara').val(value[0]);
  
  
@@ -89,53 +98,54 @@ $(document).ready(function(){
   </div>
  <div class="panel-body" id="form-color">
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">Maintenance ID:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Maintenance ID</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceID }}" readonly placeholder="MaintenanceID"  name="MaintenanceID" maxlength="30" required>
+      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceID }}" readonly placeholder="Maintenance ID"  name="MaintenanceID" maxlength="30" required>
     </div>
   </div>
  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Device SN:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Device SN</label>
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="Devicesn" placeholder="Device SN" value="{{ DeviceSN }}" name="Devicesn"  onchange="myFunction(this.value)" maxlength="30" required>
+		<label id="deviceSNmsg" name="labelid"></label>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">SN Status:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">SN Status</label>
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="SNStatus" placeholder="SN Status" name="SNStatus"  readonly maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ProductID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="ProductID" readonly placeholder="ProductID" name="ProductID" maxlength="30" required>
+	 <input type="text" class="form-control" id="ProductID" readonly placeholder="Product ID" name="ProductID" maxlength="30" required>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">ProductName:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="ProductName" readonly placeholder="ProductName" name="ProductName" maxlength="30" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">WarehouseID:</label>
-    <div class="col-sm-4">
-	 <input type="text" class="form-control" id="WarehouseID" readonly placeholder="WarehouseID" name="WarehouseID" maxlength="30" required>
-    </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">CustomerID:</label>
-    <div class="col-sm-4">
-	 <input type="text" class="form-control" id="CustomerID" readonly placeholder="CustomerID" name="CustomerID" maxlength="30" required>
+	 <input type="text" class="form-control" id="ProductName" readonly placeholder="Product name" name="ProductName" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">DistributorID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="DistributorID" readonly placeholder="DistributorID" name="DistributorID" maxlength="30" required>
+	 <input type="text" class="form-control" id="WarehouseID" readonly placeholder="Warehouse ID" name="WarehouseID" maxlength="30" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">DistributorName:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Customer ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="DistributorName" readonly placeholder="DistributorName" name="DistributorName" maxlength="30" required>
+	 <input type="text" class="form-control" id="CustomerID" readonly placeholder="Customer ID" name="CustomerID" maxlength="30" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Distributor ID</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorID" readonly placeholder="Distributor ID" name="DistributorID" maxlength="30" required>
+    </div>
+	<label for="inputEmail3" class="col-sm-2 control-label">Distributor name</label>
+    <div class="col-sm-4">
+	 <input type="text" class="form-control" id="DistributorName" readonly placeholder="Distributor name" name="DistributorName" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Select Repair/Borrow:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Select Repair/Borrow</label>
     <div class="col-sm-4">
 	<select class="form-control" id="Purpose" name="Purpose" required>
 		  <option value="Repair">Repair</option>
@@ -144,7 +154,7 @@ $(document).ready(function(){
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Notes:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Notes</label>
     <div class="col-sm-4">
 	<textarea class="form-control" wrap=physical id="Notes" rows="3" name="Notes" maxlength="280" required ></textarea> 
     </div>
@@ -153,12 +163,6 @@ $(document).ready(function(){
 	<div class="form-group">
   <input  type="submit" class="submit" name="AddToList" value="Submit" class="btn btn-primary"></input>
 		</div>
- <!--  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-12">
-  <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Add SAM Card Details" data-toggle="modal" data-target="#basicModal">
-	                      Add Maintenance</a>
-						  </div>
-  </div> -->
   
    <div class="container-fluid"> 
    <div class="row">
@@ -173,12 +177,12 @@ $(document).ready(function(){
                                     <tr>
 										<th class="center">Device SN</th>
                                         <th class="center">Product ID</th>
-                                        <th class="center">DistributorName</th>	
+                                        <th class="center">Distributor name</th>	
 										<th class="center">Purpose</th>
                                         <th class="center">Comments</th>
                                         <th class="center">Status</th>	
-										<th class="center">Created On</th>	
-										 <th class="center">Edit</th>
+										<th class="center">Created on</th>	
+										 <!-- <th class="center">Edit</th> -->
 										<!--<th class="center">Check</th> -->
                                         </tr>
                                 </thead>
@@ -186,18 +190,26 @@ $(document).ready(function(){
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-                                       <td class="center">{{ u.DeviceSN }}</td>
+									 {% if u.Status == 'Fixed' %}
+									   <td class="center"></td>
+									   <td class="center">{{ u.DeviceSN }}</td>
+									   {% else %}
+											
+									<!--	 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" class="btn btn-primary" title="Edit Maintenance" name="Save" data-title="Edit Maintenance" data-toggle="modal" data-target="#basicModal"><i></i>{{ u.DeviceSN }}</a></td> -->
+										 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" style="color: blue;" title="Edit Maintenance">{{ u.DeviceSN }}</td>
+										 {% endif %}
+                                       
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.DistributorName }}</td>
 									   <td class="center">{{ u.Purpose }}</td>
 									   <td class="center">{{ u.Comments }}</td>							
 									   <td class="center">{{ u.Status }}</td>
-									   <td class="center">{{ u.CreatedOn|date:"Y-m-d" }}</td>
-									   {% if u.Status == 'Fixed' %}
+									   <td class="center">{{ u.CreatedOn|date:"d-m-Y" }}</td>
+									  <!-- {% if u.Status == 'Fixed' %}
 									   <td class="center"></td>
 									   {% else %}
 										 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" class="btn btn-primary" title="Add Material" name="Save" data-title="Edit Maintenance" data-toggle="modal" data-target="#basicModal"><i></i>Edit Maintenance</a></td>
-										 {% endif %}
+										 {% endif %} -->
 										<!--<td class="center"><a href="/accounts/ADDPurchaseOrder/{{u.id}}"><input type="checkbox" name="PurchaseCheck" value="{{ u.id }}" />&nbsp;</a></td> -->
                                     </tr>
 									{% endfor %}
@@ -218,13 +230,13 @@ $(document).ready(function(){
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">  
-            <h4 class="modal-title" id="myModalLabel"> Device Details</h4>
+            <h4 class="modal-title" id="myModalLabel"> Device details</h4>
             </div>
             <div class="modal-body">
 			 <div class="form-group">
 			 <input type="hidden"  value="{{ MaintenanceID }}" id="mid" name="mid" />
 			 <input type="hidden"  value="{{ DeviceSN }}" id="DSNid" name="DSNid" />
-    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow:</label>
+    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow</label>
     <div class="col-sm-4">
 	<select class="form-control" id="Status" name="Status" required>
 		  <option value="Send To Credence">Send To Credence</option>
@@ -234,7 +246,7 @@ $(document).ready(function(){
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Comments:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
     <div class="col-sm-4">
 	<textarea class="form-control" wrap=physical id="Comments" rows="3" name="Comments" maxlength="280"  ></textarea> 
     </div>
@@ -252,9 +264,9 @@ $(document).ready(function(){
 		{% for u in historyobj %}   
 		
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-3 control-label">Current Status:</label>
+    <label for="inputEmail3" class="col-sm-3 control-label">Current Status</label>
 	<p id="Fpara"></p>
-	<label for="inputEmail3" class="col-sm-3 control-label">Comments:</label>
+	<label for="inputEmail3" class="col-sm-3 control-label">Comments</label>
 	</div>
 	{% endfor %}
 	</div>
@@ -263,25 +275,7 @@ $(document).ready(function(){
  </div>
 
  </form>
- <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+ 
  </body>
 </html>
 {% endblock %}
