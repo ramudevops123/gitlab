@@ -14,7 +14,7 @@
 {% elif UserRole == 'Local Manufacture'%}
 	{% include 'LocalManufacture.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
    <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}"> 
@@ -60,20 +60,20 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Hand Over Material<h4>
+   <h4 class="panel-title" id="user title">View Handover material<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Hand Over ID</th>
+										<th class="center">Handover ID</th>
 										<th class="center">Product ID</th>                                     
-                                        <th class="center">Product Name</th>										
-										<th class="center">Product Model</th>
+                                        <th class="center">Product name</th>										
+										<th class="center">Product model</th>
 										<th class="center">Product SN</th>                                     
                                         <th class="center">SAM SN</th>										
-										<th class="center">Start Production Date</th>
-										<th class="center">Production Status</th>
+										<th class="center">Production Date</th>
+										<th class="center">Production status</th>
 										<th class="center">Edit</th>
                                         </tr>
                                 </thead>
@@ -87,12 +87,12 @@ $(document).ready(function()
 									   <td class="center">{{ u.ProductModel }}</td>
 									   <td class="center">{{ u.Product_SN }}</td>
 									   <td class="center">{{ u.SAM_SN }}</td>
-									   <td class="center">{{ u.StartProductionDate }}</td>
+									   <td class="center">{{ u.StartProductionDate|date:"d-m-Y"}}</td>
 									   <td class="center">{{ u.ProductionStatus }}</td>
-									   {% if u.ProductionStatus == 'Stagging' %}
+									   {% if u.ProductionStatus == 'Staging' %}
 										<td class="center"><a href="/accounts/EditHOM/{{u.id}}">Edit</a></td>
 										{% else %}
-										<td class="center"></a></td>
+										<td class="center"><a href="/accounts/ViewHOMA/{{u.id}}">View</a></td>
 										{% endif %}
                                     </tr>
 									{% endfor %}
@@ -105,9 +105,10 @@ $(document).ready(function()
    </div>
   </div>
    </form>
+   <!--
    <footer class="footer">
       <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
+        <div style="text-align:center;" class="text-muted">&#0169;2008-2017 Biomorf Lone All rights reserved.</div>
 				<ul class="footer-nav">
   <li>
                                     		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
@@ -124,6 +125,7 @@ $(document).ready(function()
   </ul> 
       </div>
     </footer>
+	-->
  </body>
 </html>
 {% endblock %}
