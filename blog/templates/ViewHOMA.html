@@ -1,0 +1,416 @@
+{% extends "admin.html" %}
+{% block content %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% if UserRole == 'Admin'%}
+	{% include 'base.html' %}
+{% elif UserRole == 'Logistic staff/user'%}
+	{% include 'LogisticUser.html' %}
+{% elif UserRole == 'Production'%}
+	{% include 'Production.html' %}
+{% elif UserRole == 'Local Manufacture'%}
+	{% include 'LocalManufacture.html' %}
+	{% endif %}
+ <title>::: BIMS :::</title>
+ {% load staticfiles %}
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+  <script src="{% static 'js/jQuery UI.js' %}"></script>
+  <script type="text/javascript">
+				$(function() {
+				$( "#StartPDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+				$("#StartPDate").keypress(function(event) {event.preventDefault();});
+				});
+				</script>
+<script type="text/javascript">
+function removeWhitespaces() {
+			var txtboxVal = $('#Qty').val().trim();
+			$('#Qty').val(txtboxVal);
+			}
+$(document).ready(function(){
+	$('#ProductID').on('change', function() {
+		var ProductID = $(this).val();
+		if (ProductID == ''){
+		document.getElementById('PName').value = "";
+		document.getElementById('PModel').value = "";
+		} else{
+		$.get('/test/'+'?ProductID='+ProductID, function(Data){
+		var splitArray = Data.split(",");
+		$('#PName').val(splitArray[0]) ;
+		$('#PModel').val(splitArray[1]) ;
+		});
+		}
+	});
+		$('#Mcode').on('change', function() {
+		var Mcode = $(this).val();
+		if (Mcode == ''){
+		document.getElementById('Mname').value = "";
+		} else{
+		$.get('/materialtest/'+'?Mcode='+Mcode, function(ProductName){
+		$('#Mname').val(ProductName) ;
+		});
+		}
+	});
+		$("#ProductID").val("{{ ProductID }}");
+		$("#PStatus").val("{{ PStatus }}");
+		$("#Mcode").val("{{ Materialcode }}");
+		$('#Qty').keyup(function(){
+		var yourInput = $(this).val();
+		re = /[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar){
+		var no_spl_char = yourInput.replace(/[`~!#$%^&*()|+\=?;:'"<>\{\}\[\]\\]/gi, '');
+		$(this).val(no_spl_char);
+		}
+	});
+});
+</script>
+<script>
+function SamFunction(val) {
+	$('#lblQuantity').text("");
+	document.getElementById("lblSAMPIN").innerHTML = "";
+	//$("lblSAMPIN").innerHTML("");
+	var SAMSN = document.getElementById('SAMSN').value;
+	$.get('/SAMSNTest/'+'?val='+val, function(Data){
+	//alert("entered get");
+	//alert(Data);
+	var splitArray = Data.split(":");
+			if (splitArray[0]==''){
+			//alert("Data is Empty");
+			if (splitArray[1] != ''){
+			//alert(splitArray[1]);
+			var str = "Download SAM PIN File";
+			var result = str.link("../../../static/files/"+splitArray[1]);
+			document.getElementById("lblSAMPIN").innerHTML = result;
+			$('#Mobile').val(splitArray[2]);
+			}
+			}
+			if(splitArray[0]=="SAM SN is not available or already used by another Device / Product SN, please check again"){
+			document.getElementById("SAMSN").value= "";
+			document.getElementById("SIMSN").value= "";
+			$('#lblQuantity').text("SAM SN is not available or already used by another Device / Product SN, please check once again");
+			}
+			
+		});
+}
+
+</script>
+<script type="text/javascript">
+function ProductFunction(val) {
+$('#ProductSN').text("");
+//alert(val);
+$.get('/ProductSNTest/'+'?val='+val, function(Data){
+//alert(Data);
+$('#ProductSN').text(Data);
+});
+}
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+ $("#lblSAMPIN").click(function(){
+ var SAMSN = document.getElementById('SAMSN').value;
+ //alert(SAMSN);
+$.get('/SAMHOMFileClick/'+'?SAMSN='+SAMSN, function(Data){
+//alert("fdgfg");
+//alert(Data);
+});
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
+<script type="text/javascript">
+function removeWhitespaces() {
+			var txtboxVal = $('#AndriodID').val().trim();
+			$('#AndriodID').val(txtboxVal);
+			var txtboxVal1 = $('#ProSN').val().trim();
+			$('#ProSN').val(txtboxVal1);
+			var txtboxVal1 = $('#SAMSN').val().trim();
+			$('#SAMSN').val(txtboxVal1);
+			var ProductID = document.getElementById('ProductID').value;
+				if (ProductID =='mAMBIS'){
+				alert("mAMBIS Selected")
+					if( document.EditHOM.SIMSN.value == "" ){
+	  					alert("Please Enter SIM Serial Number");
+	  					return false;
+	  					}
+				}
+				if (ProductID =='B-CAT'){
+	  				alert("B-CAT selected")
+	  				if( document.EditHOM.SAMSN.value == "" ){
+	  					alert("Please enter SAM serial number");
+	  					return false;
+	  					}
+	  				}
+					return true;
+		}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var ProductID = document.getElementById('ProductID').value;
+//var ProductID = $(this).val();
+if (ProductID=='mAMBIS'){
+//alert("Yahoo.... mAMBIS Selected....")
+$("#DownloadFile").hide();
+$("#SAMuid").hide();
+$("#SAMSerial").hide();
+$("#MobileNo").show();
+$("#SIMSerial").show();
+}
+});
+</script>
+<script>
+function SimFunction(val) {
+var ProductID=$('#ProductID').val();
+//alert(ProductID);
+	$('#lblQuantity').text("");
+	var SIMSN = document.getElementById('SIMSN').value;
+	$.get('/SIMSNTest/'+'?val='+val+'&ProductID='+ProductID, function(Data){
+	//alert("entered get");
+	alert(Data);
+	var splitArray = Data.split(":");
+			if (splitArray[0]==''){
+			//alert("Data is Empty");
+			if (splitArray[1] != ''){
+			//alert(splitArray[1]);
+			var str = "Download SAM PIN File";
+			var result = str.link("../../../static/files/"+splitArray[1]);
+			document.getElementById("lblSAMPIN").innerHTML = result;
+			}
+			if (splitArray[2] != '' && splitArray[1] != ''){
+			alert(splitArray[2]);
+			$('#SAMUID').val(splitArray[2]);
+			}
+			else{
+			$('#SIMUID').val(splitArray[2]);
+			}
+			}
+			if(splitArray[0]=="SAM SN is not available or already used by another Device / Product SN, please check once again"){
+			document.getElementById("SIMSN").value= "";
+			$('#lblQuantity').text("SAM SN is not available or already used by another Device / Product SN, please check once again");
+			}
+			
+		});
+}
+
+</script>
+<base target="_self">
+</head>
+<body>
+<form class="form-horizontal" name="ViewHOMA" method="POST" action="/accounts/ViewHOMA/" role="form" data-toggle="validator">{% csrf_token %}
+   <div class="container"> <div class="row">
+  <div class="col-md-12">
+  <div class="panel ">
+  <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+  <h4 class="panel-title">View Handover material<h4>
+  </div>
+  <div class="panel-body" id="form-color">
+    
+ <div class="error">{{ Error }}
+                  </div>
+            <div class="success">{{ Success }}
+                  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Handover ID</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="HOverID" value="{{ HOverID }}" readonly placeholder="Handover ID"   name="HOverID" maxlength="30" >
+    </div>
+  </div>
+	<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
+    <div class="col-sm-5">
+	<input type="text" class="form-control" id="ProductID" value="{{ ProductID }}" readonly placeholder="ProductID"   name="ProductID" maxlength="30" >
+	<input type="hidden"  value={{ uid }} name="uid" />
+    </div>
+  </div>
+  
+			<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name" value="{{ ProductName }}"  name="PName" maxlength="30" required>
+    </div>
+	<!-- <label for="inputEmail3" class="col-sm-2 control-label">Product SN:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="ProSN"  placeholder="Product SN" value="{{ ProSN }}"   name="ProSN" maxlength="30" >
+    </div> -->
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model" value="{{ ProductModel }}"  name="PModel" maxlength="30" required>
+    </div>
+	<!-- <label for="inputEmail3" class="col-sm-2 control-label">SAM SN:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="SAMSN"  value="{{ SAMSN }}"  placeholder="SAM SN"   name="SAMSN" maxlength="30" >
+    </div> -->
+  </div>
+  <!--  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Start Production Date</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="StartPDate" value="{{ StartPDate }}" placeholder="Start Production Date"   name="StartPDate" maxlength="75" required>
+    </div>
+  </div> -->
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Production status</label>
+    <div class="col-sm-5">
+       <select class="form-control"  readonly id="PStatus" name="PStatus" >
+							<option value="Finished">Finished</option>							
+						</select>
+    </div>
+  </div>
+  
+   
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+    <div class="container-fluid"> 
+   <div class="row">
+   <div class="col-md-6">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">View Handover material<h4>
+   </div>
+   <div class="panel-body">
+   <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+    <thead>
+                                    <tr>
+										<th class="center">Material code</th>
+                                        <th class="center">Material name</th>
+                                        <th class="center">Quantity</th>										
+										
+                                        </tr>
+                                </thead>
+								
+								<tbody>     
+					{% for u in obj %}                              
+                                    <tr>
+                                       <td class="center">{{ u.MaterialCode }}</td>
+									   <td class="center">{{ u.MaterialName }}</td>
+									   <td class="center">{{ u.MaterialQty }}</td>
+										 
+                                    </tr>
+									{% endfor %}
+									</tbody>
+
+									</table>
+   </div>
+   </div>
+   </div>
+   <div class="col-md-6">
+   <div class="panel">
+   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+   <h4 class="panel-title" id="user title">SAM/SIM details present in a device<h4>
+   </div>
+   <div class="panel-body">
+   <!--
+   <div class="form-group">
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product ID: {{ ProID }}</label>
+   </div>
+   <div class="form-group">
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product type: {{ ProType }}</label>
+   </div>
+   <div class="form-group">
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product name: {{ ProName }}</label>
+   </div>
+   <div class="form-group">
+   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product model: {{ ProModel }}</label>
+   </div>
+   -->
+   <div class="form-group">
+   <label for="inputEmail3" class="col-sm-2 control-label">Android Device ID</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="AndriodID" required placeholder="Android device ID" value="{{ AndriodID  }}" required readonly name="AndriodID" maxlength="30" >
+    </div>
+	</div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Product SN</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="ProSN" required placeholder="Product SN" onchange="SamFunction(this.value)" required value="{{ ProSN }}"  readonly name="ProSN" maxlength="30" >
+    </div>
+	<label id="ProductSN" name="lblQuantity"></label>
+	</div>
+	<div class="form-group" id="SAMSerial">
+	<label for="inputEmail3" class="col-sm-2 control-label">SAM/SIM SN#</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="SAMSN" value="{{ SAMSN }}" onchange="SamFunction(this.value)"  placeholder="SAM SN" readonly name="SAMSN" maxlength="30" >
+    </div> 
+   </div>
+   <label id="lblQuantity" name="lblQuantity"></label>
+   <div class="form-group" id="SIMSerial" style="display:none">
+	<label for="inputEmail3" class="col-sm-2 control-label">SIM #</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="SIMSN" value="{{ SAMSN }}" placeholder="SAM SN" onchange="SimFunction(this.value)" readonly name="SIMSN" maxlength="30" >
+    </div>
+   </div>
+   <div class="form-group" id="MobileNo" style="display:none">
+	<label for="inputEmail3" class="col-sm-2 control-label">Mobile number</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="Mobile" value="{{ SAM_UID }}"  placeholder="SAM UID" readonly  name="SAMUID" maxlength="30" >
+    </div>
+	</div>
+   <div class="form-group" id="DownloadFile">
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM PIN file</label>
+    <div class="col-sm-4">
+	<!-- <input type="file" id="id_editdocfile" accept=".properties" required name="editdocfile" size="20" /> -->
+	<a href="../../../static/files/{{ docfile }}" id="lblSAMPIN" target="_blank">Download SAM PIN file</a><br/>
+    </div>
+	<label id="lblSAM" name="lblSAM"></label>
+	</div>
+	<br>
+	<div><b>Created by: {{ CreatedBy }} &emsp;&emsp;&emsp;&emsp; &emsp;Created on: {{ CreatedOn|date:'d-m-Y' }}
+  
+  <br><br>Last updated by: {{ LastUpdateBy }} &emsp;&emsp;  Last updated on: {{ LastUpdateOn|date:'d-m-Y' }} 
+  </b>  </div>
+   <br><br>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+
+	<a href="/accounts/ViewHOM/">
+		<button class="btn btn-default" type="button">Back</button>
+	</a> 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+	</form>
+ </body>
+</html>
+{% endblock %}
+
+
+
+
+
+
