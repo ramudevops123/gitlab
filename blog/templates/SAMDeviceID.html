@@ -1,0 +1,81 @@
+{% extends "admin.html" %}
+ {% block content %}
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ <head>
+ {% include 'base.html' %}
+ <title>BIMS Home - SAM Search Result</title>
+ {% load staticfiles %}
+ 
+ <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
+ <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
+ <script  src="{% static 'js/jquery.min.js' %}"></script>
+  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script type "text/javascript" src="{% static 'js/datatable.min.js' %}"></script>
+ <script type "text/javascript"  src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery.dataTables.yadcf.css' %}">
+ <script src="{% static 'js/jquery.dataTables.yadcf.js' %}"></script> 
+ <script src="{% static 'js/jQuery UI.js' %}"></script>
+<script type "text/javascript"  src="{% static 'js/jquery.table2excel.js' %}"></script>
+ <script>
+$(document).ready(function(){
+   $('#myTable').dataTable();
+});
+</script>
+ </head>
+ 
+ <body>
+ <div class="container" >
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel ">
+				<div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
+					<h4 class="panel-title"><b>SAM details and Device ID search</b></h4>
+				</div>
+				<div>
+					<div class="panel-body" id="form-color">
+						<form class="form-horizontal" name="adduser" method="POST" action="/accounts/SAMDeviceID/" role="form" enctype="multipart/form-data">{% csrf_token %}
+							<div class="panel-body">
+								<div class="form-group">
+								</div>
+									<div id="dvData">  
+										<table id="myTable" class="table table-striped" style="text-align:center; font-size: 0.9em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
+										<thead>
+											<tr>
+												<th class="center">SAM UID</th>
+												<th class="center">SAM SN</th>
+												<th class="center"><b>Device ID</b></th>
+												<th class="center">SAM PIN</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for u in obj %}
+												{% if u.SAMPIN != None %}
+													<tr>
+														<td class="center">{{ u.SAM_UID }}</td>
+														<td class="center">{{ u.SAM_SN }}</td>
+														<td class="center">{{ u.Product_SN }}</td>
+														<td class="center">{{ u.SAMPIN }}</td>
+													</tr>
+												{% endif %}
+											{% endfor %}
+										</tbody>
+										</table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ </body>
+ {% endblock %}
+ </html>
+ 
