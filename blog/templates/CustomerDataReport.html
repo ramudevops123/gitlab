@@ -75,7 +75,7 @@ $('#lblNumber').text("");
 	<div class="form-group">
 	
 	
-	<button  type="button" style="float: right;"  id="ExportButton" name="_ExportData" value="ExportData"  class="btn btn-primary">ExportData</button>
+	<button  type="button" style="float: right;"  id="ExportButton" name="_ExportData" value="ExportData"  class="btn btn-primary">Export data</button>
 	<div id="xmlbtn" style="display:none"><a id="alink" download><button  type="button" style="float: right;"  id="xml"  class="btn btn-primary">Download XML</button></a></div>			</a>
 	<label id="lblNumber" style="float: right;"></label>
   </div>
@@ -84,10 +84,10 @@ $('#lblNumber').text("");
     <thead>
                                     <tr>
 										<th class="center">Customer ID</th>
-                                        <th class="center">Customer Name</th>
-                                        <th class="center">Status</th>
-										<th class="center">Data Export Status</th>
-										<th class="center">Data Export Qty</th>
+                                        <th class="center">Customer name</th>
+                                        <th class="center">Active?</th>
+										<th class="center">Exported?</th>
+										<th class="center">Exported #</th>
 										<th class="center">Select</th>
 										<!-- <th class="center">Edit</th> -->										
                                         </tr>
@@ -97,7 +97,14 @@ $('#lblNumber').text("");
                                     <tr>
 									   <td class="center">{{ u.ThirdPartyID }}</td>
 									   <td class="center">{{ u.ThirdPartyName }}</td>
-									   <td class="center">{{u.ThirdPartyStatus}}</td>
+									<!--   <td class="center">{{u.ThirdPartyStatus}}</td> -->
+									    {% if u.ThirdPartyStatus == 'Active' %}
+									   <td class="center">&#10004;</td>
+									   {% elif u.ThirdPartyStatus == 'InActive' %}
+											<td class="center">&#10008;</td>
+										{% else %}
+											<td class="center">{{ u.ThirdPartyStatus }}</td>
+										{% endif %}
 									   <td class="center">{{ u.DataExportStatus }}</td>
 									   <td class="center">{{ u.DataExportQty }}</td>
 									   <td class="center"><input type="checkbox" class="classcbchecktest" value="{{ u.ThirdPartyID }}" name="PurchaseCheck" /></td>
