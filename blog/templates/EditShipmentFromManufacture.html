@@ -12,7 +12,7 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}	
-<title>Create Ticket</title>
+<title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -46,7 +46,7 @@ function removeWhitespaces() {
 		$(function() {
 		$("#podate").keypress(function(event) {event.preventDefault();});
 		$("#podate").keypress(function(event) {event.preventDefault();});
-		$( "#DeliveryDate" ).datepicker({minDate: 0,dateFormat: 'yy-mm-dd' });
+		$( "#DeliveryDate" ).datepicker({minDate: 0,dateFormat: "dd-mm-yy" }).val()
 		$("#DeliveryDate").keypress(function(event) {event.preventDefault();});
 		$("#ShipDate").keypress(function(event) {event.preventDefault();});
 		$("#ShipDate").datepicker({
@@ -54,7 +54,7 @@ function removeWhitespaces() {
 	var PODate = document.getElementById("PODate").value;
 	var EDate = document.getElementById("DeliveryDate").value;
         return {
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd-mm-yy',
             minDate: PODate,
             maxDate: EDate,
         }
@@ -197,7 +197,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Edit Shipment From Principal<h4>
+  <h4 class="panel-title">Edit Shipment from Principal<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -206,7 +206,7 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
     <div class="col-sm-5">
 	<input type="text" class="form-control" id="PONumber" readonly  value="{{ PONumber }}"  name="PONumber" maxlength="30" required>
        
@@ -214,16 +214,16 @@ $(document).ready(function()
 	<input type="hidden"  value={{ uid }} name="uid" />
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PODate" readonly placeholder="PO Date" value="{{ PODate|date:"Y-m-d" }}"  name="PODate" maxlength="30" required>
+      <input type="text" class="form-control" id="PODate" readonly placeholder="PO Date" value="{{ PODate|date:"d-m-Y" }}"  name="PODate" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
        <select class="form-control" id="ProductID" name="PID" required>
-		  <option value="">Select ProductID</option>
+		  <option value="">Select Product ID</option>
 		  {% for entry in PID %}
 		<option value="{{ entry.ProductId }}">{{entry.ProductId }}</label>
 		{% endfor %}
@@ -231,36 +231,36 @@ $(document).ready(function()
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated delivery Date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"Y-m-d"  }}" placeholder="Estimated Delivery Date"   name="DeliveryDate" maxlength="75" required>
+      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"d-m-Y"  }}" placeholder="Estimated delivery Date"   name="DeliveryDate" maxlength="75" required>
     </div>
   </div>
   
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment NO</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipNo"  placeholder="Ship No" readonly value="{{ ShipNo }}"  name="ShipNo" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipNo"  placeholder="Shipment No" readonly value="{{ ShipNo }}"  name="ShipNo" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date" value="{{ ShipDate|date:"Y-m-d" }}"  name="ShipDate" maxlength="75" required>
+      <input type="text" class="form-control" id="ShipDate" placeholder="Shipment date" value="{{ ShipDate|date:"d-m-Y" }}"  name="ShipDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment AWB</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" value="{{ ShipAWB }}"  name="ShipAWB" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Shipment AWB" value="{{ ShipAWB }}"  name="ShipAWB" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Freight</label>
     <div class="col-sm-5">
       <!-- <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight" value="{{ SFreight }}"   name="SFreight" maxlength="30" required> -->
 	  <select class="form-control" id="SFreight" name="SFreight" required>
-		  <option value="">Select Freight Name</option>
+		  <option value="">Select freight name</option>
 		  {% for entry in FName %}
 		<option value="{{ entry.ThirdPartyName }}">{{entry.ThirdPartyName }}</label>
 		{% endfor %}
@@ -268,9 +268,9 @@ $(document).ready(function()
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment qty</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" value="{{ SQuantity }}" onchange="myFunction(this.value)"  name="SQuantity" maxlength="30" required>&nbsp;<span id="qtyerrmsg"></span>
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment qty" value="{{ SQuantity }}" onchange="myFunction(this.value)"  name="SQuantity" maxlength="30" required>&nbsp;<span id="qtyerrmsg"></span>
 	  
     </div>
 	<label id="lblQuantity" name="lblQuantity"></label>
