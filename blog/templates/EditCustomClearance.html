@@ -17,7 +17,7 @@
 	{% endif %}
 					
 		
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -81,9 +81,9 @@ $(document).ready(function() {
 		}
 	});
 	$(function() {
-	$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'dd-mm-yy' });
 	$("#StartDate").keypress(function(event) {event.preventDefault();});
-	$( "#FinishDate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$( "#FinishDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$("#FinishDate").keypress(function(event) {event.preventDefault();});
 	//$( "#ShipDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
 	//$( "#DeliveryDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
@@ -146,7 +146,8 @@ var currentdate = new Date();
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [year, month, day].join('-');
+    //return [year, month, day].join('-');
+	return [day, month, year].join('-');
 }	
 var TodayDate=document.getElementById('res').innerHTML =  formatDate(currentdate);
 var Uid=$('#uid').val();
@@ -155,10 +156,10 @@ $.get('/customclearance/'+'?FinishDate='+FinishDate+'&TodayDate='+TodayDate+'&Ui
 	if (Data == ''){
 	//alert('dsfdfg');
 	$('#lblpid').text='';
-	location.href = "http://192.168.1.121:8000/accounts/ViewCustomClearance/"
+	location.href = "/accounts/ViewCustomClearance/"
 	}
 	else{
-	$('#lblpid').text("Custom Clearance Has Not Been Finished Yet, Please Check Again Finish Date");
+	$('#lblpid').text("Custom clearance has not been finished yet, Please check again Finish Date");
 	$('#FinishDate').val('');
 	}
 
@@ -192,14 +193,14 @@ if (Data==''){
 //alert("EmptyData");
 $('#lableid').text='';
 }else{
-if (Data=='Custom Clearance Process Still On Progress until given Finish Date,so Status Will Not Change'){
+if (Data=='Custom Clearance process still in progress until given finish date, so Status will not change'){
 $('#lableid').text(Data);
 
 }
-else if(Data=='Custom Clearance Process Has Been Finished Today, so Status Will Change into Finished'){
+else if(Data=='Custom clearance process has been finished today, so Status will change into finished'){
 $('#lableid').text(Data);
 }
-else if(Data=='Custom Clearance Process Has Been Finished on given Finish Date, so Status Will Change into Finished'){
+else if(Data=='Custom clearance process has been finished on given finish date, so Status will change into finished'){
 $('#lableid').text(Data);
 }
 }
@@ -244,7 +245,7 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
 	<div class="col-sm-4">
      <!-- <select class="form-control" readonly id="PONumber" name="PONumber" required>
 		  <option value="">Select PO Number</option>
@@ -267,11 +268,11 @@ $(document).ready(function()
   </div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly value="{{ PODate|date:"Y-m-d" }}" name="PODate" maxlength="75" required>
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly value="{{ PODate|date:"d-m-Y" }}" name="PODate" maxlength="75" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="PrincipalName" placeholder="Principal Name" readonly value="{{ PrincipalName }}" name="PrincipalName" maxlength="30" required>
     </div>
@@ -282,26 +283,26 @@ $(document).ready(function()
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
        <select class="form-control" readonly id="Productid" name="ProductID" required>
-		  <option value="">Select ProductID</option>
+		  <option value="">Select Product ID</option>
 		  {% for entry in ProductID %}
 		<option value="{{ entry.ProductId }}">{{entry.ProductId }}</label>
 		{% endfor %}
 						</select>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Estimated delivery date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date" readonly value="{{ DeliveryDate|date:"Y-m-d" }}" name="DeliveryDate" maxlength="75" required>
+      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date" readonly value="{{ DeliveryDate|date:"d-m-Y" }}" name="DeliveryDate" maxlength="75" required>
     </div>
 	
   </div>
   
   
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="ProductName" placeholder="Product Name" readonly value="{{ ProductName }}" name="ProductName" maxlength="30" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">PO Quantity:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">PO quantity</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="POQuantity" placeholder="PO Quantity" readonly value="{{ POQuantity }}" name="POQuantity" maxlength="30" required>
     </div>
@@ -320,35 +321,35 @@ $(document).ready(function()
   <div class="col-md-6">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Shipment From Principal<h4>
+  <h4 class="panel-title">Shipment from principal<h4>
   </div>
   <div class="panel-body" id="form-color">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment No</label>
     <div class="col-sm-8">
       <input type="text" class="form-control" id="ShipNo"  placeholder="Ship No" readonly value="{{ ShipNo }}" name="ShipNo" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"  readonly value="{{ ShipDate|date:"Y-m-d" }}" name="ShipDate" maxlength="75" required>
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"  readonly value="{{ ShipDate|date:"d-m-Y" }}" name="ShipDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" readonly value="{{ ShipAWB }}" name="ShipAWB" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Shipment AWB" readonly value="{{ ShipAWB }}" name="ShipAWB" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"  readonly value="{{ SFreight }}" name="SFreight" maxlength="30" required>
+      <input type="text" class="form-control" id="SFreight"  placeholder="Shipment Freight"  readonly value="{{ SFreight }}" name="SFreight" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity</label>
     <div class="col-sm-8">
       <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" readonly value="{{ SQuantity }}" name="SQuantity" maxlength="30" required>
     </div>
@@ -364,21 +365,21 @@ $(document).ready(function()
   </div>
   <div class="panel-body" id="form-color">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">HS Code:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">HS Code</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="HsCode"  placeholder="Hs Code" value="{{ HsCode }}"  name="HsCode" maxlength="30" required>
+      <input type="text" class="form-control" id="HsCode"  placeholder="HS Code" value="{{ HsCode }}"  name="HsCode" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Start Date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="StartDate" placeholder="Start Date" value="{{ StartDate|date:"Y-m-d" }}"  name="StartDate" maxlength="75" required>
+      <input type="text" class="form-control" id="StartDate" placeholder="Start Date" value="{{ StartDate|date:"d-m-Y" }}"  name="StartDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Finish Date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="FinishDate" placeholder="Finish Date" value="{{ FinishDate|date:"Y-m-d" }}"  name="FinishDate" maxlength="75" required>
+      <input type="text" class="form-control" id="FinishDate" placeholder="Finish Date" value="{{ FinishDate|date:"d-m-Y" }}"  name="FinishDate" maxlength="75" required>
     </div>
   </div>
   <label id="lblpid" name="labelid"></label>
@@ -386,7 +387,7 @@ $(document).ready(function()
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-12">
       <a class="btn btn-primary" class="btn btn-primary" class="submit" id="CustomClearance" >
-	                      CustomClearance Is Finished</a>
+	                      Custom Clearance is finished</a>
     </div>
   </div>
   </div>
@@ -429,25 +430,6 @@ $(document).ready(function()
     </div>
 </div>
 	  
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
  </body>
 </html>
 {% endblock %}
