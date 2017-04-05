@@ -16,7 +16,7 @@
 	
 	{% endif %}
 		
-<title>Create Ticket</title>
+<title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -94,7 +94,13 @@ $(document).ready(function() {
 	});
 			
 });
+
 </script>
+<script type="text/javascript">
+       $(function() {
+			   $("#ShipDate").datepicker({ dateFormat: "dd-mm-yy" }).val()
+       });
+   </script>
 <script>
 function myFunction(val) {
 	$('#lblQuantity').text("");
@@ -139,7 +145,7 @@ $('#RQuantity').text("Remaining Quantity : "+ splitArray[2]) ;
 //alert(EstimatedDeliveryDate);
 //$('#DeliveryDate').val(EstimatedDeliveryDate) ;
 $("#ShipDate").datepicker('setDate', null);
-$("#ShipDate").datepicker('setDate', null);
+$("#ShipDate").datepicker('setDate', null,{dateFormat: 'dd-mm-yy'});
 			$("#ShipDate").datepicker({
     beforeShow: function() {
 	var PODate = document.getElementById("PODate").value;
@@ -147,7 +153,7 @@ $("#ShipDate").datepicker('setDate', null);
 	var EDate = document.getElementById("DeliveryDate").value;
 	//alert(EDate);
         return {
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd-mm-yy',
             minDate: PODate,
             maxDate: EDate,
         }
@@ -222,12 +228,12 @@ $(document).ready(function()
 </head>
 <body>
 <form class="form-horizontal" name="adduser" method="POST" action="/accounts/ADDSFM/" role="form" data-toggle="validator">{% csrf_token %}
-		<center ><h3>Shipment From Principal</h3></center>
+		<center ><h3>Shipment from principal</h3></center>
    <div class="container"> <div class="row">
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Purchase Order<h4>
+  <h4 class="panel-title">Purchase order<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -236,10 +242,10 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
     <div class="col-sm-5">
        <select class="form-control" id="PONumber" name="PONumber" required>
-		  <option value="">Select PO Number</option>
+		  <option value="">Select PO number</option>
 		  {% for entry in PONO %}
 		<option value="{{ entry.PONumber }}">{{entry.PONumber }}</label>
 		{% endfor %}
@@ -248,50 +254,51 @@ $(document).ready(function()
 	<label id="lblpid" name="labelid"></label>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PODate" readonly placeholder="PO Date"   name="PODate" maxlength="30" required>
+      <input type="date" class="form-control" id="PODate" readonly placeholder="PO date" name="PODate" maxlength="30" required>
+	  
     </div>
   </div>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
        <select class="form-control" id="ProductID" name="PID"  required>
-		  <option value="">Select ProductID</option>
+		  <option value="">Select product ID</option>
 						</select>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated delivery date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="DeliveryDate" readonly placeholder="Estimated Delivery Date"   name="DeliveryDate" maxlength="75" required>
+      <input type="date" class="form-control" id="DeliveryDate" readonly placeholder="Estimated Delivery Date" name="DeliveryDate" maxlength="75" required>
     </div>
   </div>
   <h4>----------------------------------------------------------------------------------------------------------------------------------------</h4>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment No</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipNo"  placeholder="Ship No" readonly   name="ShipNo" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipNo"  placeholder="Shipment No" readonly   name="ShipNo" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"   name="ShipDate" maxlength="75" required>
+      <input type="text" class="form-control" id="ShipDate" placeholder="Shipment Date"   name="ShipDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment AWB</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB"   name="ShipAWB" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Shipment AWB"   name="ShipAWB" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Freight</label>
     <div class="col-sm-5">
        <!-- <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"   name="SFreight" maxlength="30" required> -->
 	  <select class="form-control" id="SFreight" name="SFreight" required>
-		  <option value="">Select Freight Name</option>
+		  <option value="">Select Freight name</option>
 		  {% for entry in FName %}
 		<option value="{{ entry.ThirdPartyName }}">{{entry.ThirdPartyName }}</label>
 		{% endfor %}
@@ -299,7 +306,7 @@ $(document).ready(function()
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment qty</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" onchange="myFunction(this.value)"  name="SQuantity" maxlength="30" required>&nbsp;<span id="qtyerrmsg"></span>
     </div>
