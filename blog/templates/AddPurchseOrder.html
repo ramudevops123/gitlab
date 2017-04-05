@@ -11,7 +11,7 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -33,7 +33,7 @@
 		});
 	}
 		$(function() {
-			$( "#podate" ).datepicker({maxDate: 0,dateFormat:'yy-mm-dd' });
+			$( "#podate" ).datepicker({maxDate: 0,dateFormat:'dd-mm-yy' });
 			$("#podate").keypress(function(event) {event.preventDefault();});
 			});
 		 $(document).ready(function(){
@@ -94,9 +94,10 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PONumber" placeholder="PO Number" onchange="myFunction(this.value)"  name="PONO" maxlength="30" required >
+      <input type="text" class="form-control" id="PONumber" placeholder="PO number" onchange="myFunction(this.value)" pattern="[A-Za-z0-9-]*" name="PONO" maxlength="30" required >
+	  <label>Enter Alphanumerics. Max 30 chars. You can use "-" if required.</label>
 	  
     </div>
 	<label id="lblpid" name="labelid"></label>
@@ -104,14 +105,14 @@ $(document).ready(function()
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="podate" placeholder="PO Date"  name="PODate" maxlength="75" required>
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" name="PODate" maxlength="75" required>
     </div>
   </div>
 	<div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
     <div class="col-sm-5">
        <select class="form-control" id="principalid" name="PrncID" required>
-		  <option value="">Select Type</option>
+		  <option value="">Select type</option>
 		  {% for entry in PrncID %}
 		<option value="{{ entry.ThirdPartyID }}">{{entry.ThirdPartyID }}</label>
 		{% endfor %}
@@ -121,13 +122,13 @@ $(document).ready(function()
 	<label id="lblprincipalid" name="lblprincipalid"></label>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PrncplName" readonly placeholder="Principal Name"   name="PrncplName" maxlength="30" required>
+      <input type="text" class="form-control" id="PrncplName" readonly placeholder="Principal name"  name="PrncplName" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-5">
        <select class="form-control" id="Principatatus" name="PrncStatus">
 							<option value="Open">Open</option>							
@@ -148,28 +149,7 @@ $(document).ready(function()
   </div>
   </div>
   </div>
-   <!--</div>
-   </div>
-  </div>-->
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+   
 	</form>
  </body>
 </html>
