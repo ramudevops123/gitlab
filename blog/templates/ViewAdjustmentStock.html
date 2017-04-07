@@ -16,7 +16,7 @@
 	
 	{% endif %}
 		
-<title>Adjustment Stock List</title>
+<title>Adjustment Stock list</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -61,38 +61,43 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">Adjustment Stock List<h4>
+   <h4 class="panel-title" id="user title">Adjustment Stock list<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">RefNumber</th>
-										<th class="center">RefTransaction</th>										
-                                        <th class="center">ProductID</th>
-										<th class="center">ProductName</th>
+										<th class="center">Ref number</th>
+										<th class="center">Ref transaction</th>										
+                                        <th class="center">Product ID</th>
+										<th class="center">Product name</th>
 										<th class="center">Warehouse</th>										
 										<th class="center">Stock Balance</th>										
 										<th class="center">Status</th>				
-										<th class="center">Edit</th>
+									<!--	<th class="center">Edit</th> -->
                                         </tr>
                                 </thead>
 								
 								<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-									   <td class="center">{{ u.AdjustmentStockID }}</td>
+									 {% if u.IOStockStatus == 'Progress' %}
+										<td class="center"><a href="/accounts/EditAdjustmentStock/{{u.id}}" style="color: blue;" title="Edit">{{ u.AdjustmentStockID }}</a></td>
+										{% else %}
+										<td class="center">{{ u.AdjustmentStockID }}</td>
+										{% endif %} 
+									   <!--	<td class="center">{{ u.AdjustmentStockID }}</td> -->
                                        <td class="center">{{ u.RefTransaction }}</td>
 									   <td class="center">{{ u.ProductID }}</td>
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.WarehouseID }}</td>									   
 									   <td class="center">{{ u.IOStockBalance }}</td>
 									   <td class="center">{{ u.IOStockStatus }}</td>		
-									   {% if u.IOStockStatus == 'Progess' %}
+									  <!-- {% if u.IOStockStatus == 'Progress' %}
 										<td class="center"><a href="/accounts/EditAdjustmentStock/{{u.id}}">Edit</a></td>
 										{% else %}
 										<td class="center"></td>
-										{% endif %}
+										{% endif %} -->
                                     </tr>
 									{% endfor %}
 									</tbody>
@@ -103,25 +108,7 @@ $(document).ready(function()
    </div>
    </div>
   </div>
-  <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+  
    </form>
 </body>
 </html>

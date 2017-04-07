@@ -12,12 +12,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
@@ -84,12 +85,12 @@ if (splitArray[0] == ''){
 	$('#mySerialTable').append(trHTML);
  }
  else{
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  
  i=i+1;
@@ -130,12 +131,12 @@ if (splitArray[0] == ''){
                 }, 1000);
  }
  else{
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicModal"><i></i>Edit</a></td><td class="center"><a href="/accounts/DeleteAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  i=i+1;
 });
@@ -183,12 +184,12 @@ if (GetData == '[]' || GetData.length == 0){
  }
  else{
 //alert("textentereddata2");
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditAdjustmentSerialNumber/' + value[0] + '"  data-toggle="modal" data-target="#basicModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteAdjustmentSerialNumber/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  
  i=i+1;
@@ -313,58 +314,58 @@ $(document).ready(function() {
   <div class="panel ">
    <div class="panel-body" id="form-color">
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="ProductID" required name="ProductID" onchange="myFunction(this.value)">
-		  <option value="">Select ProductID</option>
+		  <option value="">Select Product ID</option>
 		  {% for entry in ProductID %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
 		</select>
     </div>
 	<label id="lblStockbalance" name="lblSAM"></label>
-	<label for="inputEmail3" class="col-sm-2 control-label">RefNumber:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Ref number</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="RefNumber"  placeholder="Ref Number"  readonly name="RefNumber" maxlength="30" required>
+      <input type="text" class="form-control" id="RefNumber"  placeholder="Ref number"  readonly name="RefNumber" maxlength="30" required>
     </div>
    </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="ProductName" readonly placeholder="Product Name"  readonly name="ProductName" maxlength="30" required>
+	 <input type="text" class="form-control" id="ProductName" readonly placeholder="Product name"  readonly name="ProductName" maxlength="30" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Ref Transaction:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Ref transaction</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" readonly value="Adjustment Stock" id="RefTransaction"  placeholder="Adjustment Stock" name="RefTransaction" maxlength="30" required>
+      <input type="text" class="form-control" readonly value="Adjustment Stock" id="RefTransaction"  placeholder="Adjustment stock" name="RefTransaction" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Adjustment Type:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Adjustment type</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="AdjustmentType" required name="AdjustmentType" >
-	 <option value="">Select Adjustment Type</option>
+	 <option value="">Select adjustment type</option>
 		  <option value="IN">IN</option>
 		  <option value="OUT">OUT</option>
 	</select>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-4">
       <select class="form-control" id="Status" name="Status" >
-	  <option value="Progess">Progess</option>
+	  <option value="Progress">Progress</option>
 	  </select>
     </div>
 	</div>
 	<div class="form-group" id=stocknodiv>
-    <label for="inputEmail3" class="col-sm-2 control-label">Stock Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Stock number</label>
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="StockNumber" placeholder="Stock Number" name="StockNumber" maxlength="30">&nbsp;<span id="qtyerrmsg"></span>
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">WareHouse Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse name</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="WareHouseName" name="WareHouseName" required>
-		  <option value="">Select WareHouseName</option>
+		  <option value="">Select warehouse name</option>
 		  {% for entry in WarehouseName %}
 		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 		{% endfor %}
@@ -379,13 +380,13 @@ $(document).ready(function() {
   </div>
   <div id="SerialNumberdiv" style="display:none">
   <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-2 control-label">Serial Number</label>
+     <label for="inputEmail3" class="col-sm-2 control-label">Serial number</label>
 	  <div class="col-sm-4">
-      <input type="text" class="form-control" id="SerialNumber" placeholder="Enter SerialNumber"   name="SerialNumber" maxlength="75">
+      <input type="text" class="form-control" id="SerialNumber" placeholder="Enter serial number"   name="SerialNumber" maxlength="75">
 		<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	<div class="col-sm-4">
-	<a class="btn btn-primary"  class="submit" id="myList" >Add to Serial Number List</a>
+	<a class="btn btn-primary"  class="submit" id="myList" >Add to serial number list</a>
 	</div>
 	</div>
 	
@@ -399,8 +400,8 @@ $(document).ready(function() {
    <table id="mySerialTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">SNo</th>
-										<th class="center">Serial Number</th>
+										<th class="center">S.NO</th>
+										<th class="center">Serial number</th>
 										
                                         </tr>
                                 </thead>
@@ -438,9 +439,9 @@ $(document).ready(function() {
    </div>
   </div>-->
   <div class="col-sm-12">
-     <label for="inputEmail3" class="col-sm-2 control-label">Current Stock Balance</label>
+     <label for="inputEmail3" class="col-sm-2 control-label">Current stock balance</label>
 	  <div class="col-sm-4">
-      <input type="text" class="form-control" id="StockBalance" readonly placeholder="Stock Balance"   name="StockBalance" maxlength="75">
+      <input type="text" class="form-control" id="StockBalance" readonly placeholder="Stock balance"   name="StockBalance" maxlength="75">
 	</div>
 	</div>
 	<div class="col-sm-offset-2 col-sm-12">
@@ -457,13 +458,13 @@ $(document).ready(function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Edit SerialNumber</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit Serial number</h4>
             </div>
             <div class="modal-body" >             
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-4 control-label">Serial Number</label>
+     <label for="inputEmail3" class="col-sm-4 control-label">Serial number</label>
 	  <div class="col-sm-8">
-      <input type="text" class="form-control" id="ModalSerialNumber"  placeholder="Enter SerialNumber" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
+      <input type="text" class="form-control" id="ModalSerialNumber"  placeholder="Enter Serial number" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
 		<input type="hidden" id="lblSN"  value="{{ lblSN }}" name="lblSN" />
 		<input type="hidden"  value="{{ SrlAdjustmentID }}" name="AdjustmentID" id="ModalAdjustmentID" />
 		<input type="hidden"  value="{{ Productid }}" name="dbProductID" id="dbProductID"/>
@@ -484,11 +485,11 @@ $(document).ready(function() {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            <h4 class="modal-title" id="DeleteSerial">Delete Serial number</h4>
             </div>
             <div class="modal-body" >
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? you want to delete Serial number</label>
 	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
 	 <input type="hidden"  value="{{ Productid }}" name="dbProductID" id="srldbProductID"/>
 	 <input type="hidden"  value="{{ AdjstmntID }}" name="AdjstmntID" id="AdjstmntID"/>
@@ -508,7 +509,7 @@ $(document).ready(function() {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="DeleteStocklistModal">Delete StockList</h4>
+            <h4 class="modal-title" id="DeleteStocklistModal">Delete Stock list</h4>
             </div>
             <div class="modal-body" >
 			  
@@ -535,7 +536,7 @@ $(document).ready(function() {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="heading-color">
-            <h4 class="modal-title" id="myModalLabel">Edit Adjustment Stock List</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit Adjustment Stock list</h4>
             </div>
             <div class="modal-body" id="form-color">
 	<div class="form-group">
@@ -552,10 +553,10 @@ $(document).ready(function() {
 	</div>
     </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-5 control-label">WareHouse Name:</label>
+    <label for="inputEmail3" class="col-sm-5 control-label">Warehouse name</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="dtlWareHouseName" name="dtlWareHouseName" >
-		  <option value="">Select WareHouseName</option>
+		  <option value="">Select Warehouse name</option>
 		  {% for entry in WarehouseName %}
 		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 		{% endfor %}
@@ -563,16 +564,16 @@ $(document).ready(function() {
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Stock Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Stock number</label>
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="stlStockNumber" value="{{ dtlStockNO }}" placeholder="Stock Number" name="dtlStockNumber" maxlength="30" readonly>
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Adjustment Type:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Adjustment type</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="dtlAdjustmentType" name="dtlAdjustmentType" >
-	 <option value="">Select Adjustment Type</option>
+	 <option value="">Select Adjustment type</option>
 		  <option value="IN">IN</option>
 		  <option value="OUT">OUT</option>
 	</select>

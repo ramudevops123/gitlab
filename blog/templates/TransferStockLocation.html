@@ -5,7 +5,7 @@
  <meta name="viewport" content="width=device-width,initial-scale=1.0">
  <head>
  {% include 'base.html' %}
- <title>Transfer Stock Location</title>
+ <title>Transfer Stock location</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -123,12 +123,12 @@ $('#WarehouseFrom').val('');
 $('#lblQuantity').text("Please Check Existing Quantity");
  }
  else{
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Select</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Select</th></tr>';
  i=1;
 $.each(JSON.parse(SerialNos), function(key, value) {
 $('#mySerialTable').empty();
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"><input type="checkbox" class="classcbchecktest" id=' + value[0] +' name="PurchaseCheck" value=' + value[0] +' /></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  
  i=i+1;
@@ -148,7 +148,7 @@ var WarehouseTo = $(this).val();
 var WarehouseFrom=$('#WarehouseFrom').val();
 $.get('/TransferlocationWarehouseValidation/'+'?WarehouseFrom='+WarehouseFrom+'&WarehouseTo='+WarehouseTo, function(Data){
 //alert(Data);
-if (Data=='warehouse from and warehouse to cannot be the same'){
+if (Data=='Warehouse from and Warehouse to cannot be the same'){
 $('#WarehouseTo').val('');
 $('#WarehouseValidation').text(Data);
 }
@@ -173,7 +173,7 @@ $.each($("input[name='PurchaseCheck']:checked"), function(){
 	 //alert(CheckedSerialNo);
 	 $.get('/CheckedSerialNumbers/'+'?CheckedSerialNo='+CheckedSerialNo+'&ReferenceNo='+ReferenceNo+'&len='+len, function(Data){
 	 //alert(Data);
-	 if (Data=='Please Serial Numbers'){
+	 if (Data=='Please serial numbers'){
 	 //alert(Data);
 	 $('#WarehouseValidation').text(Data);
 	 }
@@ -200,7 +200,7 @@ $('#TransferQuantity').keyup(function(){
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Transfer Stock Location<h4>
+  <h4 class="panel-title">Transfer Stock location<h4>
   </div>
   <div class="panel-body" id="form-color">
     <form class="form-horizontal" name="trnasferStock" method="POST" action="/accounts/TransferStockLocation/" role="form" data-toggle="validator">{% csrf_token %}
@@ -209,16 +209,16 @@ $('#TransferQuantity').keyup(function(){
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">RefNumber</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Ref number</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="RefNumber"  placeholder="Ref Number"  readonly name="RefNumber" maxlength="30" required>
+      <input type="text" class="form-control" id="RefNumber"  placeholder="Ref number"  readonly name="RefNumber" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse From</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse from</label>
     <div class="col-sm-5">
       <select class="form-control" id="WarehouseFrom" name="WarehouseFrom" required>
-						<option value="">Select WarehouseName</option>
+						<option value="">Select Warehouse name</option>
 						{% for entry in WarehouseFrom %}
 						<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 						{% endfor %}
@@ -226,10 +226,10 @@ $('#TransferQuantity').keyup(function(){
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ProductID</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
       <select class="form-control" id="ProductID" name="ProductID" required>
-						<option value="">Select ProductID</option>
+						<option value="">Select Product ID</option>
 						{% for entry in ProductID %}
 						<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 						{% endfor %}
@@ -238,34 +238,34 @@ $('#TransferQuantity').keyup(function(){
 	<label id="ProductValidation" name="ProductValidation"></label>
   </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ProductName" placeholder="Product Name"   name="ProductName" required>
+      <input type="text" class="form-control" id="ProductName" placeholder="Product name"   name="ProductName" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ProductModel" placeholder="Product Model" readonly  name="ProductModel" required>
+      <input type="text" class="form-control" id="ProductModel" placeholder="Product model" readonly  name="ProductModel" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Type</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product type</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ProductType" placeholder="Product Type" readonly  name="ProductType" required>
+      <input type="text" class="form-control" id="ProductType" placeholder="Product type" readonly  name="ProductType" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Existing Quantity</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Existing qty</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="ExistingQuantity" placeholder="Existing Quantity" readonly name="ExistingQuantity" required>
+      <input type="text" class="form-control" id="ExistingQuantity" placeholder="Existing qty" readonly name="ExistingQuantity" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse To</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse to</label>
     <div class="col-sm-5">
       <select class="form-control" id="WarehouseTo" name="WarehouseTo" required>
-						<option value="">Select WarehouseName</option>
+						<option value="">Select Warehouse name</option>
 						{% for entry in WarehouseFrom %}
 						<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 						{% endfor %}
@@ -274,9 +274,9 @@ $('#TransferQuantity').keyup(function(){
 	<label id="WarehouseValidation" name="WarehouseValidation"></label>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Transfer Quantity</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Transfer qty</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="TransferQuantity" placeholder="Transfer Quantity" maxlength="30" onchange="myFunction(this.value)" name="TransferQuantity" required>&nbsp;<span id="errmsg"></span>
+      <input type="text" class="form-control" id="TransferQuantity" placeholder="Transfer qty" maxlength="30" onchange="myFunction(this.value)" name="TransferQuantity" required>&nbsp;<span id="errmsg"></span>
     </div>
 	<label id="lblQuantity" name="lblQuantity"></label>
   </div>
@@ -284,14 +284,14 @@ $('#TransferQuantity').keyup(function(){
    <table id="mySerialTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">SNo</th>
-										<th class="center">Serial Number</th>
+										<th class="center">S No</th>
+										<th class="center">Serial number</th>
 										<th class="center">Select</th>
                                         </tr>
                                 </thead>
 									</table>
 									<label id="lblNumber"></label>
-									<button  type="button"  id="ExportButton" name="_ExportData"  class="btn btn-primary">Add To List</button>
+									<button  type="button"  id="ExportButton" name="_ExportData"  class="btn btn-primary">Add To list</button>
 									</div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
@@ -304,25 +304,7 @@ $('#TransferQuantity').keyup(function(){
   </div>
   </div>
   </div>
-  <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+ 
  </body>
 </html>
 {% endblock %}

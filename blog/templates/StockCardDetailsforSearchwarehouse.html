@@ -72,9 +72,9 @@ $(document).ready(function()
    </div>
    <div class="panel-body">
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product ID:{{ prdctID }}</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID{{ prdctID }}</label>
 	<div class="col-sm-10">
-	<label for="inputEmail3" class="col-sm-2 control-label">Product Name:{{ PrdctName }}</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Product Name{{ PrdctName }}</label>
 	</div>
 	</div>
 	<div class="form-group">
@@ -173,25 +173,7 @@ $(document).ready(function()
 									</table>
 									<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
    </div>
-   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+  
  </body>
 </html>
 {% endblock %}

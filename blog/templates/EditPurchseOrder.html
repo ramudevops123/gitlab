@@ -12,12 +12,13 @@
 	{% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}	
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -39,9 +40,10 @@ $(document).ready(function(){
 		}
 	});
 	$(function() {
-	$( "#podate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+	$( "#podate" ).datepicker({  maxDate: 0,dateFormat: "dd-mm-yy" }).val()
+	
 	$("#podate").keypress(function(event) {event.preventDefault();});
-	$( "#DeliveryDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+	$( "#DeliveryDate" ).datepicker({  minDate: 0,dateFormat: 'dd-mm-yy' });
 	$("#DeliveryDate").keypress(function(event) {event.preventDefault();});
 	});
 	$("#principalid").val("{{ PrincipalID }}");
@@ -154,7 +156,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Edit Purchase Order<h4>
+  <h4 class="panel-title">Edit Purchase order<h4>
   </div>
   <div class="panel-body" id="form-color">
  <div class="error">{{ Error }}
@@ -162,7 +164,7 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="PONumber" placeholder="PO Number" value="{{ PONumber }}" readonly name="PONO" maxlength="30" required>
 	  <input type="hidden"  value={{ uid }} name="uid" />
@@ -170,9 +172,9 @@ $(document).ready(function()
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="podate" placeholder="PO Date" value="{{ PODate|date:"Y-m-d" }}"   name="PODate" maxlength="75" required>
+      <input type="text" class="form-control" id="podate" placeholder="PO Date" value="{{ PODate|date:"d-m-Y" }}"   name="PODate" maxlength="75" required>
     </div>
   </div>
 	<div class="form-group">
@@ -188,13 +190,13 @@ $(document).ready(function()
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="PrncplName" placeholder="PO Number" readonly value="{{ principalName }}" name="PrncplName" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-5">
        <select class="form-control" id="Principatatus" name="PrncStatus" required>
 							<option value="Open">Open</option>							
@@ -221,7 +223,7 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">List of Products/materials<h4>
+   <h4 class="panel-title" id="user title">List of products / materials<h4>
    </div>
    <div class="panel-body">
    <input align="right-side" type="submit" class="submit" id="DeleteButton" name="_delete" value="Delete" class="" class="btn btn-primary"></input>
@@ -229,9 +231,9 @@ $(document).ready(function()
      <thead>
                                     <tr>
 										<th class="center">Product ID</th>
-                                        <th class="center">Product Name</th>
+                                        <th class="center">Product name</th>
                                         <th class="center">Quantity</th>
-										<th class="center">Estimated Delivery</th>
+										<th class="center">Estimated delivery</th>
 										<th class="center">Status</th>
 										<th class="center">Edit</th>
 										<th class="center">Check</th>
@@ -245,7 +247,7 @@ $(document).ready(function()
                                        <td class="center">{{ u.ProductId }}</td>
 									   <td class="center">{{ u.ProductName }}</td>
 									   <td class="center">{{ u.Quantity }}</td>
-									   <td class="center">{{ u.EstimatedDeliveryDate|date:"Y-m-d" }}</td>
+									   <td class="center">{{ u.EstimatedDeliveryDate|date:"d-m-Y" }}</td>
 									   <td class="center">{{ u.POStatus }}</td>
 									   <td class="center"><a href="/accounts/EditMaterial/{{u.PONumber}}/{{u.id}}" data-toggle="modal"data-target="#basicModal"><i></i>Edit Product / Material</a></td>
 									   <td class="center"><input type="checkbox" name="PurchaseCheck" id="PurchaseCheck" value="{{ u.id }}" />&nbsp;</td>									   
@@ -277,7 +279,7 @@ $(document).ready(function()
               <!--  <h3>Modal Body</h3> -->
 			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditMaterial/" role="form">{% csrf_token %} 
 			  <div class="form-group"> 
-			<label for="inputPassword3" class="col-sm-2 control-label">Product Code</label>
+			<label for="inputPassword3" class="col-sm-2 control-label">Product code</label>
 			<input type="hidden"  value="{{ uid }}" id="Pid" name="uid" />
 			<input type="hidden"  value="{{ mid }}" name="mid" />
 			<div class="col-sm-6">
@@ -292,26 +294,26 @@ $(document).ready(function()
 				<label id="lblpid" name="labelid"></label>
 			</div>
       <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">Product Name</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Product name</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" id="ProductName" value="{{ ProductName }}" readonly placeholder="Product Name"   name="Prdctname" maxlength="30" >
+    <input type="text" class="form-control" id="ProductName" value="{{ ProductName }}" readonly placeholder="Product name"   name="Prdctname" maxlength="30" >
 	
 </div>
   </div>
   <div class="form-group">
   <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" id="Quantity" value="{{ Quantity }}" placeholder="Material Quantity"   name="Qnty" maxlength="30" >
+    <input type="text" class="form-control" id="Quantity" value="{{ Quantity }}" placeholder="Material quantity"   name="Qnty" maxlength="30" >
 </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Estimated delivery date</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"Y-m-d" }}" placeholder="Estimated Delivery Date"   name="DlvryDate" maxlength="75" >
+      <input type="text" class="form-control" id="DeliveryDate" value="{{ DeliveryDate|date:"d-m-Y" }}" placeholder="Estimated delivery date"   name="DlvryDate" maxlength="75" >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-5">
        <select class="form-control" id="POStatus" name="POStatus" >
 							<option value="Open">Open</option>							
@@ -336,25 +338,7 @@ $(document).ready(function()
   </div>
   </div>
   </div>
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+ 
  </body>
 </html>
 {% endblock %}

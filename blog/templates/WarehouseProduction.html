@@ -12,12 +12,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -179,17 +180,17 @@ $('#UClick').hide();
 	 <div class="container">
 	 <div class="row">
   <div class="col-md-12">
-  <center><B> <h4>Warehouse For Production <h4></B></center>
+  <center><B> <h4>Warehouse for Production<h4></B></center>
   <div class="panel ">
    <div class="panel-body" id="form-color">
    <form class="form-horizontal" name="RForm" method="POST" action="/accounts/SetWareHouse/" role="form" data-toggle="validator">{% csrf_token %}
-   <center> <h4>Get Materials From <h4></center>
+   <center> <h4>Get materials from Warehouse<h4></center>
 	<div class="container"> 
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="MWarehouseID" name="MWarehouseID" >
-		  <option value="">Select WarehouseID</option>
+		  <option value="">Select Warehouse ID</option>
 		  {% for entry in obj %}
 		<option value="{{ entry.WarehouseID }}">{{entry.WarehouseID }}</label>
 		{% endfor %}
@@ -200,17 +201,17 @@ $('#UClick').hide();
 	 </div>
 	
 	  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse name</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="MWarehouseName" value="{{ InputWarehouseName }}"  placeholder=" Warehouse Name"  readonly name="MWarehouseName" maxlength="30" required>
+	<input type="text" class="form-control" id="MWarehouseName" value="{{ InputWarehouseName }}"  placeholder=" Warehouse name"  readonly name="MWarehouseName" maxlength="30" required>
 	</div>
 	</div>
-	 <center> <h4>Store Finish Good Into <h4></center>
+	 <center> <h4>Store finished Good into Warehouse<h4></center>
 	  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="FGWarehouseID" name="FgWarehouseID" >
-		  <option value="">Select WarehouseID</option>
+		  <option value="">Select Warehouse ID</option>
 		  {% for entry in obj %}
 		<option value="{{ entry.WarehouseID }}">{{entry.WarehouseID }}</label>
 		{% endfor %}
@@ -219,9 +220,9 @@ $('#UClick').hide();
     </div>
 	 </div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse name</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="FGWarehouseName" value="{{ OutputWarehouseName }}" placeholder=" Warehouse Name"  readonly name="FGWarehouseName" maxlength="30" required>
+	<input type="text" class="form-control" id="FGWarehouseName" value="{{ OutputWarehouseName }}" placeholder=" Warehouse name"  readonly name="FGWarehouseName" maxlength="30" required>
 	</div>
 	</div>
 	<div id="SClick">

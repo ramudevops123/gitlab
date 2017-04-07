@@ -12,12 +12,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -83,8 +84,8 @@ var PType=$('#PType').val();
  //alert(FGWarehouseID);
  var PStatus=$('#PStatus').val();
  $.get('/SaveProductClick/'+'?PType='+PType+'&PName='+PName+'&PModel='+PModel+'&PStatus='+PStatus+'&ProductID='+ProductID, function(ValidationData){
- if (ValidationData == "Please Select ProductID"){
- $('#lblWH').text("Please Select ProductID");
+ if (ValidationData == "Please select Product ID"){
+ $('#lblWH').text("Please select Product ID");
  }
  else if(ValidationData == "Sucess")
  {
@@ -121,8 +122,8 @@ var PType=$('#PType').val();
  //alert(FGWarehouseID);
  var PStatus=$('#PStatus').val();
 $.get('/UpdateProductClick/'+'?PType='+PType+'&PName='+PName+'&PModel='+PModel+'&PStatus='+PStatus+'&ProductID='+ProductID, function(ValidationData){
- if (ValidationData == "Please Select ProductID"){
- $('#lblWH').text("Please Select ProductID");
+ if (ValidationData == "Please select Product ID"){
+ $('#lblWH').text("Please select Product ID");
  }
  else if(ValidationData == "Sucess")
  {
@@ -168,10 +169,10 @@ $('#UClick').hide();
   
 	<div class="container"> 
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
 	 <select class="form-control" id="ProductID" name="ProductID" >
-		  <option value="">Select ProductID</option>
+		  <option value="">Select Product ID</option>
 		  {% for entry in obj %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
@@ -182,27 +183,27 @@ $('#UClick').hide();
 	 </div>
 	
 	  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Type:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product type</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="PType" readonly placeholder="Product Type" value="{{ ProductType }}" readonly name="PType" maxlength="30" required>
+	<input type="text" class="form-control" id="PType" readonly placeholder="Product type" value="{{ ProductType }}" readonly name="PType" maxlength="30" required>
 	</div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="PName" readonly placeholder="Product Name" value="{{ ProductName }}" readonly name="PName" maxlength="30" required>
+	<input type="text" class="form-control" id="PName" readonly placeholder="Product name" value="{{ ProductName }}" readonly name="PName" maxlength="30" required>
 	</div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="PModel" readonly  placeholder="Product Model" value="{{  ProductModel }}" readonly name="PModel" maxlength="30" required>
+	<input type="text" class="form-control" id="PModel" readonly  placeholder="Product model" value="{{  ProductModel }}" readonly name="PModel" maxlength="30" required>
 	</div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product status</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="PStatus" readonly placeholder="Product Status" value="{{ ProductStatus }}"  readonly name="PStatus" maxlength="30" required>
+	<input type="text" class="form-control" id="PStatus" readonly placeholder="Product status" value="{{ ProductStatus }}"  readonly name="PStatus" maxlength="30" required>
 	</div>
 	</div>
 	 <div id="SClick">

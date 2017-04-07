@@ -18,7 +18,8 @@
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -73,13 +74,19 @@ $(document).ready(function()
 										<th class="center">Assigned</th>
 										<th class="center">Exported?</th>
 										<th class="center">Exported #</th>
-										<th class="center">Edit</th>
+									<!--	<th class="center">Edit</th> -->
                                         </tr>
                                 </thead>
 											<tbody>     
 					{% for u in obj %}                              
                                     <tr>
-                                       <td class="center">{{ u.ReceivingSAMID }}</td>
+									  {% if u.Product_SN == '' %}
+									   <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicModal" style="color: blue;" title="Edit">{{ u.ReceivingSAMID }}</a></td> 
+									   
+									   {% else %}
+										<td class="center">{{ u.ReceivingSAMID }}</td>
+										{% endif %}
+                                       
 									   <td class="center">{{ u.WarehouseName }}</td>
 									   <td class="center">{{ u.SAM_SN }}</td>
 									   <td class="center">{{ u.SAM_UID }}</td>
@@ -90,11 +97,11 @@ $(document).ready(function()
 									   {% endif %}
 									   <td class="center">{{ u.DataExportStatus }}</td>
 									   <td class="center">{{ u.DataExportQty }}</td>
-									   {% if u.Product_SN == '' %}
+									 <!--  {% if u.Product_SN == '' %}
 									   <td class="center"><a href="/accounts/EditSAMDetails/{{u.id}}" data-toggle="modal"data-target="#basicModal">Edit</a></td> 
 									   {% else %}
 										<td class="center"></td>
-										{% endif %}
+										{% endif %} -->
                                     </tr>
 									{% endfor %}
 									</tbody>

@@ -16,7 +16,9 @@
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+  <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+ 
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
@@ -191,12 +193,12 @@ $(document).ready(function(){
 					{% for u in obj %}                              
                                     <tr>
 									 {% if u.Status == 'Fixed' %}
-									   <td class="center"></td>
+									   
 									   <td class="center">{{ u.DeviceSN }}</td>
 									   {% else %}
 											
 									<!--	 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" class="btn btn-primary" title="Edit Maintenance" name="Save" data-title="Edit Maintenance" data-toggle="modal" data-target="#basicModal"><i></i>{{ u.DeviceSN }}</a></td> -->
-										 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" style="color: blue;" title="Edit Maintenance">{{ u.DeviceSN }}</td>
+										 <td class="center"><a href="/accounts/EditMaintanenceStatus/{{u.id}}" style="color: blue;" title="Edit Maintenance" name="Save" data-title="Edit Maintenance" data-toggle="modal" data-target="#basicModal">{{ u.DeviceSN }}</td>
 										 {% endif %}
                                        
 									   <td class="center">{{ u.ProductName }}</td>

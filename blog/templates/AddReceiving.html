@@ -12,12 +12,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
@@ -39,19 +40,19 @@ $(document).ready(function(){
 			//alert(checkbox);
 		if( document.RForm.ShipNo.value == "" )
          {
-            alert( "Please Select Ship No!" );
+            alert( "Please select Shipment No!" );
             document.RForm.ShipNo.focus() ;
             return false;
          }
 		 if( document.RForm.ReceivingStatus.value == "" )
          {
-            alert( "Please Select Receiving Status!" );
+            alert( "Please select Receiving status!" );
             document.RForm.ReceivingStatus.focus() ;
             return false;
          }
 		  if( document.RForm.WareHouseName.value == "" )
          {
-            alert( "Please Select WareHouse Name!" );
+            alert( "Please select Warehouse name!" );
             document.RForm.WareHouseName.focus() ;
             return false;
          }
@@ -66,7 +67,7 @@ $(document).ready(function(){
 			var SerialNo=document.getElementById('SerialNumber').value;
 			 if( document.RForm.ShipNo.value == "" )
          {
-            alert( "Please Select Ship No!" );
+            alert( "Please select Shipment No!" );
             document.RForm.ShipNo.focus() ;
             return false;
          }
@@ -74,26 +75,26 @@ $(document).ready(function(){
 		  
 		 if( document.RForm.ReceivingStatus.value == "" )
          {
-            alert( "Please Select Receiving Status!" );
+            alert( "Please select Receiving status!" );
             document.RForm.ReceivingStatus.focus() ;
             return false;
          }
 		  if( document.RForm.WareHouseName.value == "" )
          {
-            alert( "Please Select WareHouse Name!" );
+            alert( "Please select Warehouse name!" );
             document.RForm.WareHouseName.focus() ;
             return false;
          }
 		 /*if( document.RForm.SerialNumber.value == "" )
          {
-            alert( "Please Enter Serial Number!" );
+            alert( "Please enter serial number!" );
             document.RForm.SerialNumber.focus() ;
             return false;
          }*/
 		 if (checkbox == true)
 			{
 			if (document.RForm.SerialNumber.value == "") {
-			alert( "Please Enter Serial Number!" );
+			alert( "Please enter serial number!" );
 			document.RForm.SerialNumber.focus() ;
             return false;
 			}
@@ -147,7 +148,7 @@ $(document).ready(function () {
 		$.get('/SNValidation/'+'?Productid='+Productid+'&ShipNo='+ShipNo, function(Data){
 		if (Data== 'No'){
 			$("#InputSerialCheck").click(function(){
-		$('#lblSNValidate').text("This Product ID must not have any Serial Number, please check again!");
+		$('#lblSNValidate').text("This Product ID must not have any Serial number, please check again!");
 		//document.getElementById("SerialNumber").setAttribute("disabled", false);
 		//document.getElementById("ReceivingQty").setAttribute("enable", true);
 		
@@ -155,7 +156,7 @@ $(document).ready(function () {
 		}
 		else if(Data== 'Yes'){
 		$("#InputSerialCheck").click(function(){
-		$('#lblSNValidate').text("This Product ID must have Serial Number, please check again!");
+		$('#lblSNValidate').text("This Product ID must have Serial number, please check again!");
 		//document.getElementById("ReceivingQty").setAttribute("disabled", false);
 		//document.getElementById("SerialNumber").setAttribute("enable", true);
 		});
@@ -187,7 +188,7 @@ $.get('/GetALLSNTest/'+'?ShipNo='+ShipNo+'&ProductID='+ProductID, function(Data)
 if (Data == '[]'){
 	//alert("textenterednull2");
 	$('#mySerialTable').empty();
-	$('#lblNumber').text("Total Number of Serial Number has been added:"+ 0);
+	$('#lblNumber').text("Total number of serial number has been added: "+ 0);
 	//document.getElementById("SerialNumber").setAttribute("disabled", false);
 	//document.getElementById("ReceivingQty").setAttribute("enable", true);
 	//document.getElementById('InputSerialCheck').checked=false;
@@ -220,7 +221,7 @@ else{
 		if (GetData == '[]'){
 	//alert("textenterednull2");
 	$('#mySerialTable').empty();
-	$('#lblNumber').text("Total Number of Serial Number has been added:"+ 0);
+	$('#lblNumber').text("Total number of serial number has been added: "+ 0);
 	//document.getElementById("SerialNumber").setAttribute("disabled", false);
 	//document.getElementById("ReceivingQty").setAttribute("enable", true);
 	//document.getElementById('InputSerialCheck').checked=false;
@@ -229,7 +230,7 @@ else{
  }
  else{
  //alert("textentereddata2");
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 //document.getElementById('InputSerialCheck').checked=true;
@@ -238,7 +239,7 @@ $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
 //alert(value[0]);
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  i=i+1;
 });
@@ -291,13 +292,13 @@ $(document).on('hidden.bs.basicSNModal', function (e) {
  }
  else{
 //alert("textentereddata2");
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(Data), function(key, value) {
 $('#mySerialTable').empty();
 //alert(value[0]);
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  i=i+1;
 });
@@ -341,13 +342,13 @@ window.setTimeout(function () {
  }
  else{
 // alert("textentereddata2");
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
 //alert(value[0]);
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  i=i+1;
 });
@@ -388,13 +389,13 @@ window.setTimeout(function () {
  }
  else{
 // alert("textentereddata2");
- var trHTML = '<tr><th class="center">SNo</th><th class="center">Serial Number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
+ var trHTML = '<tr><th class="center">S.No</th><th class="center">Serial number</th><th class="center">Edit</th><th class="center">Delete</th></tr>';
  i=1;
 $.each(JSON.parse(GetData), function(key, value) {
 $('#mySerialTable').empty();
 //alert(value[0]);
  trHTML += '<tr><td class="center">' + i + '</td><td class="center">' + value[0] + '</td><td class="center"> <a href="/accounts/EditSN/' + value[0] + '" data-toggle="modal" data-target="#basicSNModal"><i></i>Edit</a></td><td class="center"> <a href="/accounts/DeleteSN/' + value[0] + '" data-toggle="modal" data-target="#basicDeleteSNModal"><i></i>Delete</a></td></tr>';
- $('#lblNumber').text("Total Number of Serial Number has been added:"+ i);
+ $('#lblNumber').text("Total number of serial number has been added: "+ i);
  $('#lblNo').text(i);
  i=i+1;
 });
@@ -435,7 +436,7 @@ $.get('/GetALLSNTest/'+'?ShipNo='+ShipNo+'&ProductID='+ProductID, function(Data)
 if (Data == '[]'){
 	//alert("textenterednull2");
 	$('#mySerialTable').empty();
-	$('#lblNumber').text("Total Number of Serial Number has been added:"+ 0);
+	$('#lblNumber').text("Total number of serial number has been added: "+ 0);
 	document.getElementById("SerialNumber").setAttribute("disabled", false);
 	document.getElementById("ReceivingQty").setAttribute("enable", true);
 	document.getElementById('InputSerialCheck').checked=false;
@@ -473,11 +474,11 @@ var LabelAlert=$('#lblQTY').val();
  if (Data==''){
  $('#lblQuantity').text(Data);
  }
- else if (Data=='Receiving Quantity value is more than Shipment Quantity value. Please check it again'){
+ else if (Data=='Receiving quantity value is more than Shipment quantity value. Please check once again'){
    $('#lblQuantity').text(Data);
    $('#ReceivingQty').val('');
  }
- else if (Data=='Receiving Quantity value is more than PO Quantity value. Please check it again'){
+ else if (Data=='Receiving quantity value is more than PO quantity value. Please check once again'){
    $('#lblQuantity').text(Data);
    $('#ReceivingQty').val('');
  }
@@ -510,13 +511,13 @@ var LabelAlert=$('#lblQTY').val();
  //alert("Display message");
  $('#lblWH').text("Please Select WareHouse");
  }
- else if (Data == "Data already exists for selected ShipNo,Please Select another PONumberand ShipNo"){
+ else if (Data == "Data already exists for selected Shipment NO, Please select another PO number and Shipment NO"){
  alert(Data);
- window.location = "http://192.168.1.121:8000/accounts/ADDReceiving/";
+ window.location = "/accounts/ADDReceiving/";
  }
  else{
  //alert("DFg");
-  window.location = "http://192.168.1.121:8000/accounts/ViewReceiving/";
+  window.location = "/accounts/ViewReceiving/";
   }
 });
  }
@@ -534,15 +535,15 @@ if (Data == "Please Select WareHouse"){
  }
  else if (Data == "Data already exists for selected ShipNo,Please Select another PONumberand ShipNo"){
   alert(Data);
- window.location = "http://192.168.1.121:8000/accounts/ADDReceiving/";
+ window.location = "/accounts/ADDReceiving/";
  }
  else{
-  window.location = "http://192.168.1.121:8000/accounts/ViewReceiving/";
+  window.location = "/accounts/ViewReceiving/";
   }
  });
  }
  else{
- alert("Shipment Quantity and the Receiving Quantity  are not equal,So please Add Receiving Quantity or click on Submit button");
+ alert("Shipment Quantity and the Receiving quantity are not equal, so please Add Receiving Quantity or click on Submit button");
  }
  }
 
@@ -598,15 +599,15 @@ $(document).ready(function()
 </head>
 <body>
 	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/ADDReceiving/" role="form" data-toggle="validator">{% csrf_token %}
-	<center> <h4>Receiving Finish Goods/Material<h4></center>
-	<!-- <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicModal">
+	<center> <h4>Receiving finished Goods/Material<h4></center>
+	<!-- <a class="btn btn-primary"  class="submit" id="checkclass" title="Shipment details" data-title="Shipment & Product details" data-toggle="modal" data-target="#basicModal">
 	                      Add Material</a> -->
 	 <div class="container"> 
 	 <div class="row">
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Shipment From Manufacture<h4>
+  <h4 class="panel-title">Shipment from Manufacture<h4>
   </div>
    <div class="panel-body" id="form-color">
    
@@ -619,36 +620,36 @@ $(document).ready(function()
 				  </div>
   <div class="form-group">
   
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship No:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment No</label>
     <div class="col-sm-4">
 	<!--  <select class="form-control" id="ShipNo" name="ShipNo" >
-		  <option value="">Select Ship No</option>
+		  <option value="">Select Shipment No</option>
 		  {% for entry in ShipNo %}
 		<option value="{{ entry.ShipNumber }}">{{entry.ShipNumber }}</label>
 		{% endfor %}
 						</select> -->
-						<input type="text" class="form-control" id="ShipNo"  placeholder="Ship No"  readonly name="ShipNo" maxlength="30" required>
+						<input type="text" class="form-control" id="ShipNo"  placeholder="Shipment No"  readonly name="ShipNo" maxlength="30" required>
 						
      
     </div>
 	<a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicModal">
-	                      Select Shipment and Product Details</a>
+	                      Select Shipment and Product details</a>
 						  </div>
 	<div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Shipment Freight</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"  readonly name="SFreight" maxlength="30" required>
+      <input type="text" class="form-control" id="SFreight"  placeholder="Shipment freight"  readonly name="SFreight" maxlength="30" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Shipment AWB</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" readonly  name="ShipAWB" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Shipment AWB" readonly  name="ShipAWB" maxlength="30" required>
     </div>
   </div>
    
    <div class="form-group">
-   <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+   <label for="inputEmail3" class="col-sm-2 control-label">Shipment qty</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" readonly  name="SQuantity" maxlength="30" required>
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment quantity" readonly  name="SQuantity" maxlength="30" required>
     </div>
   </div>
   
@@ -670,9 +671,9 @@ $(document).ready(function()
    
  
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
 	<div class="col-sm-4">
-	 <input type="text" class="form-control" id="PONumber" placeholder="PONumber" readonly  name="PONumber" maxlength="75" required>
+	 <input type="text" class="form-control" id="PONumber" placeholder="PO number" readonly  name="PONumber" maxlength="75" required>
 						</div>
 						 <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
@@ -681,13 +682,13 @@ $(document).ready(function()
   </div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly  name="PODate" maxlength="75" required>
+      <input type="date" class="form-control" id="podate" placeholder="PO Date" readonly  name="PODate" maxlength="75" required>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ProductName" placeholder="Product Name" readonly  name="ProductName" maxlength="30" required>
+      <input type="text" class="form-control" id="ProductName" placeholder="Product name" readonly  name="ProductName" maxlength="30" required>
     </div>
   </div>
   
@@ -696,21 +697,21 @@ $(document).ready(function()
 	<div class="col-sm-4">
 	<input type="text" class="form-control" id="PrinicpalID" placeholder="Principal ID" readonly  name="PrinicpalID" maxlength="30" required>
 	</div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Product Type</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Product type</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ProductType" placeholder="Product Type" readonly  name="ProductType" maxlength="75" required>
+      <input type="text" class="form-control" id="ProductType" placeholder="Product type" readonly  name="ProductType" maxlength="75" required>
     </div>
   </div>
   
   
    <div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal Name" readonly  name="PName" maxlength="30" required>
+      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal name" readonly  name="PName" maxlength="30" required>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">PO Quantity:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">PO qty</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="POQuantity" placeholder="PO Quantity" readonly  name="POQuantity" maxlength="30" required>
+      <input type="text" class="form-control" id="POQuantity" placeholder="PO qty" readonly  name="POQuantity" maxlength="30" required>
     </div>
   </div>
 	
@@ -732,13 +733,13 @@ $(document).ready(function()
    
 
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">HS Code:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">HS Code</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="HsCode" readonly placeholder="Hs Code"   name="HsCode" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Custom Clearance Status</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Custom Clearance status</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="CCStatus" readonly placeholder="Custom Clearance Status"   name="CCStatus" maxlength="75" required>
     </div>
@@ -753,38 +754,38 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Receiving Finish Goods/Material<h4>
+  <h4 class="panel-title">Receiving finished Goods/Material<h4>
   </div>
    <div class="panel-body" id="form-color">
    
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Receiving:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Receiving</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="Receiving" readonly  placeholder="Receiving ID"   name="Receiving" maxlength="30" required>
     </div>
   </div>
    <div id="Rqid">
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Receiving Quantity</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Receiving qty</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ReceivingQty" placeholder="Receiving Quantity" onchange="QuantityFunction(this.value)" name="ReceivingQty" maxlength="75" >&nbsp;<span id="qtyerrmsg"></span>
+      <input type="text" class="form-control" id="ReceivingQty" placeholder="Receiving qty" onchange="QuantityFunction(this.value)" name="ReceivingQty" maxlength="75" >&nbsp;<span id="qtyerrmsg"></span>
     </div>
 	<label id="lblSNValidate" name="lblSNValidate"></label>
   </div>
  </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Receiving Status</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Receiving status</label>
     <div class="col-sm-4">
       
 	   <select class="form-control" id="ReceivingStatus" name="ReceivingStatus" >
 		<option value="Open">Open</label>
 						</select>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">WareHouse Name</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Warehouse name</label>
     <div class="col-sm-4">
      
 	  <select class="form-control" id="WareHouseName" name="WareHouseName" >
-		  <option value="">Select WareHouse Name</option>
+		  <option value="">Select Warehouse name</option>
 		  {% for entry in WHName %}
 		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 		{% endfor %}
@@ -800,15 +801,15 @@ $(document).ready(function()
   <h1>----------------------------------------------------------------------------------------</h1>
   <div id="SNumberid">
  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-2 control-label">Serial Number</label>
+     <label for="inputEmail3" class="col-sm-2 control-label">Serial number</label>
 	  <div class="col-sm-4">
-      <input type="text" class="form-control" id="SerialNumber"  placeholder="Enter SerialNumber"   name="SerialNumber" maxlength="75">
+      <input type="text" class="form-control" id="SerialNumber"  placeholder="Enter Serial number"   name="SerialNumber" maxlength="75">
    
 		<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	<div class="col-sm-4">
 	<a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add to List</a>
+	                      Add to list</a>
 	</div>
 	<!-- <div class="col-sm-4">
 	<button type="submit" class="submit" name="_AddToList" class="btn btn-primary" onclick="return myList()" value="Add to List">Add to List</button>
@@ -821,7 +822,7 @@ $(document).ready(function()
     <thead>
                                     <tr>
 										
-										<th class="center">Serial Number</th>
+										<th class="center">Serial number</th>
                                         </tr>
                                 </thead>
 							
@@ -846,25 +847,7 @@ $(document).ready(function()
    $("#SerialNumber").prop("disabled", !$(this).is(':checked'));
 	});
 	</script>
-	 <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+	
 	    <!-------- Modal Start ------->
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
     <div class="modal-dialog modal-lg">
@@ -877,15 +860,15 @@ $(document).ready(function()
 			<table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
 								<thead>
                                     <tr>
-										<th class="center">Ship No</th>
-                                        <th class="center">Ship Frieght Name</th>
-                                        <th class="center">Ship AWB</th>										
-										<th class="center">PO Number</th>
-										<th class="center">PODate</th>									
+										<th class="center">Shipment No</th>
+                                        <th class="center">Shipment Frieght name</th>
+                                        <th class="center">Shipment AWB</th>										
+										<th class="center">PO number</th>
+										<th class="center">PO Date</th>									
 										<th class="center">Principal</th>
-										<th class="center">ProductID</th>
-										<th class="center">Product Type</th>
-										<th class="center">Product Name</th>
+										<th class="center">Product ID</th>
+										<th class="center">Product type</th>
+										<th class="center">Product name</th>
 										<th class="center">Choose</th>
                                     </tr>
                                 </thead>
@@ -897,7 +880,7 @@ $(document).ready(function()
 									   <td class="center">{{ u.ShipFreightName }}</td>
 									   <td class="center">{{ u.ShipAWB }}</td>
 									   <td class="center">{{ u.PONumber }}</td>									   
-									   <td class="center">{{ u.PODate }}</td>
+									   <td class="center">{{ u.PODate|date:"d-m-Y" }}</td>
 									   <td class="center">{{ u.PrincipalName }}</td>
 									   <td class="center">{{ u.ProductID }}</td>
 									   <td class="center">Material</td>
@@ -921,13 +904,13 @@ $(document).ready(function()
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Edit SerialNumber</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit Serial number</h4>
             </div>
             <div class="modal-body" >
 			  
 			  
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-4 control-label">Serial Number</label>
+     <label for="inputEmail3" class="col-sm-4 control-label">Serial number</label>
 	  <div class="col-sm-8">
       <input type="text" class="form-control" id="SNumber"  placeholder="Enter SerialNumber" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
 		<input type="hidden"  value="{{ lblSN }}" id="lblSN" name="lblSN" />
@@ -950,13 +933,13 @@ $(document).ready(function()
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
+            <h4 class="modal-title" id="myModalLabel">Delete Serial number</h4>
             </div>
             <div class="modal-body" >
 			  
 			  
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? you want to delete Serial number</label>
 	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
 	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
     </div>
@@ -975,13 +958,13 @@ $(document).ready(function()
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
+            <h4 class="modal-title" id="myModalLabel">Delete Serial number</h4>
             </div>
             <div class="modal-body" >
 			  
 			  
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">“You Have Selected Bulk Quantity, You Have to Remove All Serial Numbers”</label>
+     <label for="inputEmail3" class="col-sm-12 control-label">“You have selected bulk quantity, You have to remove all Serial numbers”</label>
 	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
 	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
     </div>

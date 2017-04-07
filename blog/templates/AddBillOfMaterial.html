@@ -13,7 +13,7 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -26,25 +26,25 @@
 function myFunction(){
          if( document.BillForm.PID.value == "" )
          {
-            alert( "Please Select Product ID!" );
+            alert( "Please select product ID!" );
             document.BillForm.PID.focus() ;
             return false;
          }
 		 if( document.BillForm.PStatus.value == "" )
          {
-            alert( "Please Select PO Status!" );
+            alert( "Please select PO status!" );
             document.BillForm.PStatus.focus() ;
             return false;
          }
 		// if( document.BillForm.Materialcode.value == "" )
          //{
-           // alert( "Please Select Materialcode!" );
+           // alert( "Please select material code!" );
             //document.BillForm.Materialcode.focus() ;
             //return false;
          //}
 		 //if( document.BillForm.Qty.value == "" )
          //{
-           /// alert( "Please provide Quantity!" );
+           /// alert( "Please provide quantity!" );
             ///document.BillForm.Qty.focus() ;
             //return false;
          //}
@@ -62,7 +62,7 @@ function myFunction(){
 		var splitArray = Data.split(",");
 		$('#PName').val(splitArray[0]) ;
 		$('#PModel').val(splitArray[1]) ;
-		if (splitArray[2] == 'Data already exists Please Select another Product'){
+		if (splitArray[2] == 'Data already exists Please select another Product'){
 		$('#lblBOM').text(splitArray[2]);
 		$('#ProductID').val('') ;
 		$('#PName').val('') ;
@@ -110,7 +110,7 @@ function myFunction(){
 	$('#myTable').append(trHTML);
  }
  else{
- var trHTML = '<tr><th class="center">Material Code</th><th class="center">Material Name</th><th class="center">Quantity</th><th class="center">Edit</th></tr>';
+ var trHTML = '<tr><th class="center">Material code</th><th class="center">Material name</th><th class="center">Quantity</th><th class="center">Edit</th></tr>';
 $.each(JSON.parse(GetData), function(key, value) {
 $('#myTable').empty();
  trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td><td class="center"><a href="/accounts/EditBOMaterial/' + value[3] + '" data-toggle="modal" data-target="#basicModal"><i></i>Edit Material</a></td></tr>';
@@ -243,7 +243,7 @@ $('#Qty').keyup(function(){
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Bill Of Material<h4>
+  <h4 class="panel-title">Bill of material<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -255,7 +255,7 @@ $('#Qty').keyup(function(){
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
        <select class="form-control" id="ProductID" name="PID" >
-		  <option value="">Select Type</option>
+		  <option value="">Select type</option>
 		  {% for entry in PType %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
@@ -265,19 +265,19 @@ $('#Qty').keyup(function(){
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name"   name="PName" maxlength="30" >
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product name"   name="PName" maxlength="30" >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model"   name="PModel" maxlength="30" >
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product model"   name="PModel" maxlength="30" >
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-5">
        <select class="form-control" id="PStatus" name="PStatus" >
 							<option value="Active">Active</option>
@@ -289,10 +289,10 @@ $('#Qty').keyup(function(){
   </br>
   </br>
    <div class="form-group">  
-  <label for="inputPassword3" class="col-sm-2 control-label">Material Code</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Material code</label>
   <div class="col-sm-5">
    <select class="form-control" id="Mcode" name="Materialcode" >
-    <option value="">Select Material </option>
+    <option value="">Select material </option>
     {% for obj in Mtype %}
    <option value="{{ obj.ProductID }}">{{ obj.ProductID }}</option>
 	  {% endfor %}
@@ -301,20 +301,20 @@ $('#Qty').keyup(function(){
 </div>
 <div class="col-sm-4">
 	<a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add Material</a>
+	                      Add material</a>
 	</div>
   </div>
     <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">Material Name</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Material name</label>
   <div class="col-sm-5">
-    <input type="text" class="form-control" id="Mname" readonly placeholder="Material Name"   name="Materialname" maxlength="30" >
+    <input type="text" class="form-control" id="Mname" readonly placeholder="Material name"   name="Materialname" maxlength="30" >
 </div>
 <label id="lblSAM" name="lblSAM"></label>
   </div>
   <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Material qty</label>
   <div class="col-sm-5">
-    <input type="text" class="form-control" id="Qty"  placeholder="Material Quantity"   name="Qty" maxlength="30" >&nbsp;<span id="errmsg"
+    <input type="text" class="form-control" id="Qty"  placeholder="Material qty"   name="Qty" maxlength="30" >&nbsp;<span id="errmsg"
 </div>
   </div>
   </br>
@@ -335,38 +335,20 @@ $('#Qty').keyup(function(){
   </div>
   </div>
   </div>
-  <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+  
   <div class="container-fluid"> 
    <div class="row">
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Bill Of Material<h4>
+   <h4 class="panel-title" id="user title">View Bill of material<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">Material Code</th>
-                                        <th class="center">Material Name</th>
+										<th class="center">Material code</th>
+                                        <th class="center">Material name</th>
                                         <th class="center">Quantity</th>										
 										 <th class="center">Edit</th>
 										<!--<th class="center">Check</th> -->
@@ -402,7 +384,7 @@ $('#Qty').keyup(function(){
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">  
-            <h4 class="modal-title" id="myModalLabel">Bill Of Material</h4>
+            <h4 class="modal-title" id="myModalLabel">Bill of material</h4>
             </div>
             <div class="modal-body">
 			<form class="form-horizontal"  role="form"> 
@@ -420,15 +402,15 @@ $('#Qty').keyup(function(){
 	</div>
   </div>
       <div class="form-group">
-  <label for="inputPassword3" class="col-sm-2 control-label">Material Name</label>
+  <label for="inputPassword3" class="col-sm-2 control-label">Material name</label>
   <div class="col-sm-5">
-    <input type="text" class="form-control" id="Matname" readonly placeholder="Material Name"   name="Materialname" maxlength="30" >
+    <input type="text" class="form-control" id="Matname" readonly placeholder="Material name"   name="Materialname" maxlength="30" >
 </div>
   </div>
   <div class="form-group">
   <label for="inputPassword3" class="col-sm-2 control-label">Quantity</label>
   <div class="col-sm-5">
-    <input type="text" class="form-control" id="ModalQty"  placeholder="Material Quantity"   name="Qty" maxlength="30" >&nbsp;<span id="Modalerrmsg"
+    <input type="text" class="form-control" id="ModalQty"  placeholder="Material quantity"   name="Qty" maxlength="30" >&nbsp;<span id="Modalerrmsg"
 </div>
   </div>
   <div class="form-group">

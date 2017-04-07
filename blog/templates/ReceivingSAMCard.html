@@ -12,13 +12,14 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -113,7 +114,7 @@ $.get('/SAMFileClick/'+'?samid='+samid+'&uid='+uid, function(Data){
  }
  else{
  //alert("textentereddata2");
- var trHTML = '<tr><th class="center">SAM Serial Number</th><th class="center">SAM UID</th><th class="center">SAM PCID</th>	</tr>';
+ var trHTML = '<tr><th class="center">SAM serial number</th><th class="center">SAM UID</th><th class="center">SAM PCID</th>	</tr>';
 $.each(JSON.parse(GetData), function(key, value) {
 $('#myTable').empty();
  trHTML += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td><td>' + value[2] + '</td></tr>';
@@ -147,10 +148,10 @@ $('#SAMSN').val('');
  var SAMSN = document.getElementById('SAMSN').value;
  var SAMUID = document.getElementById('SAMUID').value;
  $.get('/GetSAMDuplicate/'+'?SAMSN='+SAMSN+'&SAMUID='+SAMUID, function(ValidationData){
- if(ValidationData=="Data with same Serial Number already exist, please check again"){
+ if(ValidationData=="Data with same Serial number already exist, please double check"){
 			
 			document.getElementById("SAMSN").value= "";
-			$('#lblSAM').text("Data with same Serial Number already exist, please check again");
+			$('#lblSAM').text("Data with same Serial number already exist, please check again");
 			}
 if(ValidationData=="Data with same UID already exist, please check again"){
 			
@@ -207,19 +208,19 @@ $("#RPersoQuantity").keypress(function (e) {
             return false;
         }
 	  if( document.RForm.WarehouseName.value == "" ){
-	  alert("Please select WarehouseName");
+	  alert("Please select Warehousename");
 	  return false;
 	  }
 	  if( document.RForm.SAMSN.value == "" ){
-	  alert("Please Enter SAMSN");
+	  alert("Please Enter SAM SN");
 	  return false;
 	  }
 	  if( document.RForm.SAMUID.value == "" ){
-	  alert("Please Enter SAMUID");
+	  alert("Please Enter SAM UID");
 	  return false;
 	  }
 	  if( document.RForm.docfile.value == "" ){
-	  alert("You haven’t uploaded SAM Pin File, please upload it to proceed");
+	  alert("You haven’t uploaded SAM Pin file, please upload it to proceed");
 	  return false;
 	  }
 	  
@@ -281,7 +282,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Receiving SAM Card<h4>
+  <h4 class="panel-title">Receiving SAM card<h4>
   </div>
    <div class="panel-body" id="form-color">
    
@@ -289,19 +290,19 @@ $(document).ready(function()
                   </div>
             <div class="success">{{ Success }}
                   </div>
-<div><b>ProductID : {{ ProductID }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductType : {{ ProductType }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductName : {{ ProductName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProductModel:{{ ProductModel }}</b></div>
+<div><b>Product ID: {{ ProductID }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product type: {{ ProductType }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product name: {{ ProductName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product model: {{ ProductModel }}</b></div>
 </br>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Receiving SAM ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Receiving SAM ID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="RSamID"  placeholder="Receiving SAM ID" value="{{ Rid }}"  readonly name="RSamID" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">Warehouse:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Warehouse</label>
     <div class="col-sm-4">
       <select class="form-control" id="WarehouseName" name="WarehouseName" required>
-		  <option value="">Select Warehouse Name</option>
+		  <option value="">Select Warehouse name</option>
 		  {% for entry in WHName %}
 		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 		{% endfor %}
@@ -310,7 +311,7 @@ $(document).ready(function()
   </div>
   <div class="form-group">
   <a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Add SAM Card Details" data-toggle="modal" data-target="#basicModal">
-	                      Add SAM Card Details</a>
+	                      Add SAM card details</a>
 						  </div>
   <!--  <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Receiving Perso Quantity:</label>
@@ -330,9 +331,9 @@ $(document).ready(function()
 	<!-- {% if SAMValue == 'Yes'%}
 	
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM serial number</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM SerialNumber"  name="SAMSN" maxlength="30">
+	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM serial number"  name="SAMSN" maxlength="30">
     </div>
 	
 	 <input  type="submit" class="submit" id="AddToListButton" name="_AddToList" value="Add To List" class="btn btn-primary"></input>
@@ -376,15 +377,15 @@ $(document).ready(function()
    <div class="col-md-12">
    <div class="panel">
    <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-   <h4 class="panel-title" id="user title">View Serial Info Details<h4>
+   <h4 class="panel-title" id="user title">View serial info details<h4>
    </div>
    <div class="panel-body">
    <table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
     <thead>
                                     <tr>
-										<th class="center">SAM Serial Number</th>
+										<th class="center">SAM serial number</th>
                                         <th class="center">SAM UID</th>
-                                        <th class="center">SAM PinFile</th>
+                                        <th class="center">SAM PIN file</th>
 										<!-- <th class="center">Edit</th> -->										
                                         </tr>
                                 </thead>
@@ -399,13 +400,18 @@ $(document).ready(function()
 									{% endfor %}
 									</tbody>
 									</table>
-									<label>Number of SAM Perso being Received:{{ RPersoQty }}</label> 
+									{% if RPersoQty == None %}
+									<label>Number of Perso SAMs received: 0</label> 
+									{% elif RPersoQty > 0 %}
+									<label>Number of Perso SAMs received: {{ RPersoQty }}</label> 
+									{% endif %}
+									
    </div>
    </div>
    </div>
    </div>
   </div>
-  {% if Error == 'Please Set SAM Card Details' %}
+  {% if Error == 'Please set SAM Card details' %}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
     </div>
@@ -425,25 +431,25 @@ $(document).ready(function()
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">  
-            <h4 class="modal-title" id="myModalLabel"> Add SAM Card Details</h4>
+            <h4 class="modal-title" id="myModalLabel"> Add SAM Card details</h4>
             </div>
             <div class="modal-body">
 			 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM serial number</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="SAMSN" onchange="SAMValidateFunction()"  placeholder="SAM SerialNumber" required name="SAMSN" maxlength="30">
+	<input type="text" class="form-control" id="SAMSN" onchange="SAMValidateFunction()"  placeholder="SAM serial number" required name="SAMSN" maxlength="30">
     </div>
 	</div>
 	<label id="lblSAM" name="lblSAM"></label>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM UID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM UID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMUID" onchange="SAMValidateFunction()"  placeholder="SAM UID" required name="SAMUID" maxlength="30">
     </div>
 	<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	<div class="form-group">
-    <label for="exampleInputFile" class="col-sm-2 control-label" >SAM PIN File</label>
+    <label for="exampleInputFile" class="col-sm-2 control-label" >SAM PIN file</label>
 	<div class="col-sm-5">
     
 				    <input type="file" id="id_docfile" accept=".properties" required name="docfile" size="20" />
@@ -465,32 +471,32 @@ $(document).ready(function()
         <div class="modal-content">
             <div class="modal-header">
 			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-            <h4 class="modal-title" id="myModalLabel">Edit SerialNumber</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit serial number</h4>
             </div>
             <div class="modal-body" >
               <!--  <h3>Modal Body</h3> -->
 			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSAMDetails/" role="form">{% csrf_token %} 
 			  
 			 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM serial number</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="SAMEditSN"  placeholder="SAM SerialNumber"  value="{{ SAMEditSN }}" name="SAMEditSN" maxlength="30">
+	<input type="text" class="form-control" id="SAMEditSN"  placeholder="SAM serial number"  value="{{ SAMEditSN }}" name="SAMEditSN" maxlength="30">
 	<input type="hidden" id="uid"  value={{ uid }} name="uid" /> 
 	<input type="hidden"  id="samid" value={{ samid }} name="samid" /> 
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMEditUID"  placeholder="SAM UID" value="{{ SAMEditUID }}" name="SAMEditUID" maxlength="30">
     </div>
 	<label id="lblSAM" name="lblSAM"></label>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM PIN File:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM PIN file</label>
     <div class="col-sm-4">
 	<!-- <input type="file" id="id_editdocfile" accept=".properties" required name="editdocfile" size="20" /> -->
-	<a href="../../../static/files/{{ docfile }}" id="fileclick" target="_blank">Download SAM PIN File</a><br/>
+	<a href="../../../static/files/{{ docfile }}" id="fileclick" target="_blank">Download SAM PIN file</a><br/>
     </div>
 	<label id="lblSAM" name="lblSAM"></label>
 	</div>

@@ -12,13 +12,14 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -172,7 +173,8 @@ $(document).ready(function()
     <label for="inputEmail3" class="col-sm-2 control-label">Receiving SAM ID:</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="RSamID" value="{{ RSamID }}"  placeholder="Receiving SAM ID"  readonly name="RSamID" maxlength="30" required>
-	<input type="hidden"  value={{ uid }} name="uid" /> 
+	<input type="hidden"  value={{ uid }} name="uid" />
+	<input type="hidden"  value={{ StocksnProduct }} name="StocksnProduct" /> 
     </div>
 	<label for="inputEmail3" class="col-sm-2 control-label">Warehouse:</label>
     <div class="col-sm-4">
@@ -211,9 +213,9 @@ $(document).ready(function()
 	 {% if SAMValue == 'Yes'%}
 	
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM Serial number</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM SerialNumber"  name="SAMSN" maxlength="30">
+	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM Serial number"  name="SAMSN" maxlength="30">
     </div>
 	
 	<div class="col-sm-4">
@@ -222,7 +224,7 @@ $(document).ready(function()
 	</div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">SAM UID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">SAM UID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID"  name="SAMUID" maxlength="30">
     </div>
@@ -287,22 +289,22 @@ $(document).ready(function()
         <div class="modal-content">
             <div class="modal-header">
 			 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-            <h4 class="modal-title" id="myModalLabel">Edit SAM Info Details</h4>
+            <h4 class="modal-title" id="myModalLabel">Edit SAM info details</h4>
             </div>
             <div class="modal-body" >
               <!--  <h3>Modal Body</h3> -->
 			 <form class="form-horizontal" name="Mname"  method="POST" action="/accounts/EditSAMDetails/" role="form">{% csrf_token %} 
 			  
 			 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM Serial number</label>
     <div class="col-sm-4">
-	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM SerialNumber"  value="{{ SAMSN }}" name="SAMSN" maxlength="30">
+	<input type="text" class="form-control" id="SAMSN"  placeholder="SAM Serial number"  value="{{ SAMSN }}" name="SAMSN" maxlength="30">
 	<input type="hidden"  value={{ uid }} name="uid" /> 
 	<input type="hidden"  value={{ samid }} name="samid" /> 
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">SAM UID</label>
     <div class="col-sm-4">
 	<input type="text" class="form-control" id="SAMUID"  placeholder="SAM UID" value="{{ SAMUID }}" name="SAMUID" maxlength="30">
     </div>

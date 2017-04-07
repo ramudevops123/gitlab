@@ -12,13 +12,14 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -65,14 +66,14 @@ $("#ShipmentStatus").val("{{ ShipmentStatus }}");
 		//alert(ListData);
  $.get('/SaveStockInsert/'+'?RefNumber='+RefNumber+'&ProductID='+ProductID+'&ProductName='+ProductName+'&SQuantity='+SQuantity+'&DistributorID='+DistributorID+'&DistributorName='+DistributorName+'&CustomerID='+CustomerID+'&CustomerName='+CustomerName+'&ShipDate='+ShipDate+'&ListData='+ListData, function(Data){
  //alert(Data);
- window.location = "http://192.168.1.121:8000/accounts/ViewShipmentToCustomer/";
+ window.location = "/accounts/ViewShipmentToCustomer/";
  
  
  });
  }
  
  else if(splitArray[0]<SQuantity){
- alert("Total Number of Product SN is less than value of Ship Quantity, please check again");
+ alert("Total number of Product SN is less than value of Shipment quantity, please check once again");
  }
  });
  });
@@ -97,7 +98,7 @@ var SQuantity=$('#SQuantity').val();
 $.get('/DetailCount/'+'?RefNumber='+RefNumber, function(count){
  // alert(count);
 if(count>SQuantity){
-alert("Total Number of Product SN being selected is more than value of Ship Quantity, please check again!");
+alert("Total number of Product SN being selected is more than value of Shipment Quantity, please check once again!");
 }
 else{
 			$.get('/DeviceSNListView/'+'?ListData='+ListData+'&ProductID='+ProductID+'&ProductName='+ProductName+'&RefNumber='+RefNumber, function(Data){
@@ -188,32 +189,32 @@ $('textarea#Remarks').val('');
    <div class="panel-body" id="form-color">
 </br>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Distributor ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Distributor ID</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorID" readonly placeholder="DistributorID" value="{{ DistributorID }}"  name="DistributorID" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorID" readonly placeholder="Distributor ID" value="{{ DistributorID }}"  name="DistributorID" maxlength="30" required>
 	<input type="hidden"  value="{{ lblSTDID }}" name="lblSTDID" />
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor name</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorName" readonly placeholder="DistributorName" value="{{ DistributorName }}"  name="DistributorName" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorName" readonly placeholder="Distributor name" value="{{ DistributorName }}"  name="DistributorName" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Address:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor address</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorAddress" readonly placeholder="DistributorAddress" value="{{ DistributorAddress }}" name="DistributorAddress" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorAddress" readonly placeholder="Distributor address" value="{{ DistributorAddress }}" name="DistributorAddress" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor City:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor city</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorCity" readonly placeholder="DistributorCity" value="{{ DistributorCity }}" name="DistributorCity" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorCity" readonly placeholder="Distributor city" value="{{ DistributorCity }}" name="DistributorCity" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Country:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor country</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="DistributorCountry" readonly placeholder="DistributorCountry" value="{{ DistributorCountry }}" name="DistributorCountry" maxlength="30" required>
     </div>
@@ -230,37 +231,37 @@ $('textarea#Remarks').val('');
    <div class="panel-body" id="form-color">
 </br>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Customer ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Customer ID</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" id="CustomerID" readonly placeholder="CustomerID"  name="CustomerID" value="{{ CustomerID }}" maxlength="30" required>
+      <input type="text" class="form-control" id="CustomerID" readonly placeholder="Customer ID"  name="CustomerID" value="{{ CustomerID }}" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer name</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerName" readonly placeholder="CustomerName"  name="CustomerName" value="{{ CustomerName }}"  maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerName" readonly placeholder="Customer name"  name="CustomerName" value="{{ CustomerName }}"  maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Address:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer address</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerAddress" readonly placeholder="CustomerAddress" value="{{ CustomerAddress }}" name="CustomerAddress" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerAddress" readonly placeholder="Customer address" value="{{ CustomerAddress }}" name="CustomerAddress" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer City:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer city</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerCity" readonly placeholder="CustomerCity" value="{{ CustomerCity }}" name="CustomerCity" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerCity" readonly placeholder="Customer city" value="{{ CustomerCity }}" name="CustomerCity" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Country:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer country</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerCountry" readonly placeholder="CustomerCountry" value="{{ CustomerCountry }}" name="CustomerCountry" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerCountry" readonly placeholder="Customer country" value="{{ CustomerCountry }}" name="CustomerCountry" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group" id="comments">		
-    <label for="Comments" class="col-sm-4 control-label">Remarks:</label>		
+    <label for="Comments" class="col-sm-4 control-label">Remarks</label>		
 	<div class="col-sm-5">		
     <textarea class="form-control" wrap=physical id="Remarks" rows="3" value="{{ Remarks }}" disabled name="Remarks" maxlength="2000" required>{{ Remarks }}</textarea> 		
   </div>		
@@ -284,28 +285,28 @@ $('textarea#Remarks').val('');
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="ProductID" readonly placeholder="ProductID" value="{{ ProductID }}"  name="ProductID" maxlength="75" required>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Shipment Date</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Shipment date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date" value="{{ ShipDate|date:'Y-m-d' }}"  name="ShipDate" maxlength="75" required>
+      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date" value="{{ ShipDate|date:'d-m-Y' }}"  name="ShipDate" maxlength="75" required>
     </div>
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name" value="{{ PName }}"  name="PName" maxlength="30" >
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product name" value="{{ PName }}"  name="PName" maxlength="30" >
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">ShipmentQuantity:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Shipment quantity</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" value="{{ SQuantity }}"  name="SQuantity" maxlength="30" required >
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment quantity" value="{{ SQuantity }}"  name="SQuantity" maxlength="30" required >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model" value="{{ PModel }}"  name="PModel" maxlength="30" >
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product model" value="{{ PModel }}"  name="PModel" maxlength="30" >
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-4">
        <select class="form-control" id="ShipmentStatus" name="ShipmentStatus" >
 							<option value="">Select Status</option>
@@ -327,9 +328,9 @@ $('textarea#Remarks').val('');
 	<table id="myDeviceListTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
 			  <thead>
                                     <tr>
-									<th class="center">ProductID</th>
-										<th class="center">ProductName</th>
-										<th class="center">DeviceSN</th>
+									<th class="center">Product ID</th>
+										<th class="center">Product name</th>
+										<th class="center">Device SN</th>
 										
                                     </tr>
                                 </thead>
@@ -384,7 +385,7 @@ $('textarea#Remarks').val('');
 									</table>
 								<div class="col-sm-offset-2 col-sm-10">
       <a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add to List</a>
+	                      Add to list</a>
 <button class="btn btn-default" type="button">Close</button>	
 </a>  
     </div>	

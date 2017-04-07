@@ -16,7 +16,8 @@
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -58,45 +59,45 @@
   </div>
  <div class="panel-body" id="form-color">
  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Device SN:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Device SN</label>
     <div class="col-sm-4">
 	 <input type="text" class="form-control" id="Devicesn" placeholder="Device SN" name="Devicesn" onchange="myFunction(this.value)" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ProductID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="ProductID" placeholder="ProductID" name="ProductID" maxlength="30" required>
+	 <input type="text" class="form-control" id="ProductID" placeholder="Product ID" name="ProductID" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ProductName:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="ProductName" placeholder="ProductName" name="ProductName" maxlength="30" required>
+	 <input type="text" class="form-control" id="ProductName" placeholder="Product name" name="ProductName" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">WarehouseID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Warehouse ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="WarehouseID" placeholder="WarehouseID" name="WarehouseID" maxlength="30" required>
+	 <input type="text" class="form-control" id="WarehouseID" placeholder="Warehouse ID" name="WarehouseID" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">CustomerID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Customer ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="CustomerID" placeholder="CustomerID" name="CustomerID" maxlength="30" required>
+	 <input type="text" class="form-control" id="CustomerID" placeholder="Customer ID" name="CustomerID" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">DistributorID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Distributor ID</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="DistributorID" placeholder="DistributorID" name="DistributorID" maxlength="30" required>
+	 <input type="text" class="form-control" id="DistributorID" placeholder="Distributor ID" name="DistributorID" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">DistributorName:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Distributor name</label>
     <div class="col-sm-4">
-	 <input type="text" class="form-control" id="DistributorName" placeholder="DistributorName" name="DistributorName" maxlength="30" required>
+	 <input type="text" class="form-control" id="DistributorName" placeholder="Distributor name" name="DistributorName" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
@@ -114,11 +115,11 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">  
-            <h4 class="modal-title" id="myModalLabel"> Device Details</h4>
+            <h4 class="modal-title" id="myModalLabel"> Device details</h4>
             </div>
             <div class="modal-body">
 			 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow:</label>
+    <label for="inputEmail3" class="col-sm-3 control-label">Select Repair/Borrow</label>
     <div class="col-sm-4">
 	<select class="form-control" id="maintenance" name="maintenance" required>
 		  <option value="Repair">Repair</option>
@@ -128,7 +129,7 @@
 	</div>
 	<label id="lblSAM" name="lblSAM"></label>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-3 control-label">Comments:</label>
+    <label for="inputEmail3" class="col-sm-3 control-label">Comments</label>
     <div class="col-sm-4">
 	<textarea class="form-control" wrap=physical id="thrdPartyAddress" rows="3" name="thrdaddrs" maxlength="280" required id="comments"></textarea> 
     </div>
@@ -151,25 +152,7 @@
  </div>
  </div>
  </form>
- <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+
  </body>
 </html>
 {% endblock %}

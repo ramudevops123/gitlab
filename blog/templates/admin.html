@@ -6,16 +6,20 @@
     <head>
 	
    <link rel="shortcut icon" href="{%  static 'images/favicon.png' %}">
+   
         <title>::: BIMS :::</title>
 		{% load staticfiles %}
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+		<!--	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+		<link type="text/css" rel="stylesheet" href="{% static 'css/font4.7.0-awesome.min.css' %}">
+		
+		<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" > -->
+		<link rel="stylesheet" href="{% static 'css/materialicons.css' %}" >
         <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
               <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
                <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}"> 
 			   <script src="{% static 'js/jquery.min.js' %}"></script>
-               <script type="text/javscript" src="{% static 'js/bootstrap.min.js' %}"></script>
-	           <script type="text/javscript" src="{% static 'js/dropdowns-enhancement.js' %}"></script>
+               <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	           <script type="text/javascript" src="{% static 'js/dropdowns-enhancement.js' %}"></script>
 			    <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -23,9 +27,11 @@
         <div class="page-header no-margin no-padding ">
             <div class="container">
                 <p class="navbar-text navbar-right" style="margin-right: -50px;">You are logged in as <a href="#" class="navbar-link">{{ full_name }}</a></p>
-				<img src="{% static "images/Biomorf.jpg" %}" alt="Bimorf" style="position: absolute; left: 5px; top:10px;" width="220" height="60">
-				<br/> <small id="title" style="text-align:center;font-family:Sans Serif; color:yellowgreen; font-size:35px;">Biomorf Inventory Management System</small>
-				
+                <a href="/accounts/BIMSDashboard/">
+					<img src="{% static "images/Biomorf.jpg" %}" alt="Biomorf" style="position: absolute; left: 5px; top:10px;" width="220" height="60">
+				</a>
+				<br/> <small id="title" style="text-align:center;font-family:Sans Serif; color:yellowgreen; font-size:35px;">Bi<i class="material-icons">&#xe90d;</i>morf Inventory Management System</small>
+				<!-- <br/> <small id="title" style="text-align:center;font-family:Bookman Old Style; color:yellowgreen; font-size:35px;">Biomorf Inventory Management System</small> -->
         </div> <br>  
         
 		 
@@ -34,7 +40,7 @@
 <footer class="footer">
 	<div class="container">
 	
-		<div style="text-align:center;" class="text-muted">&#0169; 2008-{% now 'Y' %}  Biomorf Lone All rights reserved.</div>
+		<div style="text-align:center;" class="text-muted">&#0169; 2008-{% now 'Y' %} Biomorf Lone All rights reserved.</div>
 		<ul class="footer-nav">
 			<li>
 				<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
@@ -45,7 +51,7 @@
 			<li>
 				<a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
 			</li>
-			<li><a href="/accounts/auth/">Home</a></li>
+			<li><a href="/accounts/BIMSDashboard/">Home</a></li>
 			<li><a href="">Legal Disclaimer</a></li>
 		</ul>
 	</div>

@@ -199,72 +199,7 @@ window.setTimeout(function () {
  });
  });
  </script>
-  <!--<script type="text/javascript">
-$(document).ready(function(){
-$("#InputSerialCheck").click(function(){
-alert("gfgtfghgh");
-var StockQty=$('#StockQty').val();
-var rowCount = $('#mySerialTable tr').length;
-alert(rowCount);
-if (StockQty == ''){
-}
-else{
-$('#StockQty').val('');
-}
-if (rowCount > 0){
-var checkvalue=document.getElementById('InputSerialCheck').checked
-alert(checkvalue);
-var SerialNumbervalue=document.getElementById('SerialNumber').disabled
-alert(SerialNumbervalue);
-if (checkvalue == false && SerialNumbervalue == false){
-alert("rowcountmorethanzero");
-$("#basicDeleteCheckSNModal").modal();
-var ProductID=$('#ProductID').val();
-var RefNumber=$('#RefNumber').val();
-alert(RefNumber);
 
-$("#SNDeleteCheck").click(function(){
-$.get('/GetALLInputSNTest/'+'?RefNumber='+RefNumber+'&ProductID='+ProductID, function(Data){
-if (Data == '[]'){
-	//alert("textenterednull2");
-	$('#mySerialTable').empty();
-	$('#lblNumber').text("Total number of serial number has been added: "+ 0);
-	document.getElementById("SerialNumber").setAttribute("disabled", false);
-	document.getElementById("StockQty").setAttribute("enable", true);
-	document.getElementById('InputSerialCheck').checked=false;
-	var trHTML ='';
-	$('#mySerialTable').append(trHTML);
- }
-window.setTimeout(function () {
-                  $('#basicDeleteCheckSNModal').modal('hide');
-                }, 1000);
-		
-});	
-});
-}
-else{
-alert("fgfdgno data");
-}
-}
-else{
-alert("fgfdgno data");
-}
-
-});
-});
-</script>
-<script>
-$(document).ready(function(){
-$('#StockQty').keyup(function(){
-   if($(this).val() == "0"){
-   $('#StockQty').val('');
-   }else if($(this).val() > 0){
-   console.log($(this).val());
-   $(this).val(Number($(this).val()))
-   }
-});
-});
-</script>-->
 <script type="text/javascript">
 $(document).ready(function(){
 $(document).on("keydown", function (e) {
@@ -287,6 +222,27 @@ $(document).ready(function()
 });
 </script>
 <script type="text/javascript">
+function CSVFunction()
+      {
+	  var ext = $('#id_csvfile').val().split('.').pop().toLowerCase();
+
+        if ($.inArray(ext, ['csv']) == -1) {
+            alert('Please upload only .csv format file!');
+            return false;
+        }
+	  if( document.RForm.WarehouseName.value == "" ){
+	  alert("Please select Warehouse name");
+	  return false;
+	  }
+	 
+	  
+	  if( document.RForm.csvfile.value == "" ){
+	  alert("You haven't uploaded SIM details CSV file, please upload .csv file to proceed");
+	  return false;
+	  }
+	  
+	  return true;
+	  }
 function myFunction(val) {
 //alert(val);
 $('#ProductLabel').text("");
@@ -301,7 +257,7 @@ $('#ProductID').val('');
 </script>
  </head>
 <body>
-	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/InputStock/" role="form" data-toggle="validator">{% csrf_token %}
+	<form class="form-horizontal" name="RForm" method="POST" action="/accounts/BulkInputStock/" role="form" data-toggle="validator" enctype="multipart/form-data">{% csrf_token %}
 	<center> <h4>Input stock<h4></center>
 	
 	<div class="container"> 
@@ -312,12 +268,13 @@ $('#ProductID').val('');
    <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID <b><span style="color: red;">*1</b></label>
     <div class="col-sm-4">
-	 <select class="form-control" id="ProductID" name="ProductID" onchange="myFunction(this.value)" required>
-		  <option value="">Select Product ID</option>
-		  {% for entry in ProductID %}
-		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
-		{% endfor %}
+	
+	   <select class="form-control" id="ProductID" name="ProductID" required>
+							<option value="">Select Product ID</option>
+						    <option value="B-CAT">B-CAT</option>
+							<option value="mAMBIS">mAMBIS</option>
 						</select>
+
      <label id="ProductLabel"></label>
     </div>
 	<label for="inputEmail3" class="col-sm-2 control-label">Ref number</label>
@@ -346,6 +303,7 @@ $('#ProductID').val('');
 						</select>
      
     </div>
+	
 	<label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-4">
       <select class="form-control" id="Status" name="Status" >
@@ -359,127 +317,21 @@ $('#ProductID').val('');
       <input type="text" class="form-control" id="StockQty" placeholder="Stock Quantity IN"   name="StockQty" maxlength="75" >
     </div>
   </div>
-  <div class="col-sm-8" id="SerialNumberdiv">
-     <label for="inputEmail3" class="col-sm-3 control-label">Serial number <b><span style="color: red;">*3</b></label>
-	  <div class="col-sm-4">
-      <input type="text" class="form-control" id="SerialNumber" placeholder="Enter Serial number"   name="SerialNumber" maxlength="75">
-   
-		<label id="lblSAM" name="lblSAM"></label>
+  	<div class="form-group">
+    <label for="exampleInputFile" class="col-sm-2 control-label" >Upload CSV file</label>
+	<div class="col-sm-5">
+    
+				    <input type="file" id="id_csvfile" accept=".csv" required name="csv_file" size="20" />format: Device ID #
 	</div>
-	<div class="col-sm-4">
-	<a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add to list</a>
-	</div>
-	
-    </div>
-	</div>
+  </div>	
+   <div class="form-group">
+  <input  type="submit" class="submit" id="BulkInputStock" name="_BulkInputStock" value="Submit" onclick="return CSVFunction()" class="btn btn-primary"></input>
+  	  
   </div>
-  </div>
-  </div>
-  </div>
-	<div class="col-md-6" id="mySerialTablediv">
-   <table id="mySerialTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
-    <thead>
-                                    <tr>
-										<th class="center">S No</th>
-										<th class="center">Serial number</th>
-										
-                                        </tr>
-                                </thead>
-								
-							
 
-									</table>
-									
-									
-									</div>
-									<label id="lblNumber"></label>
- <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-12">
-      <button type="submit" class="submit" class="btn btn-primary" value="Remove Whitespaces">Submit</button>
-	  <a href="/accounts/ViewInputStock/"><button class="btn btn-default" type="button">Cancel</button></a> 
-	  <button type="submit" class="submit" class="btn btn-primary" value="Save&Send" name="_Save&Send">Save & Send</button>
-    </div>
-  </div>
-   <div class="modal fade" id="basicSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Edit serial number</h4>
-            </div>
-            <div class="modal-body" >
-			  
-			  
-			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-4 control-label">Serial number</label>
-	  <div class="col-sm-8">
-      <input type="text" class="form-control" id="SNumber"  placeholder="Enter Serial number" value="{{ SerialNumber }}"  name="SerialNumber" maxlength="75">
-		<input type="hidden"  value="{{ lblSN }}" id="lblSN" name="lblSN" />
 	</div>
-	
-	
-    </div>
-	 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-12">
-      <a class="btn btn-primary"  class="submit" id="SNSubmit" onclick="$('.modal-body > form').submit();" >
-	                      Submit</a>
-	   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
   </div>
-  </div>
-  </div>
- </div>
-	</div>  
-	<div class="modal fade" id="basicDeleteSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
-            </div>
-            <div class="modal-body" >
-			  
-			  
-			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
-	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
-	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
-    </div>
-	 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-18">
-      <a class="btn btn-primary"  class="submit" id="SNDelete" >
-	                      Delete</a>
-	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-  </div>
-  </div>
-  </div>
- </div>
-	</div>  
-   <div class="modal fade" id="basicDeleteCheckSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Delete SerialNumber</h4>
-            </div>
-            <div class="modal-body" >
-			  
-			  
-			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">“You Have Selected Bulk Quantity, You Have to Remove All Serial Numbers”</label>
-	 <input type="hidden"  value="{{ SNid }}" id="SNid" name="SNid" />
-	 <input type="hidden"  value="{{ SN }}" id="SN" name="SN" />
-    </div>
-	 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-18">
-      <a class="btn btn-primary"  class="submit" id="SNDeleteCheck" >
-	                      Delete</a>
-	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-  </div>
-  </div>
-  </div>
- </div>
-	</div>  
+
    </form>
  </body>
 </html>

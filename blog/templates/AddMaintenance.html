@@ -18,7 +18,8 @@
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -331,15 +332,15 @@ window.setTimeout(function () {
    <div class="panel-body" id="form-color">
 </br>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Maintenance ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Maintenance ID</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceNO }}" readonly placeholder="MaintenanceID"  name="MaintenanceID" maxlength="30" required>
+      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceNO }}" readonly placeholder="Maintenance ID"  name="MaintenanceID" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
     <label for="inputEmail3" class="col-sm-4 control-label">Ref transaction</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="RefTransaction" readonly placeholder="RefTransaction"  name="RefTransaction" value="MaintenanceBorrowRepair" maxlength="30" required>
+	<input type="text" class="form-control" id="RefTransaction" readonly placeholder="Ref transaction"  name="RefTransaction" value="MaintenanceBorrowRepair" maxlength="30" required>
     </div>
 	</div>
 	</div>
@@ -348,7 +349,7 @@ window.setTimeout(function () {
   <h4 class="panel-title">Device taken out temporarily from stock<h4>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Purpose:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Purpose</label>
 	<h4>
 <input type="radio"  name="Purpose" id="Purpose" value="Borrow" required> Borrow</input></h4>
 <h4>
@@ -357,10 +358,10 @@ window.setTimeout(function () {
 <input type="radio"  name="Purpose" id="Purpose" value="Repair" required checked> Repair </h4>
 </div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">From WareHouse:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">From Warehouse</label>
     <div class="col-sm-6">
 	<select class="form-control" id="FromWH"  name="FromWH" required>
-		  <option value="">Select WareHouse</option>
+		  <option value="">Select Warehouse</option>
 		   {% for entry in WHType %}
 		<option value="{{ entry.WarehouseName }}">{{entry.WarehouseName }}</label>
 		{% endfor %}
@@ -368,13 +369,13 @@ window.setTimeout(function () {
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Out Date:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Out date</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="OutDate" placeholder="Out Date"   name="OutDate" maxlength="75" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Estimated Return Date:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Estimated return date</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="ReturnDate" placeholder="Return Date"  name="ReturnDate" maxlength="75" required>
     </div>
@@ -412,10 +413,10 @@ window.setTimeout(function () {
 </br>
 <div class="form-group">
 <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Company Type:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Company type</label>
     <div class="col-sm-6">
       <select class="form-control" id="CompanyType"  name="CompanyType" required>
-		  <option value="">Select  Type</option>
+		  <option value="">Select  type</option>
 		<option value="Distributor">Distributor</label>
 		<option value="Principal">Principal</label>
 		<option value="Customer">Customer</label>
@@ -427,7 +428,7 @@ window.setTimeout(function () {
 						  </div> -->
 </div>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Company ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Company ID</label>
     <div class="col-sm-6">
 <!--       <input type="text" class="form-control" id="CompanyID"  placeholder="Company ID"  name="CompanyID" maxlength="30" required>
  -->	   <select class="form-control" id="CompanyID" name="CompanyID" required>
@@ -436,37 +437,37 @@ window.setTimeout(function () {
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Company Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Company name</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CompanyName" readonly placeholder="Companyl Name"  name="CompanyName" maxlength="30" required>
+	<input type="text" class="form-control" id="CompanyName" readonly placeholder="Companyl name"  name="CompanyName" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Company Address:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Company address</label>
     <div class="col-sm-6">
-	<textarea class="form-control" wrap=physical id="CompanyAddress" rows="3" placeholder="Company Address" readonly name="Company Address" maxlength="280"></textarea> 
+	<textarea class="form-control" wrap=physical id="CompanyAddress" rows="3" placeholder="Company address" readonly name="Company Address" maxlength="280"></textarea> 
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Company City:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Company city</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CompanyCity" readonly placeholder="Company City"  name="CompanyCity" maxlength="30" required>
+	<input type="text" class="form-control" id="CompanyCity" readonly placeholder="Company city"  name="CompanyCity" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Company Country:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Company country</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CompanyCountry" readonly placeholder="Company Country"  name="CompanyCountry" maxlength="30" required>
+	<input type="text" class="form-control" id="CompanyCountry" readonly placeholder="Company country"  name="CompanyCountry" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">PIC Who Responsible:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">PIC who responsible</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="PIC"  placeholder="PIC"  name="PIC" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group" id="comments">
-    <label for="Comments" class="col-sm-4 control-label">Notes:</label>
+    <label for="Comments" class="col-sm-4 control-label">Notes</label>
 	<div class="col-sm-6">
     <textarea class="form-control" wrap=physical id="Notes" rows="3"  name="Notes" maxlength="2000" required></textarea> 
   </div>
@@ -488,7 +489,7 @@ window.setTimeout(function () {
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
        <select class="form-control" id="ProductID" name="ProductID" required>
-		  <option value="">Select Type</option>
+		  <option value="">Select type</option>
 		  {% for entry in PType %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
@@ -497,18 +498,18 @@ window.setTimeout(function () {
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name"   name="PName" maxlength="30" >
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product name"   name="PName" maxlength="30" >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model"   name="PModel" maxlength="30" >
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product model"   name="PModel" maxlength="30" >
     </div>
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product/Device SN:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product/Device SN</label>
     <div class="col-sm-2">
       <input type="text" class="form-control" id="DeviceSN" placeholder="Product/Device SN"   name="DeviceSN" maxlength="30" >
     </div>
@@ -528,9 +529,9 @@ window.setTimeout(function () {
 	<table id="myDeviceListTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
 			  <thead>
                                     <tr>
-									<th class="center">ProductID</th>
-										<th class="center">ProductName</th>
-										<th class="center">DeviceSN</th>
+									<th class="center">Product ID</th>
+										<th class="center">Product name</th>
+										<th class="center">Device SN</th>
 										<th class="center">Delete</th>
                                     </tr>
                                 </thead>
@@ -567,7 +568,7 @@ window.setTimeout(function () {
 									</table>
 								<div class="col-sm-offset-2 col-sm-10">
       <a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add to List</a>
+	                      Add to list</a>
 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
 </a>  
     </div>	
@@ -579,11 +580,11 @@ window.setTimeout(function () {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            <h4 class="modal-title" id="DeleteSerial">Delete serial number</h4>
             </div>
             <div class="modal-body" >
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? you want to delete serial number</label>
 	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
 	 <input type="hidden"  value="{{ Productid }}" name="DelProductID" id="DelProductID"/>
 	  <input type="hidden"  value="{{ MaintenanceID }}" name="DelMaintenanceID" id="DelMaintenanceID"/>
@@ -601,25 +602,7 @@ window.setTimeout(function () {
 	</div>
   </form>
   	  
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+	 
 	 <!-------- Modal Start ------->
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
     <div class="modal-dialog modal-lg">
@@ -633,9 +616,9 @@ window.setTimeout(function () {
 								<thead>
                                     <tr>
 										<th class="center">External ID</th>                                       									
-										<th class="center">External Name</th>
-										<th class="center">External City</th>
-										<th class="center">External Country</th>
+										<th class="center">External name</th>
+										<th class="center">External city</th>
+										<th class="center">External country</th>
                                     </tr>
                                 </thead>
 								

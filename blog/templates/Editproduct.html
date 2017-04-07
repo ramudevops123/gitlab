@@ -5,7 +5,7 @@
  <meta name="viewport" content="width=device-width,initial-scale=1.0">
  <head>
  {% include 'base.html' %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -85,51 +85,51 @@ $(document).ready(function()
                   </div>
  
  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" disabled id="ProductID" placeholder="Product ID"   name="ProductID" value="{{ ProductID }}" maxlength="10" required>
 <input type="hidden"  value={{ uid }} name="uid" />
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Principal ID:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal ID</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" disabled id="PrincipalID" placeholder="Principal ID"   name="PrincipalID" value="{{ PrincipalID }}" maxlength="10" required>
 <input type="hidden"  value={{ uid }} name="uid" />
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" value="{{ PrincipalName }}" disabled id="PrincipalName" placeholder="Principal Name"   name="PrincipalName" maxlength="75" required>
+      <input type="text" class="form-control" value="{{ PrincipalName }}" disabled id="PrincipalName" placeholder="Principal name"   name="PrincipalName" maxlength="75" required>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Type:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product type</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" value="{{ ProductType }}" disabled id="ProductType" placeholder="Product Type"   name="ProductType" maxlength="30" required>
+      <input type="text" class="form-control" value="{{ ProductType }}" disabled id="ProductType" placeholder="Product type"   name="ProductType" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" value="{{ ProductName }}"  id="ProductName" placeholder="Product Name"   name="ProductName" maxlength="30" required>
+      <input type="text" class="form-control" value="{{ ProductName }}"  id="ProductName" placeholder="Product name"   name="ProductName" maxlength="30" required>
     </div>
   </div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" disabled id="ProductModel" placeholder="ProductModel"   name="Product Model" value="{{ ProductModel }}" maxlength="30" required>
+      <input type="text" class="form-control" disabled id="ProductModel" placeholder="ProductModel"   name="Product model" value="{{ ProductModel }}" maxlength="30" required>
     </div>
   </div>
 
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Status:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product status</label>
     <div class="col-sm-5">
        <select class="form-control" id="ProductStatus" name="ProductStatus" required>
-							<option value="">Select Status</option>
+							<option value="">Select status</option>
 							<option value="Active">Active</option>
 							<option value="Discontinued">Discontinued</option>							
 						</select>
@@ -137,32 +137,32 @@ $(document).ready(function()
   </div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product SerialNumber:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product serial number</label>
     <div class="col-sm-5">
        <select class="form-control" id="PSerialNumber" readonly name="PSerialNumber" required>
-							<option value="">Select SerialNumber</option>
+							<option value="">Select serial number</option>
 							<option value="Yes">Yes</option>
 							<option value="No">No</option>							
 						</select>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Created On:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Created on:</label>
     <div class="col-sm-2">
-      <label>{{ CreatedOn }}</label>
+      <label>{{ CreatedOn |date:"d-m-Y"}}</label>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">Created By:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Created by:</label>
     <div class="col-sm-2">
       <label>{{ CreatedBy }}</label>
     </div>
 	</div>
 	
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">LastUpdateOn:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">LastUpdate on:</label>
     <div class="col-sm-2">
-      <label>{{ LastUpdateOn }}</label>
+      <label>{{ LastUpdateOn |date:"d-m-Y"}}</label>
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">LastUpdateBy:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">LastUpdate by:</label>
     <div class="col-sm-2">
       <label>{{ LastUpdateBy }}</label>
     </div>
@@ -186,25 +186,7 @@ $(document).ready(function()
   </div>
   </div>
   </div>
-  <footer class="footer">
-      <div class="container">
-        <p >&#0169;2008-2015 Biomorf Lone All rights reserved.</p>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+ 
  </body>
 </html>
 {% endblock %}

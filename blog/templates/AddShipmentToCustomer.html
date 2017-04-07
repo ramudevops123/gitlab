@@ -12,13 +12,14 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -33,7 +34,7 @@ $(document).ready(function(){
 </script>
 <script>
 $(document).ready(function(){
-$( "#ShipDate" ).datepicker({  minDate: 0,dateFormat: 'yy-mm-dd' });
+$( "#ShipDate" ).datepicker({  minDate: 0,dateFormat: 'dd-mm-yy' });
 });
 </script>
 <script type="text/javascript">
@@ -143,7 +144,7 @@ $('#myDeviceTable').append(trHTML);
 			var SQuantity=$('#SQuantity').val();
 			//alert(SQuantity);
 if(count>SQuantity){
-alert("Total Number of Product SN being selected is more than value of Ship Quantity, please check again!");
+alert("Total number of Product SN being selected is more than value of Shipment qty, please check again!");
 }
 else{
 			$.get('/DeviceSNListView/'+'?ListData='+ListData+'&ProductID='+ProductID+'&ProductName='+ProductName+'&RefNumber='+RefNumber, function(Data){
@@ -165,8 +166,8 @@ i=i+1;
 });
 $('#myDeviceListTable').append(trHTML);
 }
-if(splitArray[1] == 'Product_SN is not yet ready to ship to customer, please check again'){
-alert("Product_SN is not yet ready to ship to customer, please check again");
+if(splitArray[1] == 'Product SN is not yet ready to shipment to customer, please check once again'){
+alert("Product SN is not yet ready to shipment to customer, please check once again");
 }
  });
  }
@@ -203,15 +204,15 @@ if(Data=='Please select Distributor ID'){
  alert(Data);
  }
  else if(Data=='Success'){
- window.location = "http://192.168.1.121:8000/accounts/ViewShipmentToCustomer/";
+ window.location = "/accounts/ViewShipmentToCustomer/";
  }
 
-//window.location = "http://192.168.1.121:8000/accounts/ViewShipmentToCustomer/";
+//window.location = "/accounts/ViewShipmentToCustomer/";
  
  });
  }
  else if(splitArray[0]<SQuantity){
- alert("Total Number of Product SN is less than value of Ship Quantity, please check again");
+ alert("Total number of Product SN is less than value of Shipment qty, please check again");
  }
  });
  });
@@ -283,7 +284,7 @@ $(document).ready(function()
    <div class="panel-body" id="form-color">
 </br>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Distributor ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Distributor ID</label>
     <div class="col-sm-6">
       <select class="form-control" id="DistributorID" name="DistributorID" required>
 		  <option value="">Select Distributor ID</option>
@@ -295,28 +296,28 @@ $(document).ready(function()
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor name</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorName" readonly placeholder="DistributorName"  name="DistributorName" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorName" readonly placeholder="Distributor name"  name="DistributorName" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Address:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor address</label>
     <div class="col-sm-6">
-	<textarea class="form-control" wrap=physical id="DistributorAddress" rows="3" placeholder="DistributorAddress" readonly name="DistributorAddress" maxlength="280"></textarea> 
+	<textarea class="form-control" wrap=physical id="DistributorAddress" rows="3" placeholder="Distributor address" readonly name="DistributorAddress" maxlength="280"></textarea> 
 	<!-- <input type="text" class="form-control" id="DistributorAddress" readonly placeholder="DistributorAddress"  name="DistributorAddress" maxlength="30" required> -->
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor City:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor City</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorCity" readonly placeholder="DistributorCity"  name="DistributorCity" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorCity" readonly placeholder="Distributor City"  name="DistributorCity" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Distributor Country:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Distributor country</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="DistributorCountry" readonly placeholder="DistributorCountry"  name="DistributorCountry" maxlength="30" required>
+	<input type="text" class="form-control" id="DistributorCountry" readonly placeholder="Distributor country"  name="DistributorCountry" maxlength="30" required>
     </div>
 	</div>
   </div>
@@ -336,11 +337,11 @@ $(document).ready(function()
 <h4>
 <input type="radio" class="col-sm-4 control-label" name="InputSerialCheck" id="InputSerialCheck" value="Include Customer"> Include Customer</br></h4>
 <h4>
-<input type="radio" class="col-sm-4 control-label" name="InputSerialCheck" id="NotInclude" value="Not Include Customer" checked> Not Include Customer</br></h4>
+<input type="radio" class="col-sm-4 control-label" name="InputSerialCheck" id="NotInclude" value="Not Include Customer" checked>Exclude Customer</br></h4>
 <!-- <input type="checkbox" class="form-control" id="InputSerialCheck" name="InputSerialCheck" ></input>  </div> -->
 </div>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Customer ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Customer ID</label>
     <div class="col-sm-6">
       <select class="form-control" id="CustomerID" disabled name="CustomerID" required>
 		  <option value="">Select Customer ID</option>
@@ -351,32 +352,32 @@ $(document).ready(function()
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer name</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerName" readonly placeholder="CustomerName"  name="CustomerName" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerName" readonly placeholder="Customer name"  name="CustomerName" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Address:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer address</label>
     <div class="col-sm-6">
-	<textarea class="form-control" wrap=physical id="CustomerAddress" rows="3" placeholder="CustomerAddress" readonly name="CustomerAddress" maxlength="280"></textarea> 
+	<textarea class="form-control" wrap=physical id="CustomerAddress" rows="3" placeholder="Customer address" readonly name="CustomerAddress" maxlength="280"></textarea> 
 	<!-- <input type="text" class="form-control" id="CustomerAddress" readonly placeholder="CustomerAddress"  name="CustomerAddress" maxlength="30" required> -->
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer City:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer city</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerCity" readonly placeholder="CustomerCity"  name="CustomerCity" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerCity" readonly placeholder="Customer city"  name="CustomerCity" maxlength="30" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Customer Country:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Customer country</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="CustomerCountry" readonly placeholder="CustomerCountry"  name="CustomerCountry" maxlength="30" required>
+	<input type="text" class="form-control" id="CustomerCountry" readonly placeholder="Customer country"  name="CustomerCountry" maxlength="30" required>
     </div>
 	</div>
 	<div class="form-group" id="comments">
-    <label for="Comments" class="col-sm-4 control-label">Remarks:</label>
+    <label for="Comments" class="col-sm-4 control-label">Remarks</label>
 	<div class="col-sm-6">
     <textarea class="form-control" wrap=physical id="Remarks" rows="3" disabled name="Remarks" maxlength="2000" required></textarea> 
   </div>
@@ -399,34 +400,34 @@ $(document).ready(function()
     <label for="inputEmail3" class="col-sm-2 control-label">Product ID</label>
     <div class="col-sm-4">
        <select class="form-control" id="ProductID" name="ProductID" >
-		  <option value="">Select Type</option>
+		  <option value="">Select type</option>
 		  {% for entry in PType %}
 		<option value="{{ entry.ProductID }}">{{entry.ProductID }}</label>
 		{% endfor %}
 						</select>
     </div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Shipment Date</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Shipment date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"   name="ShipDate" maxlength="75" required>
+      <input type="text" class="form-control" id="ShipDate" placeholder="Shipment date"   name="ShipDate" maxlength="75" required>
     </div>
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PName" readonly placeholder="Product Name"   name="PName" maxlength="30" >
+      <input type="text" class="form-control" id="PName" readonly placeholder="Product name"   name="PName" maxlength="30" >
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">ShipmentQuantity:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Shipment qty</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity"   name="SQuantity" maxlength="30" required >
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment qty"   name="SQuantity" maxlength="30" required >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Model:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product model</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PModel" readonly placeholder="Product Model"   name="PModel" maxlength="30" >
+      <input type="text" class="form-control" id="PModel" readonly placeholder="Product model"   name="PModel" maxlength="30" >
     </div>
-	 <label for="inputEmail3" class="col-sm-2 control-label">Status:</label>
+	 <label for="inputEmail3" class="col-sm-2 control-label">Status</label>
     <div class="col-sm-4">
        <select class="form-control" id="ShipmentStatus" name="ShipmentStatus" >
 							<!-- <option value="">Select Status</option> -->
@@ -449,9 +450,9 @@ $(document).ready(function()
 			  <thead>
                                     <tr>
 									<th class="center">S.No</th>
-									<th class="center">ProductID</th>
-										<th class="center">ProductName</th>
-										<th class="center">DeviceSN</th>
+									<th class="center">Product ID</th>
+										<th class="center">Product name</th>
+										<th class="center">Device SN</th>
 			                                    </tr>
                                 </thead>
 
@@ -462,9 +463,9 @@ $(document).ready(function()
 	  <a href="/accounts/ViewShipmentToCustomer/">
 <button class="btn btn-default" type="button">Close</button>	
 </a>  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  <a class="btn btn-primary"  class="submit" id="SaveAndSend" >
-	                      Save & Send</a>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	<a class="btn btn-primary"  class="submit" id="SaveAndSend" >
+                       Save & Send</a>
     </div>
 	</div>
 	<div class="modal fade" id="basicDeviceSNModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
@@ -487,7 +488,7 @@ $(document).ready(function()
 									</table>
 								<div class="col-sm-offset-2 col-sm-10">
       <a class="btn btn-primary"  class="submit" id="myList" >
-	                      Add to List</a>
+	                      Add to list</a>
 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
 </a>  
     </div>	

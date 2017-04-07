@@ -18,7 +18,8 @@
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/datatable.min.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -187,16 +188,16 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
    <div class="panel-body" id="form-color">
 </br>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Maintenance ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Maintenance ID</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceID }}" readonly placeholder="MaintenanceID"  name="MaintenanceID" maxlength="30" required>
+      <input type="text" class="form-control" id="MaintenanceID" value="{{ MaintenanceID }}" readonly placeholder="Maintenance ID"  name="MaintenanceID" maxlength="30" required>
     <input type="hidden"  value="{{ lblMainID }}" name="lblMainID" />
 	</div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">RefTransaction:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Ref Transaction</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="RefTransaction" readonly placeholder="RefTransaction"  name="RefTransaction" value="MaintenanceBorrowRepair" maxlength="30" required>
+	<input type="text" class="form-control" id="RefTransaction" readonly placeholder="Ref Transaction"  name="RefTransaction" value="MaintenanceBorrowRepair" maxlength="30" required>
     </div>
 	</div>
 	</div>
@@ -205,7 +206,7 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
   <h4 class="panel-title">Device taken out temporarily from stock<h4>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Purpose:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Purpose</label>
  <h4>
 <input type="radio"  name="RPurpose" id="Purpose" value="Borrow" required> Borrow</input></h4>
 <h4>
@@ -214,7 +215,7 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
 <input type="radio"  name="RPurpose" id="Purpose" value="Repair" required> Repair </h4> 
 </div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">From WareHouse:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">From Warehouse</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="FromWH"  value="{{ FromWH }} " readonly name="FromWH" maxlength="75" required>
 	<!-- <select class="form-control" id="FromWH"  name="FromWH" required>
@@ -226,15 +227,15 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Out Date:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Out date</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="OutDate" value="{{ OutDate }}"  readonly name="OutDate" maxlength="75" required>
+	<input type="text" class="form-control" id="OutDate" value="{{ OutDate |date:'d-m-Y'}}"  readonly name="OutDate" maxlength="75" required>
     </div>
 	</div>
 	 <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Estimated Return Date:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Estimated Return date</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="ReturnDate" value="{{ ReturnDate }}" readonly name="ReturnDate" maxlength="75" required>
+	<input type="text" class="form-control" id="ReturnDate" value="{{ ReturnDate |date:'d-m-Y' }}" readonly name="ReturnDate" maxlength="75" required>
     </div>
 	</div>
   </div>
@@ -270,7 +271,7 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
 </br>
 <div class="form-group">
 <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Company Type:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Company type</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="CompanyType" value="{{ CompanyType }}" readonly   name="CompanyType" maxlength="75" required>
       <!-- <select class="form-control" id="CompanyType"  name="CompanyType" required>
@@ -286,7 +287,7 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
 						  </div> -->
 </div>
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-4 control-label">Company ID:</label>
+	<label for="inputEmail3" class="col-sm-4 control-label">Company ID</label>
     <div class="col-sm-6">
        <input type="text" class="form-control" id="CompanyID"  value="{{ CompanyID }}" readonly name="CompanyID" maxlength="30" required>
 	  <!--  <select class="form-control" id="CompanyID" name="CompanyID" required>
@@ -295,14 +296,14 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">Company Name:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">Company name</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="CompanyName" readonly value="{{ CompanyName }}" readonly  name="CompanyName" maxlength="30" required>
     </div>
 	</div>
 	
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-4 control-label">PIC Who Responsible:</label>
+    <label for="inputEmail3" class="col-sm-4 control-label">PIC who responsible</label>
     <div class="col-sm-6">
 	<input type="text" class="form-control" id="PIC"  value="{{ PIC }}" readonly name="PIC" maxlength="30" required>
     </div>
@@ -340,14 +341,14 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
   </div>
   
 			<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="PName" readonly value="{{ ProductName }}"   name="PName" maxlength="30" >
     </div>
   </div>
   
 	<div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product/Device SN:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product/Device SN</label>
     <div class="col-sm-2">
       <input type="text" class="form-control" id="DeviceSN" placeholder="Product/Device SN"   name="DeviceSN" maxlength="30" >
     </div>
@@ -367,9 +368,9 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
 	<table id="myDeviceListTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
 			  <thead>
                                     <tr>
-									<th class="center">ProductID</th>
-										<th class="center">ProductName</th>
-										<th class="center">DeviceSN</th>
+									<th class="center">Product ID</th>
+										<th class="center">Product name</th>
+										<th class="center">Device SN</th>
 								        <th class="center">Delete</th>
                                     </tr>
                                 </thead>
@@ -428,11 +429,11 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title" id="DeleteSerial">Delete SerialNumber</h4>
+            <h4 class="modal-title" id="DeleteSerial">Delete serial number</h4>
             </div>
             <div class="modal-body" >
 			  <div class="col-sm-8">
-     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? Do you really want to Delete SerialNumber</label>
+     <label for="inputEmail3" class="col-sm-12 control-label">Are you sure? you want to delete serial number</label>
 	 <input type="hidden"  value="{{ SNid }}" id="DeleteSNid" name="DeleteSNid" />
 	 <input type="hidden"  value="{{ Productid }}" name="DelProductID" id="DelProductID"/>
 	  <input type="hidden"  value="{{ MaintenanceID }}" name="DelMaintenanceID" id="DelMaintenanceID"/>
@@ -450,26 +451,6 @@ $("input[name=RPurpose]").val(["{{ Purpose }}"]);
 	</div>
 
   	  
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
-  
  
 
 	

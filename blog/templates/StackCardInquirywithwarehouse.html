@@ -11,12 +11,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>::: BIMS :::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -113,7 +114,7 @@ var warehouseID=$('#warehouse').val();
  var toDate=$('#Todate').val();
  var ProductID=$('#PrdctId').val();
 $.get('/warehousecarderrorlabel/'+'?fromDate='+fromDate+'&toDate='+toDate+'&warehouseID='+warehouseID+'&ProductID='+ProductID, function(ValiationData){
-		if(ValiationData=="No Data Found for the selected dates"){
+		if(ValiationData=="No data found for the selected dates"){
 			document.getElementById("frmdate").value= "";
 			document.getElementById("Todate").value= "";
 			$('#lblpid').text(ValiationData);
@@ -149,7 +150,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Stock Card Enquiry<h4>
+  <h4 class="panel-title">Stock Card enquiry<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -182,26 +183,26 @@ $(document).ready(function()
   </div>
   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="prdctName" readonly placeholder="Product Name" name="prdctName" maxlength="30" required >
+      <input type="text" class="form-control" id="prdctName" readonly placeholder="Product name" name="prdctName" maxlength="30" required >
 	  
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-5">
-      <input type="text" class="form-control" id="PrncplName" readonly placeholder="Principal Name"   name="PrncplName" maxlength="30" required>
+      <input type="text" class="form-control" id="PrncplName" readonly placeholder="Principal name"   name="PrncplName" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Date From:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Date from</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="frmdate" placeholder="From Date"  name="frmdate" maxlength="75" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">To From:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">To from</label>
     <div class="col-sm-5">
       <input type="text" class="form-control" id="Todate" placeholder="To Date" onchange="DateFunction(this.value)" name="Todate" maxlength="75" required>
     </div>
@@ -216,25 +217,7 @@ $(document).ready(function()
   </div>
   </div>
   </div>
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+ 
 	</form>
  </body>
 </html>

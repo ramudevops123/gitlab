@@ -12,12 +12,13 @@
 {% elif UserRole == 'Production'%}
 	{% include 'Production.html' %}
 	{% endif %}
- <title>Create Ticket</title>
+ <title>:::BIMS:::</title>
  {% load staticfiles %}
  <link type "text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
  <link type "text/css" rel="stylesheet" href="{% static 'css/Stickyfooter.css' %}">
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+ <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+ <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
  <link type="text/css" rel="stylesheet" href="{% static 'css/dropdowns-enhancement.css' %}">
  <script  src="{% static 'js/jquery.min.js' %}"></script>
  <script type "text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -25,9 +26,9 @@
  <script src="{% static 'js/jQuery UI.js' %}"></script>
 <script type="text/javascript">
 				$(function() {
-				$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
+				$( "#StartDate" ).datepicker({  maxDate: 0,dateFormat: 'dd-mm-yy' });
 				$("#StartDate").keypress(function(event) {event.preventDefault();});
-				$( "#FinishDate" ).datepicker({ minDate: 0, dateFormat: 'yy-mm-dd' });
+				$( "#FinishDate" ).datepicker({ minDate: 0, dateFormat: 'dd-mm-yy' });
 				$("#FinishDate").keypress(function(event) {event.preventDefault();});
 				//$( "#ShipDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
 				//$( "#DeliveryDate" ).datepicker({  maxDate: 0,dateFormat: 'yy-mm-dd' });
@@ -192,7 +193,7 @@ $(document).ready(function()
   <div class="col-md-12">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Custom Clearance<h4>
+  <h4 class="panel-title">Custom clearance<h4>
   </div>
   <div class="panel-body" id="form-color">
    
@@ -201,11 +202,11 @@ $(document).ready(function()
             <div class="success">{{ Success }}
                   </div>
 				  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Number:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO number</label>
 	<div class="col-sm-4">
 	
      <select class="form-control" id="PONumber" name="PONumber" required>
-		  <option value="">Select PO Number</option>
+		  <option value="">Select PO number</option>
 		  {% for entry in PONO %}
 		<option value="{{ entry.PONumber }}">{{entry.PONumber }}</label>
 		{% endfor %}
@@ -214,9 +215,9 @@ $(document).ready(function()
 						</div>
   
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">PO Date:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">PO Date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="podate" placeholder="PO Date" readonly  name="PODate" maxlength="75" required>
+      <input type="date" class="form-control" id="podate" placeholder="PO Date" readonly  name="PODate" maxlength="75" required>
     </div>
   </div>
   
@@ -226,18 +227,18 @@ $(document).ready(function()
 	<div class="col-sm-4">
 	<input type="text" class="form-control" id="PrinicpalID" placeholder="Principal ID" readonly  name="PrinicpalID" maxlength="30" required>
 	</div>
-	<label for="inputEmail3" class="col-sm-2 control-label">Principal Name:</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Principal name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal Name" readonly  name="PrincipalName" maxlength="30" required>
+      <input type="text" class="form-control" id="PrincipalName" placeholder="Principal name" readonly  name="PrincipalName" maxlength="30" required>
     </div>
   </div>
   </br>
   </br>
   
   <div class="form-group">
-   <label for="inputEmail3" class="col-sm-2 control-label">Ship Number & Product ID</label>
+   <label for="inputEmail3" class="col-sm-2 control-label">Shipment number & Product ID</label>
     <div class="col-sm-6">
-	<input type="text" class="form-control" id="PSid" placeholder="Please Select ShipNo & ProductID" readonly  name="PSID" maxlength="75" required>
+	<input type="text" class="form-control" id="PSid" placeholder="Please select Shipment NO & Product ID" readonly  name="PSID" maxlength="75" required>
        <!-- <select class="form-control" id="PSid" name="ProductID" required>
 		  <option value="">Select Ship No & ProductID</option>
 		  {% for entry in ProductID %}
@@ -247,22 +248,22 @@ $(document).ready(function()
 						</div>
 						<div class="col-sm-4">
 						<a class="btn btn-primary"  class="submit" id="checkclass" title="ShipDetails" data-title="Ship & Product Details" data-toggle="modal" data-target="#basicModal">
-	                      Select Ship & Product ID</a>
+	                      Select Shipment & Product ID</a>
 						  </div>
     </div>
 	
   </br>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Product Name:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Product name</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ProductName" placeholder="Product Name" readonly  name="ProductName" maxlength="30" required>
+      <input type="text" class="form-control" id="ProductName" placeholder="Product name" readonly  name="ProductName" maxlength="30" required>
     </div>
   </div>
 	
   <div class="form-group">
-	<label for="inputEmail3" class="col-sm-2 control-label">Estimated Delivery Date</label>
+	<label for="inputEmail3" class="col-sm-2 control-label">Estimated delivery date</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="DeliveryDate" placeholder="Estimated Delivery Date" readonly  name="DeliveryDate" maxlength="75" required>
+      <input type="date" class="form-control" id="DeliveryDate" placeholder="Estimated delivery date" readonly  name="DeliveryDate" maxlength="75" required>
     </div>
   </div>
     
@@ -277,37 +278,37 @@ $(document).ready(function()
   <div class="col-md-6">
   <div class="panel ">
   <div class="panel-heading" id="heading-color" style="padding: 5px 10px 2px;">
-  <h4 class="panel-title">Shipment From Manufacture<h4>
+  <h4 class="panel-title">Shipment from manufacture<h4>
   </div>
   <div class="panel-body" id="form-color">
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="ShipDate" placeholder="Ship Date"  readonly name="ShipDate" maxlength="75" required>
+      <input type="date" class="form-control" id="ShipDate" placeholder="Shipment date"  readonly name="ShipDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship AWB:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment AWB</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="ShipAWB"  placeholder="Ship AWB" readonly  name="ShipAWB" maxlength="30" required>
+      <input type="text" class="form-control" id="ShipAWB"  placeholder="Shipment AWB" readonly  name="ShipAWB" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Ship Freight:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment freight</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="SFreight"  placeholder="Ship Freight"  readonly name="SFreight" maxlength="30" required>
+      <input type="text" class="form-control" id="SFreight"  placeholder="Shipment freight"  readonly name="SFreight" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Shipment Quantity:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Shipment qty</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment Quantity" readonly  name="SQuantity" maxlength="30" required>
+      <input type="text" class="form-control" id="SQuantity"  placeholder="Shipment quantity" readonly  name="SQuantity" maxlength="30" required>
     </div>
   </div>
   <div class="form-group">
-   <label for="inputEmail3" class="col-sm-2 control-label">PO Quantity:</label>
+   <label for="inputEmail3" class="col-sm-2 control-label">PO qty</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="POQuantity" placeholder="PO Quantity" readonly  name="POQuantity" maxlength="30" required>
+      <input type="text" class="form-control" id="POQuantity" placeholder="PO quantity" readonly  name="POQuantity" maxlength="30" required>
     </div>
    </div>
   </div>
@@ -321,28 +322,28 @@ $(document).ready(function()
   </div>
   <div class="panel-body" id="form-color">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">HS Code:</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">HS code</label>
     <div class="col-sm-8">
       <input type="text" class="form-control" id="HsCode"  placeholder="Hs Code"   name="HsCode" maxlength="30" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Start Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Start date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="StartDate" placeholder="Start Date"   name="StartDate" maxlength="75" required>
+      <input type="text" class="form-control" id="StartDate" placeholder="Start date"   name="StartDate" maxlength="75" required>
     </div>
   </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Finish Date</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Finish date</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="FinishDate" placeholder="Finish Date"   name="FinishDate" maxlength="75" required>
+      <input type="text" class="form-control" id="FinishDate" placeholder="Finish date"   name="FinishDate" maxlength="75" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Custom Clearance Status</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Custom clearance status</label>
     <div class="col-sm-8">
       <select class="form-control" id="ClearanceStatus" name="ClearanceStatus">
-		<option value="On Progress">On Progress</option>
+		<option value="On Progress">In Progress</option>
 	</select>
     </div>
     </div>
@@ -359,26 +360,7 @@ $(document).ready(function()
     </div>
   </div>
 	
-	  
-	   <footer class="footer">
-      <div class="container">
-        <div style="text-align:center;" class="text-muted">&#0169;2008-2015 Biomorf Lone All rights reserved.</div>
-				<ul class="footer-nav">
-  <li>
-                                    		<a href="https://www.facebook.com/biomorf" target="_blank"><img src="{% static "images/facebook.png" %}" alt="facebook" title="Facebook Page"></a>
-                                    </li>
-                                    <li>
-									        <a href="http://www.linkedin.com/company/pt-biomorf-lone-indonesia" target="_blank"><img src="{% static "images/linkedin.png" %}" alt="LinkedIn" title="LinkedIn Page"></a>
-                                    </li>
-									<li>
-									         <a href="https://twitter.com/biomorfindo" target="_blank"><img src="{% static "images/twitter_logo.jpg" %}" alt="Twitter" title="Twitter Page"></a>
-                                    		  
-                                    </li>
-  <li><a href="">Home</a></li>
-   <li><a href="">Legal Disclaimer</a></li>
-  </ul> 
-      </div>
-    </footer>
+	
 	 <!-------- Modal Start ------->
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog"aria-labelledby="basicModal" aria-hidden"true">
     <div class="modal-dialog modal-lg">
@@ -391,9 +373,9 @@ $(document).ready(function()
 			<table id="myTable" class="table table-striped" style="text-align:center; font-size: 1.1em;font-family: 'Source Sans Pro', sans-serif;color:#333;">
 								<thead>
                                     <tr>
-										<th class="center">Ship No</th>                                       									
-										<th class="center">PO Number</th>
-										<th class="center">ProductID</th>
+										<th class="center">Shipment No</th>                                       									
+										<th class="center">PO number</th>
+										<th class="center">Product ID</th>
 										<th class="center">Choose</th>
                                     </tr>
                                 </thead>
